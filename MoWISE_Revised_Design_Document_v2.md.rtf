@@ -1,0 +1,2605 @@
+{\rtf1\ansi\ansicpg932\cocoartf2868
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 .AppleSystemUIFontMonospaced-Regular;}
+{\colortbl;\red255\green255\blue255;\red16\green16\blue16;\red255\green255\blue255;}
+{\*\expandedcolortbl;;\cssrgb\c7843\c7843\c7451;\cssrgb\c100000\c100000\c100000;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs24 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 # MoWISE\uc0\u65288 \u12514 \u12527 \u12452 \u12474 \u65289 \u25913 \u35330 \u29256 \u35373 \u35336 \u26360  v2.0\
+## \uc0\u12300 \u12418 \u12387 \u12392 \u36066 \u12367 \u12289 \u33521 \u35486 \u12392 \u29983 \u12365 \u12427 \u12301 - \u29694 \u23455 \u30340 MVP\u25126 \u30053 \
+\
+**Version 2.0 | 2026\uc0\u24180 2\u26376 22\u26085 **  \
+**WISE English Club \uc0\u12487 \u12472 \u12479 \u12523 \u32113 \u21512 \u23398 \u32722 \u12471 \u12473 \u12486 \u12512 **\
+\
+---\
+\
+## \uc0\u55357 \u56523  \u25913 \u35330 \u29256 \u12398 \u37325 \u35201 \u22793 \u26356 \u28857 \
+\
+### \uc0\u55357 \u56580  v1.0 \u12363 \u12425 \u12398 \u20027 \u35201 \u22793 \u26356 \
+\
+| \uc0\u38917 \u30446  | v1.0\u65288 \u26087 \u29256 \u65289  | v2.0\u65288 \u25913 \u35330 \u29256 \u65289  |\
+|------|-------------|----------------|\
+| **\uc0\u25216 \u34899 \u12473 \u12479 \u12483 \u12463 ** | React Native + Next.js + Vue.js | **Vue 3 + Capacitor\u32113 \u19968 ** |\
+| **\uc0\u12496 \u12483 \u12463 \u12456 \u12531 \u12489 ** | Node.js + Firebase + PostgreSQL | **Supabase\u19968 \u26412 \u21270 ** |\
+| **\uc0\u23455 \u35013 \u31684 \u22258 ** | Stage 0-5\u65288 6\u12473 \u12486 \u12540 \u12472 \u65289  | **Stage 0-2\u12398 \u12415 \u65288 MVP\u65289 ** |\
+| **\uc0\u12525 \u12540 \u12489 \u12510 \u12483 \u12503 ** | 18\u12534 \u26376 4\u12501 \u12455 \u12540 \u12474  | **6\u12534 \u26376 \u38598 \u20013 \u65288 Phase 1\u12398 \u12415 \u65289 ** |\
+| **VR\uc0\u25126 \u30053 ** | Spatial.io\u20013 \u24515  | **WebXR\u20013 \u24515 \u65288 Phase 2\u20197 \u38477 \u65289 ** |\
+| **\uc0\u21454 \u30410 \u20104 \u28204 ** | Month 6: MRR \'a51.6M | **Month 6: MRR \'a5169K\u65288 \u29694 \u23455 \u30340 \u65289 ** |\
+| **YouTube** | \uc0\u36913 3\u26412 \u25237 \u31295  | **\u36913 1\u26412 \u65288 \u36074 \u37325 \u35222 \u65289 ** |\
+| **\uc0\u22806 \u27880 \u20104 \u31639 ** | Phase 1: \'a5400K | **Phase 1: \'a5150K** |\
+\
+---\
+\
+## \uc0\u55357 \u56523  \u30446 \u27425 \
+\
+1. [\uc0\u12456 \u12464 \u12476 \u12463 \u12486 \u12451 \u12502 \u12469 \u12510 \u12522 \u12540 ](#1-\u12456 \u12464 \u12476 \u12463 \u12486 \u12451 \u12502 \u12469 \u12510 \u12522 \u12540 )\
+2. [MVP\uc0\u23450 \u32681 \u65306 Stage 0-2\u12395 \u38598 \u20013 ](#2-mvp\u23450 \u32681 stage-0-2\u12395 \u38598 \u20013 )\
+3. [\uc0\u25216 \u34899 \u12450 \u12540 \u12461 \u12486 \u12463 \u12481 \u12515 \u65288 \u32113 \u19968 \u12473 \u12479 \u12483 \u12463 \u65289 ](#3-\u25216 \u34899 \u12450 \u12540 \u12461 \u12486 \u12463 \u12481 \u12515 \u32113 \u19968 \u12473 \u12479 \u12483 \u12463 )\
+4. [\uc0\u23398 \u32722 \u12471 \u12473 \u12486 \u12512 \u35443 \u32048 \u35373 \u35336 ](#4-\u23398 \u32722 \u12471 \u12473 \u12486 \u12512 \u35443 \u32048 \u35373 \u35336 )\
+5. [Mo\uc0\u12367 \u12435 \u24863 \u24773 AI\u35373 \u35336 ](#5-mo\u12367 \u12435 \u24863 \u24773 ai\u35373 \u35336 )\
+6. [\uc0\u12458 \u12531 \u12508 \u12540 \u12487 \u12451 \u12531 \u12464 3\u12473 \u12486 \u12483 \u12503 ](#6-\u12458 \u12531 \u12508 \u12540 \u12487 \u12451 \u12531 \u12464 3\u12473 \u12486 \u12483 \u12503 )\
+7. [\uc0\u12467 \u12450 \u12523 \u12540 \u12503 \u35373 \u35336 \u65288 5\u20998 \u23436 \u32080 \u65289 ](#7-\u12467 \u12450 \u12523 \u12540 \u12503 \u35373 \u35336 5\u20998 \u23436 \u32080 )\
+8. [\uc0\u12510 \u12493 \u12479 \u12452 \u12474 \u25126 \u30053 \u65288 \u29694 \u23455 \u30340 \u29256 \u65289 ](#8-\u12510 \u12493 \u12479 \u12452 \u12474 \u25126 \u30053 \u29694 \u23455 \u30340 \u29256 )\
+9. [6\uc0\u12534 \u26376 \u23455 \u35013 \u12525 \u12540 \u12489 \u12510 \u12483 \u12503 ](#9-6\u12534 \u26376 \u23455 \u35013 \u12525 \u12540 \u12489 \u12510 \u12483 \u12503 )\
+10. [\uc0\u29694 \u23455 \u30340 KPI\u12539 \u21454 \u30410 \u20104 \u28204 ](#10-\u29694 \u23455 \u30340 kpi\u21454 \u30410 \u20104 \u28204 )\
+11. [\uc0\u20170 \u36913 \u12398 TODO\u12522 \u12473 \u12488 ](#11-\u20170 \u36913 \u12398 todo\u12522 \u12473 \u12488 )\
+12. [\uc0\u12522 \u12473 \u12463 \u31649 \u29702 ](#12-\u12522 \u12473 \u12463 \u31649 \u29702 )\
+\
+---\
+\
+## 1. \uc0\u12456 \u12464 \u12476 \u12463 \u12486 \u12451 \u12502 \u12469 \u12510 \u12522 \u12540 \
+\
+### 1.1 \uc0\u25913 \u35330 \u29256 \u12398 \u12467 \u12450 \u12467 \u12531 \u12475 \u12503 \u12488 \
+\
+**MoWISE v2.0** \uc0\u12399 \u12289 \u12300 \u23436 \u29863 \u12394 \u22810 \u27231 \u33021 \u12450 \u12503 \u12522 \u12301 \u12391 \u12399 \u12394 \u12367  **\u12300 Stage 0-2\u12434 \u26997 \u12417 \u12383 MVP\u12301 ** \u12391 \u12377 \u12290 \
+\
+**\uc0\u35373 \u35336 \u21746 \u23398 **:\
+> \uc0\u12300 580\u12497 \u12479 \u12540 \u12531 \u20840 \u37096 \u12301 \u12424 \u12426 \u12300 30\u12497 \u12479 \u12540 \u12531 \u12434 \u23436 \u29863 \u12395 \u32722 \u24471 \u12391 \u12365 \u12427 \u20307 \u39443 \u12301   \
+> \uc0\u12300 18\u12534 \u26376 \u12391 \u20840 \u27231 \u33021 \u12301 \u12424 \u12426 \u12300 6\u12534 \u26376 \u12391 \u12467 \u12450 \u27231 \u33021 \u12434 \u30952 \u12365 \u20999 \u12427 \u12301   \
+> \uc0\u12300 React Native\u12398 \u26368 \u26032 \u25216 \u34899 \u12301 \u12424 \u12426 \u12300 Vue.js\u12398 \u26082 \u23384 \u36039 \u29987 100%\u27963 \u29992 \u12301 \
+\
+### 1.2 MVP\uc0\u65288 \u26368 \u23567 \u38480 \u12398 \u35069 \u21697 \u65289 \u23450 \u32681 \
+\
+```\
+\uc0\u12304 \u23455 \u35013 \u12377 \u12427 \u12418 \u12398 \u12305 \
+\uc0\u9989  Stage 0: Pattern Starter\u65288 30\u12497 \u12479 \u12540 \u12531 \u65289 \
+\uc0\u9989  Stage 1: MoWISE Sound\u65288 \u38899 \u38907 \u20882 \u38522 \u12539 \u26082 \u23384 MovWISE\u31227 \u26893 \u65289 \
+\uc0\u9989  Stage 2: MoWISE Grammar Level 1\u65288 \u33521 \u26908 5\u32026 \u25991 \u27861 \u65289 \
+\uc0\u9989  Mo\u12367 \u12435 \u24863 \u24773 AI\u65288 \u25104 \u38263 \u12499 \u12472 \u12517 \u12450 \u12523 \u65291 \u21169 \u12414 \u12375 \u65289 \
+\uc0\u9989  \u12458 \u12531 \u12508 \u12540 \u12487 \u12451 \u12531 \u12464 3\u12473 \u12486 \u12483 \u12503 \u65288 3\u20998 \u23436 \u32080 \u65289 \
+\uc0\u9989  \u36914 \u25431 \u31649 \u29702 \u12539 Supabase\u21516 \u26399 \
+\uc0\u9989  iOS/Android/Web\u12450 \u12503 \u12522 \u65288 Capacitor\u32113 \u19968 \u65289 \
+\uc0\u9989  YouTube\u36899 \u21205 QR\u12467 \u12540 \u12489 \
+\
+\uc0\u12304 Phase 2\u20197 \u38477 \u12395 \u24310 \u26399 \u12305 \
+\uc0\u9208 \u65039  Stage 3-5\u65288 Pattern 580\u12289 Echo AI\u12289 VR\u65289 \
+\uc0\u9208 \u65039  \u38867 \u22269 \u35486 UI\u12539 \u22810 \u35328 \u35486 \u23637 \u38283 \
+\uc0\u9208 \u65039  \u20225 \u26989 \u21521 \u12369 \u12521 \u12452 \u12475 \u12531 \u12473 \
+\uc0\u9208 \u65039  \u26360 \u31821 \u20986 \u29256 \
+```\
+\
+### 1.3 \uc0\u24066 \u22580 \u12509 \u12472 \u12471 \u12519 \u12491 \u12531 \u12464 \u65288 \u22793 \u26356 \u12394 \u12375 \u65289 \
+\
+- **\uc0\u12464 \u12525 \u12540 \u12496 \u12523 \u24066 \u22580 **: 2026\u24180  $24.39B \u8594  2031\u24180  $508.2B\
+- **\uc0\u26085 \u26412 \u24066 \u22580 **: \u33521 \u35486 \u23398 \u32722  \'a59,000\u20740 \u20870 /\u24180 \
+- **\uc0\u31478 \u21512 **: Duolingo\u65288 MAU 135M\u65289 \u12289 \u12473 \u12500 \u12540 \u12463 \u12496 \u12487 \u12451 \u12289 Lingvist\
+- **\uc0\u24046 \u21029 \u21270 **: \u26085 \u26412 \u20154 \u29305 \u21270 \'d7\u38899 \u38907 \u31185 \u23398 \'d7\u25945 \u23460 \u36899 \u25658 \
+\
+### 1.4 \uc0\u25913 \u35330 \u29256 \u12398 6\u12534 \u26376 \u30446 \u27161 \u65288 \u29694 \u23455 \u30340 \u65289 \
+\
+| \uc0\u25351 \u27161  | Month 3 | Month 6 | \u20633 \u32771  |\
+|------|---------|---------|------|\
+| **\uc0\u12450 \u12503 \u12522 DL** | 500 | 2,000 | \u25945 \u23460 \u29983 \u24466 \u65291 YouTube\u27969 \u20837  |\
+| **MAU** | 300 | 1,200 | DAU/MAU = 50% |\
+| **\uc0\u26377 \u26009 \u20250 \u21729 ** | 15 | 50 | Premium 40 + Premium+ 10 |\
+| **MRR** | \'a551,780 | \'a5169,200 | \uc0\u35443 \u32048 \u24460 \u36848  |\
+| **YouTube\uc0\u30331 \u37682 \u32773 ** | 500 | 3,000 | \u36913 1\u26412 \'d726\u36913  |\
+| **\uc0\u32047 \u31309 \u25237 \u36039 ** | \'a575,000 | \'a5150,000 | \u22806 \u27880 \u26368 \u23567 \u21270  |\
+| **\uc0\u32020 \u21033 \u30410 ** | -\'a530,000 | +\'a550,000 | Month 6\u12391 \u40658 \u23383 \u21270  |\
+\
+---\
+\
+## 2. MVP\uc0\u23450 \u32681 \u65306 Stage 0-2\u12395 \u38598 \u20013 \
+\
+### 2.1 MVP\uc0\u31684 \u22258 \u12398 \u26126 \u30906 \u21270 \
+\
+#### \uc0\u12394 \u12380  Stage 0-2 \u12384 \u12369 \u12394 \u12398 \u12363 \u65311 \
+\
+**\uc0\u29702 \u30001 1**: Duolingo\u12418 \u26368 \u21021 \u12399 1\u35328 \u35486 \u65288 \u12473 \u12506 \u12452 \u12531 \u35486 \u65289 \u12398 \u12415   \
+**\uc0\u29702 \u30001 2**: \u12300 \u24195 \u12367 \u27973 \u12367 \u12301 \u12424 \u12426 \u12300 \u29421 \u12367 \u28145 \u12367 \u12301 \u12391 \u24046 \u21029 \u21270   \
+**\uc0\u29702 \u30001 3**: \u26082 \u23384 MovWISE\u36039 \u29987 \u65288 Sound + Grammar\u65289 \u12434 100%\u27963 \u29992   \
+**\uc0\u29702 \u30001 4**: 1\u20154 \u38283 \u30330 \u12391 6\u12534 \u26376 \u12391 \u23436 \u25104 \u12373 \u12379 \u12427 \u29694 \u23455 \u30340 \u31684 \u22258 \
+\
+#### MVP\uc0\u23436 \u25104 \u12398 \u23450 \u32681 \u65288 6\u12534 \u26376 \u24460 \u65289 \
+\
+\uc0\u20197 \u19979 \u12398 \u26465 \u20214 \u12434 **\u20840 \u12390 \u28288 \u12383 \u12375 \u12383 \u29366 \u24907 **\u12434 MVP\u23436 \u25104 \u12392 \u12377 \u12427 \u65306 \
+\
+1. \uc0\u9989  **\u25945 \u32946 \u21177 \u26524 \u23455 \u35388 **: \u946 \u12486 \u12473 \u12479 \u12540 50\u21517 \u12364 3\u12534 \u26376 \u32153 \u32154 \u12375 \u12289 Stage 2\u23436 \u20102 \u29575  70%\u20197 \u19978 \
+2. \uc0\u9989  **\u32153 \u32154 \u29575 \u36948 \u25104 **: Day 7\u32153 \u32154 \u29575  60%\u20197 \u19978 \u12289 Day 30\u32153 \u32154 \u29575  40%\u20197 \u19978 \
+3. \uc0\u9989  **\u25216 \u34899 \u23433 \u23450 \u24615 **: \u12463 \u12521 \u12483 \u12471 \u12517 \u29575  < 0.5%\u12289 \u24179 \u22343 \u24540 \u31572 \u26178 \u38291  < 2\u31186 \
+4. \uc0\u9989  **\u21454 \u30410 \u21270 \u25104 \u21151 **: \u26377 \u26009 \u20250 \u21729 50\u21517 \u12289 MRR \'a5169,200\u36948 \u25104 \
+5. \uc0\u9989  **NPS\u39640 \u35413 \u20385 **: Net Promoter Score 50\u20197 \u19978 \
+\
+### 2.2 Stage 0-2 \uc0\u12398 \u23398 \u32722 \u20869 \u23481 \
+\
+#### Stage 0: Pattern Starter\uc0\u65288 \u36229 \u21021 \u32026 30\u12497 \u12479 \u12540 \u12531 \u65289 \
+\
+**\uc0\u23550 \u35937 **: \u23436 \u20840 \u21021 \u24515 \u32773 \u12289 \u33521 \u35486 \u12450 \u12524 \u12523 \u12462 \u12540 \u23652   \
+**\uc0\u30446 \u27161 **: 30\u12497 \u12479 \u12540 \u12531 \u12391 \u12300 \u33521 \u35486 \u12364 \u35441 \u12379 \u12427 \u12301 \u21021 \u26399 \u20307 \u39443   \
+**\uc0\u25152 \u35201 \u26178 \u38291 **: 10\u26178 \u38291 \u65288 1\u12497 \u12479 \u12540 \u12531 20\u20998 \u65289 \
+\
+**30\uc0\u12497 \u12479 \u12540 \u12531 \u19968 \u35239 **:\
+1. I'm [\uc0\u21517 \u21069 ]. \u65288 \u33258 \u24049 \u32057 \u20171 \u65289 \
+2. I like [\uc0\u21517 \u35422 ]. \u65288 \u22909 \u12415 \u34920 \u29694 \u65289 \
+3. I want [\uc0\u21517 \u35422 ]. \u65288 \u27442 \u27714 \u65289 \
+4. I have [\uc0\u21517 \u35422 ]. \u65288 \u25152 \u26377 \u65289 \
+5. I'm [\uc0\u24418 \u23481 \u35422 ]. \u65288 \u29366 \u24907 \u65289 \
+6. It's [\uc0\u24418 \u23481 \u35422 ]. \u65288 \u35500 \u26126 \u65289 \
+7. This is [\uc0\u21517 \u35422 ]. \u65288 \u32057 \u20171 \u65289 \
+8. Can I [\uc0\u21205 \u35422 ]? \u65288 \u20381 \u38972 \u65289 \
+9. I can [\uc0\u21205 \u35422 ]. \u65288 \u33021 \u21147 \u65289 \
+10. I need [\uc0\u21517 \u35422 ]. \u65288 \u24517 \u35201 \u65289 \
+11. Where is [\uc0\u21517 \u35422 ]? \u65288 \u22580 \u25152 \u36074 \u21839 \u65289 \
+12. How much is [\uc0\u21517 \u35422 ]? \u65288 \u20385 \u26684 \u65289 \
+13. Thank you for [\uc0\u21517 \u35422 ]. \u65288 \u24863 \u35613 \u65289 \
+14. I'm sorry for [\uc0\u21517 \u35422 ]. \u65288 \u35613 \u32618 \u65289 \
+15. I'm going to [\uc0\u21205 \u35422 ]. \u65288 \u26410 \u26469 \u65289 \
+16. I think [\uc0\u25991 ]. \u65288 \u24847 \u35211 \u65289 \
+17. Do you like [\uc0\u21517 \u35422 ]? \u65288 \u36074 \u21839 \u65289 \
+18. How about [\uc0\u21517 \u35422 ]? \u65288 \u25552 \u26696 \u65289 \
+19. I don't understand [\uc0\u21517 \u35422 ]. \u65288 \u29702 \u35299 \u19981 \u36275 \u65289 \
+20. Can you help me? \uc0\u65288 \u21161 \u12369 \u27714 \u12417 \u12427 \u65289 \
+21. I'm looking for [\uc0\u21517 \u35422 ]. \u65288 \u25506 \u12375 \u29289 \u65289 \
+22. It looks [\uc0\u24418 \u23481 \u35422 ]. \u65288 \u35211 \u12383 \u30446 \u65289 \
+23. I feel [\uc0\u24418 \u23481 \u35422 ]. \u65288 \u24863 \u24773 \u65289 \
+24. Let's [\uc0\u21205 \u35422 ]. \u65288 \u25552 \u26696 \u65289 \
+25. I'd like [\uc0\u21517 \u35422 ]. \u65288 \u19969 \u23527 \u12394 \u27442 \u27714 \u65289 \
+26. What's [\uc0\u21517 \u35422 ]? \u65288 \u36074 \u21839 \u65289 \
+27. May I [\uc0\u21205 \u35422 ]? \u65288 \u19969 \u23527 \u12394 \u20381 \u38972 \u65289 \
+28. I'm from [\uc0\u22269 \u21517 ]. \u65288 \u20986 \u36523 \u65289 \
+29. Nice to meet you. \uc0\u65288 \u25384 \u25334 \u65289 \
+30. See you later. \uc0\u65288 \u21029 \u12428 \u65289 \
+\
+**\uc0\u12466 \u12540 \u12512 \u12514 \u12540 \u12489 **:\
+- Pattern Quest\uc0\u65288 RPG\u39080 \u12473 \u12488 \u12540 \u12522 \u12540 \u12539 \u26449 \u20154 \u12392 \u12398 \u20250 \u35441 \u65289 \
+- Pattern Battle\uc0\u65288 4\u25246 \u12463 \u12452 \u12474 \u12539 \u26178 \u38291 \u21046 \u38480 \u65289 \
+- Daily Challenge\uc0\u65288 \u26397 \u12539 \u26172 \u12539 \u26217 \u12398 3\u22238 \u65289 \
+\
+#### Stage 1: MoWISE Sound\uc0\u65288 \u38899 \u38907 \u20882 \u38522 \u65289 \
+\
+**MovWISE Sound Adventure\uc0\u26082 \u23384 \u36039 \u29987 \u12434 \u31227 \u26893 **\
+\
+**\uc0\u23398 \u32722 \u20869 \u23481 **:\
+- 44\uc0\u38899 \u32032 \u65288 \u27597 \u38899 12\u65291 \u23376 \u38899 32\u65289 \
+- \uc0\u12501 \u12457 \u12491 \u12483 \u12463 \u12473  A-Z\
+- \uc0\u38899 \u31680 \u27083 \u36896 \u35469 \u35672 \
+- \uc0\u35486 \u24409 500-1000\u35486 \
+\
+**\uc0\u12466 \u12540 \u12512 \u27083 \u25104 **\u65288 \u26082 \u23384 8\u31278 \u12434 \u31227 \u26893 \u65289 :\
+1. **Sound Hunter**: \uc0\u38899 \u32032 \u12434 \u38598 \u12417 \u12427 \u12450 \u12489 \u12505 \u12531 \u12481 \u12515 \u12540 \
+2. **Phonics Island**: \uc0\u12450 \u12523 \u12501 \u12449 \u12505 \u12483 \u12488 \u23798 \u25506 \u26908 \
+3. **Rhythm Master**: \uc0\u12522 \u12474 \u12512 \u30330 \u38899 \u32244 \u32722 \
+4. **Sound Battle**: \uc0\u38899 \u32032 \u23550 \u25126 \u12459 \u12540 \u12489 \u12466 \u12540 \u12512 \
+5. **Vocabulary Quest**: \uc0\u35486 \u24409 \u20882 \u38522 \
+6. **Pronunciation Trainer**: \uc0\u30330 \u38899 \u12488 \u12524 \u12540 \u12490 \u12540 \
+7. **Listening Challenge**: \uc0\u12522 \u12473 \u12491 \u12531 \u12464 \u25361 \u25126 \
+8. **Speaking Arena**: \uc0\u12473 \u12500 \u12540 \u12461 \u12531 \u12464 \u23550 \u25126 \
+\
+**\uc0\u25216 \u34899 \u23550 \u24540 **:\
+- Vue.js\uc0\u26082 \u23384 \u12467 \u12531 \u12509 \u12540 \u12493 \u12531 \u12488  \u8594  Capacitor\u23550 \u24540 \u35519 \u25972 \
+- \uc0\u38899 \u22768 \u12450 \u12475 \u12483 \u12488  \u8594  Supabase Storage\u31227 \u34892 \
+- \uc0\u36914 \u25431 \u12487 \u12540 \u12479  \u8594  Supabase DB\u20445 \u23384 \
+\
+#### Stage 2: MoWISE Grammar Level 1\uc0\u65288 \u33521 \u26908 5\u32026 \u30456 \u24403 \u65289 \
+\
+**MovWISE Grammar Galaxy Level 1 \uc0\u31227 \u26893 **\
+\
+**\uc0\u23398 \u32722 \u20869 \u23481 **:\
+- Be\uc0\u21205 \u35422 \u65288 am/is/are\u65289 \
+- \uc0\u19968 \u33324 \u21205 \u35422 \u65288 \u29694 \u22312 \u24418 \u65289 \
+- \uc0\u20195 \u21517 \u35422 \u65288 I/You/He/She/It/We/They\u65289 \
+- \uc0\u30097 \u21839 \u35422 \u65288 What/Where/Who/When\u65289 \
+- \uc0\u22522 \u26412 \u25991 \u22411 \u65288 SV/SVC/SVO\u65289 \
+- \uc0\u21069 \u32622 \u35422 \u65288 in/on/at/to/from\u65289 \
+\
+**\uc0\u12466 \u12540 \u12512 \u27083 \u25104 **\u65288 \u26082 \u23384 6\u31278 \u12434 \u31227 \u26893 \u65289 :\
+1. **Be\uc0\u21205 \u35422 \u24785 \u26143 **: am/is/are\u20351 \u12356 \u20998 \u12369 \u12497 \u12474 \u12523 \
+2. **Grammar Color Code**: \uc0\u21697 \u35422 \u33394 \u20998 \u12369 \u12466 \u12540 \u12512 \
+3. **Pattern Hunter**: \uc0\u25991 \u22411 \u12497 \u12474 \u12523 \u65288 \u33853 \u12385 \u29289 \u65289 \
+4. **Grammar Reflex Arena**: \uc0\u30636 \u38291 \u33521 \u20316 \u25991 \
+5. **Grammar Puzzle Cascade**: \uc0\u20006 \u12409 \u26367 \u12360 \u21839 \u38988 \
+6. **Sentence Architecture**: \uc0\u12502 \u12525 \u12483 \u12463 \u32068 \u12415 \u31435 \u12390 \
+\
+### 2.3 Stage 3-5 \uc0\u12399  Phase 2 \u20197 \u38477 \
+\
+**Phase 2\uc0\u65288 Month 7-12\u65289 \u12391 \u23455 \u35013 \u20104 \u23450 **:\
+- Stage 3: Pattern Master 100 \uc0\u8594  300\u12497 \u12479 \u12540 \u12531 \
+- Stage 4: Echo AI\uc0\u20250 \u35441 \u32244 \u32722 \u65288 GPT-4\u65289 \
+\
+**Phase 3\uc0\u65288 Month 13-18\u65289 \u12391 \u23455 \u35013 \u20104 \u23450 **:\
+- Stage 5: VR Academy\uc0\u65288 WebXR\u65289 \
+- Pattern 300 \uc0\u8594  580\u23436 \u25104 \
+\
+---\
+\
+## 3. \uc0\u25216 \u34899 \u12450 \u12540 \u12461 \u12486 \u12463 \u12481 \u12515 \u65288 \u32113 \u19968 \u12473 \u12479 \u12483 \u12463 \u65289 \
+\
+### 3.1 \uc0\u25216 \u34899 \u12473 \u12479 \u12483 \u12463 \u20840 \u20307 \u22259 \
+\
+```\
+\uc0\u9484 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9488 \
+\uc0\u9474          Frontend\u65288 \u32113 \u19968 \u12467 \u12540 \u12489 \u12505 \u12540 \u12473 \u65289         \u9474 \
+\uc0\u9500 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9508 \
+\uc0\u9474   Vue 3 + TypeScript + Vite                  \u9474 \
+\uc0\u9474   \u9500 \u9472  Vuetify 3 (UI Component Library)       \u9474 \
+\uc0\u9474   \u9500 \u9472  Pinia (State Management)               \u9474 \
+\uc0\u9474   \u9500 \u9472  Vue Router (Routing)                   \u9474 \
+\uc0\u9474   \u9492 \u9472  Capacitor 6 (Native Bridge)            \u9474 \
+\uc0\u9474       \u9500 \u9472  iOS App                             \u9474 \
+\uc0\u9474       \u9500 \u9472  Android App                         \u9474 \
+\uc0\u9474       \u9492 \u9472  Web App (PWA)                       \u9474 \
+\uc0\u9492 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9516 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9496 \
+              \uc0\u9474  REST API / Realtime\
+\uc0\u9484 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9660 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9488 \
+\uc0\u9474          Backend\u65288 Supabase\u32113 \u19968 \u65289              \u9474 \
+\uc0\u9500 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9508 \
+\uc0\u9474   Supabase (Backend-as-a-Service)           \u9474 \
+\uc0\u9474   \u9500 \u9472  PostgreSQL (Database)                  \u9474 \
+\uc0\u9474   \u9500 \u9472  Auth (User Authentication)             \u9474 \
+\uc0\u9474   \u9500 \u9472  Storage (Media Files)                  \u9474 \
+\uc0\u9474   \u9500 \u9472  Realtime (WebSocket Sync)              \u9474 \
+\uc0\u9474   \u9492 \u9472  Edge Functions (Serverless API)        \u9474 \
+\uc0\u9492 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9496 \
+\
+\uc0\u9484 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9488 \
+\uc0\u9474          \u22806 \u37096 \u12469 \u12540 \u12499 \u12473 \u65288 \u26368 \u23567 \u27083 \u25104 \u65289             \u9474 \
+\uc0\u9500 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9508 \
+\uc0\u9474   \'95 ElevenLabs (TTS\u38899 \u22768 \u29983 \u25104 )                 \u9474 \
+\uc0\u9474   \'95 Azure Speech (\u30330 \u38899 \u35413 \u20385 \u12539 Phase 2)         \u9474 \
+\uc0\u9474   \'95 Stripe (\u27770 \u28168 \u12539 Month 3\u65374 )                 \u9474 \
+\uc0\u9474   \'95 YouTube Data API (QR\u36899 \u21205 \u12539 Phase 2)       \u9474 \
+\uc0\u9492 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9496 \
+```\
+\
+### 3.2 \uc0\u25216 \u34899 \u36984 \u23450 \u12398 \u29702 \u30001 \
+\
+#### Vue 3 + Capacitor \uc0\u32113 \u19968 \
+\
+**\uc0\u36984 \u23450 \u29702 \u30001 **:\
+1. \uc0\u9989  **\u26082 \u23384 \u36039 \u29987 \u27963 \u29992 **: MovWISE \u12398  Vue.js \u12467 \u12540 \u12489 100%\u20877 \u21033 \u29992 \
+2. \uc0\u9989  **\u23398 \u32722 \u12467 \u12473 \u12488 \u21066 \u28187 **: \u26032 \u25216 \u34899 \u65288 React Native\u65289 \u32722 \u24471 \u19981 \u35201 \
+3. \uc0\u9989  **\u38283 \u30330 \u21177 \u29575 **: 1\u12388 \u12398 \u12467 \u12540 \u12489 \u12391  iOS/Android/Web\u23550 \u24540 \
+4. \uc0\u9989  **\u12493 \u12452 \u12486 \u12451 \u12502 \u27231 \u33021 **: Capacitor Plugins\u65288 \u12459 \u12513 \u12521 \u12289 \u38899 \u22768 \u12289 \u36890 \u30693 \u65289 \
+5. \uc0\u9989  **\u12467 \u12473 \u12488 **: \u23436 \u20840 \u28961 \u26009 \u65288 \u12458 \u12540 \u12503 \u12531 \u12477 \u12540 \u12473 \u65289 \
+\
+**\uc0\u25216 \u34899 \u35443 \u32048 **:\
+```json\
+// package.json\
+\{\
+  "dependencies": \{\
+    "vue": "^3.4.21",\
+    "vuetify": "^3.5.10",\
+    "pinia": "^2.1.7",\
+    "vue-router": "^4.3.0",\
+    "@capacitor/core": "^6.0.0",\
+    "@capacitor/ios": "^6.0.0",\
+    "@capacitor/android": "^6.0.0",\
+    "@capacitor/camera": "^6.0.0",\
+    "@capacitor/preferences": "^6.0.0",\
+    "@capacitor/push-notifications": "^6.0.0",\
+    "@supabase/supabase-js": "^2.39.8"\
+  \}\
+\}\
+```\
+\
+#### Supabase \uc0\u19968 \u26412 \u21270 \
+\
+**\uc0\u36984 \u23450 \u29702 \u30001 **:\
+1. \uc0\u9989  **All-in-One**: DB + Auth + Storage + Realtime\
+2. \uc0\u9989  **\u12467 \u12473 \u12488 **: \u28961 \u26009 \u26528 \u12391 5\u19975 MAU\u23550 \u24540 \u65288 \u26377 \u26009 \u12418 $25/\u26376 \u65374 \u65289 \
+3. \uc0\u9989  **SQL\u30452 \u25509 \u25805 \u20316 **: PostgreSQL \u12391 \u26580 \u36575 \u12394 \u12463 \u12456 \u12522 \
+4. \uc0\u9989  **\u12458 \u12501 \u12521 \u12452 \u12531 \u23550 \u24540 **: Capacitor Preferences\u20341 \u29992 \
+5. \uc0\u9989  **\u12473 \u12465 \u12540 \u12523 **: \u33258 \u21205 \u12473 \u12465 \u12540 \u12522 \u12531 \u12464 \
+\
+**Firebase \uc0\u12391 \u12399 \u12394 \u12367  Supabase \u12434 \u36984 \u12406 \u29702 \u30001 **:\
+- \uc0\u10060  Firebase: NoSQL\u65288 \u35079 \u38609 \u12394 \u12463 \u12456 \u12522 \u22256 \u38627 \u65289 \u12289 \u12505 \u12531 \u12480 \u12540 \u12525 \u12483 \u12463 \u12452 \u12531 \
+- \uc0\u9989  Supabase: PostgreSQL\u65288 SQL\u12381 \u12398 \u12414 \u12414 \u65289 \u12289 \u12458 \u12540 \u12503 \u12531 \u12477 \u12540 \u12473 \u12289 \u31227 \u34892 \u23481 \u26131 \
+\
+### 3.3 \uc0\u12487 \u12540 \u12479 \u12505 \u12540 \u12473 \u35373 \u35336 \u65288 Supabase PostgreSQL\u65289 \
+\
+#### \uc0\u12473 \u12461 \u12540 \u12510 \u20840 \u20307 \u22259 \
+\
+```sql\
+-- ========================================\
+-- Users & Profiles\
+-- ========================================\
+-- auth.users (Supabase Auth\uc0\u33258 \u21205 \u29983 \u25104 )\
+-- id, email, created_at \uc0\u12394 \u12393 \
+\
+CREATE TABLE public.user_profiles (\
+  id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,\
+  display_name TEXT NOT NULL,\
+  age INTEGER CHECK (age >= 5 AND age <= 100),\
+  avatar_url TEXT,\
+  \
+  -- Learning Settings\
+  current_stage INTEGER DEFAULT 0 CHECK (current_stage >= 0 AND current_stage <= 2),\
+  current_level TEXT DEFAULT 'beginner' CHECK (current_level IN ('beginner', 'elementary', 'intermediate')),\
+  daily_target_minutes INTEGER DEFAULT 10 CHECK (daily_target_minutes > 0),\
+  \
+  -- Gamification\
+  total_xp INTEGER DEFAULT 0,\
+  current_streak INTEGER DEFAULT 0,\
+  longest_streak INTEGER DEFAULT 0,\
+  mokun_growth_stage INTEGER DEFAULT 0 CHECK (mokun_growth_stage >= 0 AND mokun_growth_stage <= 5),\
+  mokun_happiness INTEGER DEFAULT 50 CHECK (mokun_happiness >= 0 AND mokun_happiness <= 100),\
+  \
+  -- Subscription\
+  subscription_tier TEXT DEFAULT 'free' CHECK (subscription_tier IN ('free', 'premium', 'premium_plus')),\
+  subscription_expires_at TIMESTAMPTZ,\
+  \
+  -- Metadata\
+  created_at TIMESTAMPTZ DEFAULT NOW(),\
+  updated_at TIMESTAMPTZ DEFAULT NOW()\
+);\
+\
+-- ========================================\
+-- Learning Progress\
+-- ========================================\
+CREATE TABLE public.learning_progress (\
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,\
+  \
+  -- Stage 0: Pattern Starter\
+  stage0_patterns_learned INTEGER DEFAULT 0 CHECK (stage0_patterns_learned >= 0 AND stage0_patterns_learned <= 30),\
+  stage0_mastery_rate DECIMAL(5,2) DEFAULT 0.00, -- 0.00-100.00\
+  \
+  -- Stage 1: Sound Adventure\
+  stage1_phonemes_mastered INTEGER DEFAULT 0 CHECK (stage1_phonemes_mastered >= 0 AND stage1_phonemes_mastered <= 44),\
+  stage1_vocabulary_count INTEGER DEFAULT 0,\
+  stage1_games_completed JSONB DEFAULT '[]', -- ["sound_hunter", "phonics_island", ...]\
+  \
+  -- Stage 2: Grammar Galaxy\
+  stage2_grammar_level INTEGER DEFAULT 1 CHECK (stage2_grammar_level >= 1 AND stage2_grammar_level <= 1), -- MVP: Level 1\uc0\u12398 \u12415 \
+  stage2_games_completed JSONB DEFAULT '[]',\
+  \
+  -- Overall\
+  total_study_time_minutes INTEGER DEFAULT 0,\
+  last_study_date DATE,\
+  \
+  created_at TIMESTAMPTZ DEFAULT NOW(),\
+  updated_at TIMESTAMPTZ DEFAULT NOW(),\
+  \
+  UNIQUE(user_id)\
+);\
+\
+-- ========================================\
+-- Pattern Progress\uc0\u65288 Stage 0 \u35443 \u32048 \u65289 \
+-- ========================================\
+CREATE TABLE public.pattern_progress (\
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,\
+  pattern_id TEXT NOT NULL, -- "P001" ~ "P030"\
+  \
+  -- Mastery\
+  mastery_level INTEGER DEFAULT 0 CHECK (mastery_level >= 0 AND mastery_level <= 5),\
+  -- 0: \uc0\u26410 \u23398 \u32722 , 1: \u35211 \u12383 , 2: \u29702 \u35299 , 3: \u32244 \u32722 , 4: \u32722 \u24471 , 5: \u23436 \u29863 \
+  \
+  attempts INTEGER DEFAULT 0,\
+  correct_count INTEGER DEFAULT 0,\
+  incorrect_count INTEGER DEFAULT 0,\
+  \
+  last_practiced_at TIMESTAMPTZ,\
+  next_review_at TIMESTAMPTZ, -- SRS\uc0\u65288 \u38291 \u38548 \u21453 \u24489 \u65289 \u29992 \
+  \
+  created_at TIMESTAMPTZ DEFAULT NOW(),\
+  updated_at TIMESTAMPTZ DEFAULT NOW(),\
+  \
+  UNIQUE(user_id, pattern_id)\
+);\
+\
+CREATE INDEX idx_pattern_progress_user ON pattern_progress(user_id);\
+CREATE INDEX idx_pattern_progress_next_review ON pattern_progress(next_review_at);\
+\
+-- ========================================\
+-- Daily Study Sessions\
+-- ========================================\
+CREATE TABLE public.study_sessions (\
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,\
+  \
+  stage INTEGER NOT NULL CHECK (stage >= 0 AND stage <= 2),\
+  activity_type TEXT NOT NULL, -- "pattern_quest", "sound_hunter", "grammar_puzzle", etc.\
+  \
+  duration_seconds INTEGER NOT NULL CHECK (duration_seconds > 0),\
+  xp_earned INTEGER DEFAULT 0,\
+  \
+  performance_data JSONB, -- \uc0\u12473 \u12467 \u12450 \u12289 \u27491 \u35299 \u29575 \u12394 \u12393 \
+  \
+  started_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),\
+  completed_at TIMESTAMPTZ\
+);\
+\
+CREATE INDEX idx_study_sessions_user_date ON study_sessions(user_id, started_at DESC);\
+\
+-- ========================================\
+-- Badges & Achievements\
+-- ========================================\
+CREATE TABLE public.user_badges (\
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,\
+  badge_id TEXT NOT NULL, -- "sound_master", "grammar_wizard", "streak_7", etc.\
+  \
+  earned_at TIMESTAMPTZ DEFAULT NOW(),\
+  \
+  UNIQUE(user_id, badge_id)\
+);\
+\
+-- ========================================\
+-- Mokun Interactions\uc0\u65288 \u24863 \u24773 AI\u29992 \u65289 \
+-- ========================================\
+CREATE TABLE public.mokun_interactions (\
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,\
+  \
+  event_type TEXT NOT NULL, -- "correct_answer", "streak_broken", "new_level", etc.\
+  mokun_reaction TEXT NOT NULL, -- "jump_joy", "sad_wilt", "bloom_flower"\
+  message TEXT,\
+  \
+  created_at TIMESTAMPTZ DEFAULT NOW()\
+);\
+\
+CREATE INDEX idx_mokun_interactions_user ON mokun_interactions(user_id, created_at DESC);\
+\
+-- ========================================\
+-- Triggers\uc0\u65288 \u33258 \u21205 \u26356 \u26032 \u65289 \
+-- ========================================\
+-- updated_at\uc0\u12434 \u33258 \u21205 \u26356 \u26032 \
+CREATE OR REPLACE FUNCTION update_updated_at_column()\
+RETURNS TRIGGER AS $$\
+BEGIN\
+  NEW.updated_at = NOW();\
+  RETURN NEW;\
+END;\
+$$ LANGUAGE plpgsql;\
+\
+CREATE TRIGGER update_user_profiles_updated_at\
+  BEFORE UPDATE ON user_profiles\
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();\
+\
+CREATE TRIGGER update_learning_progress_updated_at\
+  BEFORE UPDATE ON learning_progress\
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();\
+\
+CREATE TRIGGER update_pattern_progress_updated_at\
+  BEFORE UPDATE ON pattern_progress\
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();\
+\
+-- ========================================\
+-- Row Level Security (RLS)\
+-- ========================================\
+ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;\
+ALTER TABLE learning_progress ENABLE ROW LEVEL SECURITY;\
+ALTER TABLE pattern_progress ENABLE ROW LEVEL SECURITY;\
+ALTER TABLE study_sessions ENABLE ROW LEVEL SECURITY;\
+ALTER TABLE user_badges ENABLE ROW LEVEL SECURITY;\
+ALTER TABLE mokun_interactions ENABLE ROW LEVEL SECURITY;\
+\
+-- \uc0\u12518 \u12540 \u12470 \u12540 \u12399 \u33258 \u20998 \u12398 \u12487 \u12540 \u12479 \u12398 \u12415 \u35501 \u12415 \u26360 \u12365 \u21487 \u33021 \
+CREATE POLICY "Users can view own profile" ON user_profiles\
+  FOR SELECT USING (auth.uid() = id);\
+\
+CREATE POLICY "Users can update own profile" ON user_profiles\
+  FOR UPDATE USING (auth.uid() = id);\
+\
+CREATE POLICY "Users can view own progress" ON learning_progress\
+  FOR SELECT USING (auth.uid() = user_id);\
+\
+CREATE POLICY "Users can update own progress" ON learning_progress\
+  FOR ALL USING (auth.uid() = user_id);\
+\
+CREATE POLICY "Users can manage own patterns" ON pattern_progress\
+  FOR ALL USING (auth.uid() = user_id);\
+\
+CREATE POLICY "Users can manage own sessions" ON study_sessions\
+  FOR ALL USING (auth.uid() = user_id);\
+\
+CREATE POLICY "Users can view own badges" ON user_badges\
+  FOR SELECT USING (auth.uid() = user_id);\
+\
+CREATE POLICY "Users can view own mokun interactions" ON mokun_interactions\
+  FOR ALL USING (auth.uid() = user_id);\
+```\
+\
+### 3.4 Capacitor\uc0\u32113 \u21512 \u12467 \u12540 \u12489 \u20363 \
+\
+#### Supabase + Capacitor \uc0\u21021 \u26399 \u21270 \
+\
+```typescript\
+// src/lib/supabase.ts\
+import \{ createClient \} from '@supabase/supabase-js'\
+import \{ Preferences \} from '@capacitor/preferences'\
+\
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL\
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY\
+\
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, \{\
+  auth: \{\
+    // Capacitor\uc0\u12391 \u12399 \u27161 \u28310 \u12398 \u12502 \u12521 \u12454 \u12470 \u12473 \u12488 \u12524 \u12540 \u12472 \u12391 \u12399 \u12394 \u12367 Preferences\u20351 \u29992 \
+    storage: \{\
+      getItem: async (key: string) => \{\
+        const \{ value \} = await Preferences.get(\{ key \})\
+        return value\
+      \},\
+      setItem: async (key: string, value: string) => \{\
+        await Preferences.set(\{ key, value \})\
+      \},\
+      removeItem: async (key: string) => \{\
+        await Preferences.remove(\{ key \})\
+      \}\
+    \},\
+    autoRefreshToken: true,\
+    persistSession: true,\
+    detectSessionInUrl: false // Capacitor\uc0\u12391 \u12399 false\
+  \}\
+\})\
+\
+// \uc0\u12458 \u12501 \u12521 \u12452 \u12531 \u23550 \u24540 \u65306 \u12525 \u12540 \u12459 \u12523 \u12395 \u20445 \u23384 \u12375 \u12390 \u24460 \u12391 \u21516 \u26399 \
+export async function saveOfflineProgress(data: any) \{\
+  const existing = await Preferences.get(\{ key: 'offline_progress' \})\
+  const queue = existing.value ? JSON.parse(existing.value) : []\
+  queue.push(\{ ...data, timestamp: Date.now() \})\
+  await Preferences.set(\{ key: 'offline_progress', value: JSON.stringify(queue) \})\
+\}\
+\
+export async function syncOfflineProgress() \{\
+  const \{ value \} = await Preferences.get(\{ key: 'offline_progress' \})\
+  if (!value) return\
+  \
+  const queue = JSON.parse(value)\
+  for (const item of queue) \{\
+    try \{\
+      await supabase.from('study_sessions').insert(item)\
+    \} catch (error) \{\
+      console.error('Sync error:', error)\
+    \}\
+  \}\
+  \
+  await Preferences.remove(\{ key: 'offline_progress' \})\
+\}\
+```\
+\
+#### \uc0\u38899 \u22768 \u37682 \u38899 \u65288 \u30330 \u38899 \u35413 \u20385 \u29992 \u65289 \
+\
+```typescript\
+// src/composables/useVoiceRecorder.ts\
+import \{ ref \} from 'vue'\
+import \{ Capacitor \} from '@capacitor/core'\
+import \{ VoiceRecorder \} from 'capacitor-voice-recorder'\
+\
+export function useVoiceRecorder() \{\
+  const isRecording = ref(false)\
+  const audioBlob = ref<Blob | null>(null)\
+  \
+  async function startRecording() \{\
+    // \uc0\u27177 \u38480 \u12481 \u12455 \u12483 \u12463 \
+    const permission = await VoiceRecorder.requestAudioRecordingPermission()\
+    if (!permission.value) \{\
+      throw new Error('\uc0\u12510 \u12452 \u12463 \u27177 \u38480 \u12364 \u12354 \u12426 \u12414 \u12379 \u12435 ')\
+    \}\
+    \
+    await VoiceRecorder.startRecording()\
+    isRecording.value = true\
+  \}\
+  \
+  async function stopRecording() \{\
+    const result = await VoiceRecorder.stopRecording()\
+    isRecording.value = false\
+    \
+    // base64\uc0\u12363 \u12425 Blob\u12395 \u22793 \u25563 \
+    const base64Sound = result.value.recordDataBase64\
+    const mimeType = result.value.mimeType\
+    \
+    const byteCharacters = atob(base64Sound)\
+    const byteNumbers = new Array(byteCharacters.length)\
+    for (let i = 0; i < byteCharacters.length; i++) \{\
+      byteNumbers[i] = byteCharacters.charCodeAt(i)\
+    \}\
+    const byteArray = new Uint8Array(byteNumbers)\
+    audioBlob.value = new Blob([byteArray], \{ type: mimeType \})\
+    \
+    return audioBlob.value\
+  \}\
+  \
+  return \{\
+    isRecording,\
+    audioBlob,\
+    startRecording,\
+    stopRecording\
+  \}\
+\}\
+```\
+\
+#### \uc0\u12503 \u12483 \u12471 \u12517 \u36890 \u30693 \u65288 Mo\u12367 \u12435 \u12398 \u21169 \u12414 \u12375 \u65289 \
+\
+```typescript\
+// src/composables/usePushNotifications.ts\
+import \{ PushNotifications \} from '@capacitor/push-notifications'\
+import \{ supabase \} from '@/lib/supabase'\
+\
+export async function setupPushNotifications() \{\
+  // \uc0\u27177 \u38480 \u12522 \u12463 \u12456 \u12473 \u12488 \
+  const permission = await PushNotifications.requestPermissions()\
+  if (permission.receive !== 'granted') \{\
+    return\
+  \}\
+  \
+  // \uc0\u30331 \u37682 \
+  await PushNotifications.register()\
+  \
+  // \uc0\u12488 \u12540 \u12463 \u12531 \u21462 \u24471 \
+  PushNotifications.addListener('registration', async (token) => \{\
+    console.log('Push token:', token.value)\
+    \
+    // Supabase\uc0\u12395 \u12488 \u12540 \u12463 \u12531 \u20445 \u23384 \
+    const \{ data: \{ user \} \} = await supabase.auth.getUser()\
+    if (user) \{\
+      await supabase\
+        .from('user_profiles')\
+        .update(\{ push_token: token.value \})\
+        .eq('id', user.id)\
+    \}\
+  \})\
+  \
+  // \uc0\u36890 \u30693 \u21463 \u20449 \
+  PushNotifications.addListener('pushNotificationReceived', (notification) => \{\
+    console.log('Push received:', notification)\
+    // Mo\uc0\u12367 \u12435 \u12450 \u12491 \u12513 \u12540 \u12471 \u12519 \u12531 \u34920 \u31034 \u12394 \u12393 \
+  \})\
+\}\
+\
+// Mo\uc0\u12367 \u12435 \u12398 \u21169 \u12414 \u12375 \u12473 \u12465 \u12472 \u12517 \u12540 \u12523 \u65288 Supabase Edge Function\u65289 \
+export async function scheduleMokunReminder(userId: string, delayDays: number) \{\
+  // Supabase Edge Function\uc0\u12434 \u21628 \u12403 \u20986 \u12375 \
+  await supabase.functions.invoke('schedule-notification', \{\
+    body: \{\
+      userId,\
+      delayDays,\
+      message: '\uc0\u20037 \u12375 \u12406 \u12426 \u65281 Mo\u12367 \u12435 \u23490 \u12375 \u12363 \u12387 \u12383 \u12424 \u55356 \u57137 ',\
+      type: 'mokun_reminder'\
+    \}\
+  \})\
+\}\
+```\
+\
+### 3.5 \uc0\u26376 \u38291 \u12467 \u12473 \u12488 \u35211 \u31309 \u12418 \u12426 \u65288 6\u12534 \u26376 \u38291 \u65289 \
+\
+| \uc0\u12469 \u12540 \u12499 \u12473  | \u12503 \u12521 \u12531  | Month 1-3 | Month 4-6 | \u20633 \u32771  |\
+|---------|--------|-----------|-----------|------|\
+| **Supabase** | Free | $0 | $0 | 500MB DB, 1GB Storage, 50k MAU |\
+| **ElevenLabs** | Starter | $11 (\'a51,650) | $11 (\'a51,650) | 30\uc0\u19975 \u25991 \u23383 /\u26376 \u65288 \u38899 \u22768 \u29983 \u25104 \u65289  |\
+| **Vercel** | Hobby | $0 | $0 | Web\uc0\u29256 \u12507 \u12473 \u12486 \u12451 \u12531 \u12464  |\
+| **Apple Developer** | \uc0\u24180 \u38291  | $99 (\'a514,850/12) | \u21516 \u24038  | iOS\u37197 \u20449 \u24517 \u38920  |\
+| **Google Play** | \uc0\u36023 \u12356 \u20999 \u12426  | $25 (\'a53,750/6) | $0 | Android\u37197 \u20449  |\
+| **Canva Pro** | \uc0\u26376 \u38989  | $13 (\'a51,950) | \u21516 \u24038  | YouTube/SNS\u32032 \u26448  |\
+| **freee\uc0\u20250 \u35336 ** | \u26376 \u38989  | \'a51,980 | \u21516 \u24038  | \u20491 \u20154 \u20107 \u26989 \u20027 \u24517 \u38920  |\
+| **\uc0\u12489 \u12513 \u12452 \u12531 ** | \u24180 \u38291  | \'a53,500/12 = \'a5291 | \u21516 \u24038  | mowise.jp/.com |\
+| **\uc0\u21512 \u35336 ** | - | **\'a57,559/\u26376 ** | **\'a57,559/\u26376 ** | |\
+\
+**Phase 1\uc0\u65288 6\u12534 \u26376 \u65289 \u32207 \u12467 \u12473 \u12488 **: \'a545,354\
+\
+---\
+\
+## 4. \uc0\u23398 \u32722 \u12471 \u12473 \u12486 \u12512 \u35443 \u32048 \u35373 \u35336 \
+\
+### 4.1 Stage 0: Pattern Starter\uc0\u65288 30\u12497 \u12479 \u12540 \u12531 \u65289 \
+\
+#### \uc0\u23398 \u32722 \u12501 \u12525 \u12540 \u65288 1\u12497 \u12479 \u12540 \u12531  = 20\u20998 \u65289 \
+\
+```\
+\uc0\u12304 5\u20998 \u12475 \u12483 \u12471 \u12519 \u12531  \'d7 4\u22238  = 1\u12497 \u12479 \u12540 \u12531 \u23436 \u20840 \u32722 \u24471 \u12305 \
+\
+Session 1: \uc0\u21021 \u22238 \u23398 \u32722 \u65288 5\u20998 \u65289 \
+\uc0\u9500 \u9472  \u12497 \u12479 \u12540 \u12531 \u25552 \u31034 \u65288 30\u31186 \u65289 \
+\uc0\u9500 \u9472  \u20363 \u25991 5\u20491 \u12522 \u12473 \u12491 \u12531 \u12464 \u65288 90\u31186 \u65289 \
+\uc0\u9500 \u9472  \u12522 \u12500 \u12540 \u12488 \u32244 \u32722 \u65288 120\u31186 \u65289 \
+\uc0\u9492 \u9472  4\u25246 \u12463 \u12452 \u12474 5\u21839 \u65288 90\u31186 \u65289 \
+\
+Session 2: \uc0\u23450 \u30528 \u30906 \u35469 \u65288 5\u20998 \u65289 \
+\uc0\u9500 \u9472  \u24489 \u32722 \u65288 30\u31186 \u65289 \
+\uc0\u9500 \u9472  \u31348 \u22475 \u12417 \u21839 \u38988 10\u21839 \u65288 180\u31186 \u65289 \
+\uc0\u9492 \u9472  \u30636 \u38291 \u33521 \u20316 \u25991 5\u21839 \u65288 90\u31186 \u65289 \
+\
+Session 3: \uc0\u23455 \u36341 \u32244 \u32722 \u65288 5\u20998 \u65289 \
+\uc0\u9500 \u9472  Pattern Quest\u65288 \u12473 \u12488 \u12540 \u12522 \u12540 \u12514 \u12540 \u12489 \u65289 \
+\uc0\u9492 \u9472  NPC\u12392 \u12398 \u20250 \u35441 \u12471 \u12511 \u12517 \u12524 \u12540 \u12471 \u12519 \u12531 \
+\
+Session 4: \uc0\u12510 \u12473 \u12479 \u12540 \u12486 \u12473 \u12488 \u65288 5\u20998 \u65289 \
+\uc0\u9500 \u9472  \u32207 \u21512 \u12486 \u12473 \u12488 10\u21839 \
+\uc0\u9500 \u9472  \u38899 \u22768 \u35469 \u35672 \u12481 \u12455 \u12483 \u12463 \u65288 Phase 2\u65289 \
+\uc0\u9492 \u9472  Mo\u12367 \u12435 \u25104 \u38263 \u28436 \u20986 \
+```\
+\
+#### Pattern Quest\uc0\u65288 RPG\u12473 \u12488 \u12540 \u12522 \u12540 \u12514 \u12540 \u12489 \u65289 \
+\
+**\uc0\u12473 \u12488 \u12540 \u12522 \u12540 \u35373 \u23450 **:\
+- \uc0\u20027 \u20154 \u20844 \u65288 \u12518 \u12540 \u12470 \u12540 \u65289 \u12364 \u33521 \u35486 \u29579 \u22269 \u12398 \u26449 \u20154 \u12392 \u20132 \u27969 \
+- 30\uc0\u12398 \u12497 \u12479 \u12540 \u12531  = 30\u20154 \u12398 NPC\
+- \uc0\u21508 NPC\u12392 \u12398 \u20250 \u35441 \u12391 1\u12497 \u12479 \u12540 \u12531 \u32722 \u24471 \
+\
+**NPC\uc0\u20363 **:\
+1. **\uc0\u26449 \u38263 \u65288 Pattern 1: I'm [\u21517 \u21069 ]\u65289 **\
+   - \uc0\u26449 \u38263 : "Welcome! Who are you?"\
+   - \uc0\u12503 \u12524 \u12452 \u12516 \u12540 : \u36984 \u25246 \u32930  \u8594  "I'm [your name]."\
+   - \uc0\u26449 \u38263 : "Nice to meet you! Let me introduce others."\
+\
+2. **\uc0\u12497 \u12531 \u23627 \u65288 Pattern 2: I like [\u21517 \u35422 ]\u65289 **\
+   - \uc0\u12497 \u12531 \u23627 : "Try my bread! What do you like?"\
+   - \uc0\u36984 \u25246 \u32930 : "I like bread." / "I like cake." / "I like cookies."\
+\
+3. **\uc0\u20882 \u38522 \u32773 \u12462 \u12523 \u12489 \u65288 Pattern 8: Can I [\u21205 \u35422 ]?\u65289 **\
+   - \uc0\u12462 \u12523 \u12489 \u12510 \u12473 \u12479 \u12540 : "Want to join? Ask me!"\
+   - \uc0\u12503 \u12524 \u12452 \u12516 \u12540 : "Can I join?" \u8594  \u9989 \u27491 \u35299 \u12391 \u21152 \u20837 \
+\
+**\uc0\u12466 \u12540 \u12512 \u12513 \u12459 \u12491 \u12463 \u12473 **:\
+- \uc0\u27491 \u35299  \u8594  NPC\u12364 \u22909 \u24863 \u24230 UP\u12289 \u27425 \u12398 NPC\u12450 \u12531 \u12525 \u12483 \u12463 \
+- \uc0\u19981 \u27491 \u35299  \u8594  Mo\u12367 \u12435 \u12364 \u12498 \u12531 \u12488 \u34920 \u31034 \u12289 \u20877 \u25361 \u25126 \
+- 30\uc0\u20154 \u12467 \u12531 \u12503 \u12522 \u12540 \u12488  \u8594  Stage 1\u12408 \u36914 \u12417 \u12427 \
+\
+#### Pattern Battle\uc0\u65288 \u23550 \u25126 \u12514 \u12540 \u12489 \u12539 Phase 2\u27231 \u33021 \u65289 \
+\
+**\uc0\u27010 \u35201 **: \u20182 \u12518 \u12540 \u12470 \u12540 \u12392 \u12522 \u12450 \u12523 \u12479 \u12452 \u12512 4\u25246 \u23550 \u25126   \
+**\uc0\u23455 \u35013 **: Supabase Realtime\u12391 \u21516 \u26399 \
+\
+```typescript\
+// Phase 2\uc0\u23455 \u35013 \u20104 \u23450 \
+// pattern-battle.ts\
+import \{ supabase \} from '@/lib/supabase'\
+\
+async function joinBattle() \{\
+  // \uc0\u12510 \u12483 \u12481 \u12531 \u12464 \
+  const \{ data: room \} = await supabase\
+    .from('battle_rooms')\
+    .select('*')\
+    .eq('status', 'waiting')\
+    .limit(1)\
+    .single()\
+  \
+  if (!room) \{\
+    // \uc0\u26032 \u35215 \u12523 \u12540 \u12512 \u20316 \u25104 \
+    const \{ data: newRoom \} = await supabase\
+      .from('battle_rooms')\
+      .insert(\{ status: 'waiting', player1: userId \})\
+      .select()\
+      .single()\
+    \
+    // Realtime\uc0\u36092 \u35501 \
+    const channel = supabase.channel(`battle:$\{newRoom.id\}`)\
+    channel.on('broadcast', \{ event: 'answer' \}, handleOpponentAnswer)\
+    channel.subscribe()\
+  \}\
+\}\
+```\
+\
+### 4.2 Stage 1: MoWISE Sound\uc0\u65288 \u38899 \u38907 \u20882 \u38522 \u65289 \
+\
+#### MovWISE\uc0\u26082 \u23384 \u36039 \u29987 \u12398 \u31227 \u34892 \u12479 \u12473 \u12463 \
+\
+**\uc0\u31227 \u34892 \u23550 \u35937 **:\
+- Vue.js\uc0\u12467 \u12531 \u12509 \u12540 \u12493 \u12531 \u12488 8\u12466 \u12540 \u12512 \u20998 \
+- \uc0\u38899 \u22768 \u12450 \u12475 \u12483 \u12488 \u65288 44\u38899 \u32032  \'d7 5\u20363  \'d7 2\u12473 \u12500 \u12540 \u12459 \u12540  = 440\u12501 \u12449 \u12452 \u12523 \u65289 \
+- \uc0\u36914 \u25431 \u31649 \u29702 \u12525 \u12472 \u12483 \u12463 \
+\
+**\uc0\u31227 \u34892 \u25163 \u38918 **:\
+1. **Week 1-2**: Dexie.js \uc0\u8594  Supabase\u31227 \u34892 \
+   ```typescript\
+   // \uc0\u26087 : Dexie.js\
+   await db.progress.put(\{ userId, phoneme: 'ae', mastery: 3 \})\
+   \
+   // \uc0\u26032 : Supabase\
+   await supabase\
+     .from('learning_progress')\
+     .upsert(\{ \
+       user_id: userId, \
+       stage1_phonemes_mastered: 15,\
+       stage1_games_completed: ['sound_hunter', 'phonics_island']\
+     \})\
+   ```\
+\
+2. **Week 3-4**: Capacitor Audio\uc0\u23550 \u24540 \
+   ```typescript\
+   // Capacitor + Howler.js for audio\
+   import \{ Howl \} from 'howler'\
+   \
+   const sound = new Howl(\{\
+     src: ['https://supabase.co/.../phoneme_ae.mp3'],\
+     html5: true, // \uc0\u12514 \u12496 \u12452 \u12523 \u26368 \u36969 \u21270 \
+     preload: true\
+   \})\
+   \
+   sound.play()\
+   ```\
+\
+3. **Week 5-6**: UI\uc0\u35519 \u25972 \u65288 \u12514 \u12496 \u12452 \u12523 \u26368 \u36969 \u21270 \u65289 \
+   - \uc0\u12479 \u12483 \u12481 \u25805 \u20316 \u26368 \u36969 \u21270 \
+   - \uc0\u30011 \u38754 \u12469 \u12452 \u12474 \u23550 \u24540 \u65288 Vuetify\u12464 \u12522 \u12483 \u12489 \u65289 \
+   - \uc0\u27178 \u30011 \u38754 \u23550 \u24540 \
+\
+#### Sound Hunter\uc0\u65288 \u38899 \u32032 \u12467 \u12524 \u12463 \u12471 \u12519 \u12531 \u12466 \u12540 \u12512 \u65289 \
+\
+**\uc0\u26082 \u23384 \u12466 \u12540 \u12512 \u12398 \u25913 \u33391 \u28857 **:\
+- \uc0\u9989  **Mo\u12367 \u12435 \u32113 \u21512 **: \u38899 \u32032 \u12434 \u38598 \u12417 \u12427 \u12392 Mo\u12367 \u12435 \u12364 \u25104 \u38263 \
+- \uc0\u9989  **\u12503 \u12483 \u12471 \u12517 \u36890 \u30693 **: 1\u26085 1\u38899 \u32032 \u12398 \u36890 \u30693 \
+- \uc0\u9989  **\u12477 \u12540 \u12471 \u12515 \u12523 **: \u21451 \u36948 \u12398 \u36914 \u25431 \u12364 \u35211 \u12360 \u12427 \u65288 Phase 2\u65289 \
+\
+### 4.3 Stage 2: MoWISE Grammar Level 1\
+\
+#### Grammar Color Code\uc0\u65288 \u21697 \u35422 \u33394 \u20998 \u12369 \u12466 \u12540 \u12512 \u65289 \
+\
+**\uc0\u12466 \u12540 \u12512 \u20869 \u23481 **:\
+- \uc0\u33521 \u25991 \u12364 \u34920 \u31034 \u12373 \u12428 \u12427 \
+- \uc0\u21508 \u21336 \u35486 \u12434 \u27491 \u12375 \u12356 \u33394 \u12395 \u12479 \u12483 \u12503 \
+  - \uc0\u21517 \u35422  = \u38738 \
+  - \uc0\u21205 \u35422  = \u36196 \
+  - \uc0\u24418 \u23481 \u35422  = \u32209 \
+  - \uc0\u21069 \u32622 \u35422  = \u40644 \u33394 \
+\
+**\uc0\u20363 \u38988 **:\
+```\
+"I like big cats."\
+\uc0\u27491 \u35299 : I(\u38738 ) like(\u36196 ) big(\u32209 ) cats(\u38738 ).\
+```\
+\
+**\uc0\u25216 \u34899 \u23455 \u35013 **:\
+```vue\
+<!-- GrammarColorCode.vue -->\
+<template>\
+  <div class="sentence">\
+    <span\
+      v-for="(word, index) in words"\
+      :key="index"\
+      :class="['word', userColors[index]]"\
+      @click="cycleColor(index)"\
+    >\
+      \{\{ word \}\}\
+    </span>\
+  </div>\
+  <v-btn @click="checkAnswer">\uc0\u12481 \u12455 \u12483 \u12463 </v-btn>\
+</template>\
+\
+<script setup lang="ts">\
+import \{ ref \} from 'vue'\
+\
+const sentence = "I like big cats."\
+const words = sentence.split(' ')\
+const correctColors = ['blue', 'red', 'green', 'blue'] // \uc0\u27491 \u35299 \
+const userColors = ref<string[]>(Array(words.length).fill('gray'))\
+\
+const colors = ['gray', 'blue', 'red', 'green', 'yellow']\
+\
+function cycleColor(index: number) \{\
+  const currentIndex = colors.indexOf(userColors.value[index])\
+  userColors.value[index] = colors[(currentIndex + 1) % colors.length]\
+\}\
+\
+async function checkAnswer() \{\
+  const isCorrect = userColors.value.every((c, i) => c === correctColors[i])\
+  \
+  if (isCorrect) \{\
+    // XP\uc0\u20184 \u19982  + Mo\u12367 \u12435 \u21453 \u24540 \
+    await supabase.rpc('add_xp', \{ user_id: userId, xp: 10 \})\
+    showMokunReaction('jump_joy', '\uc0\u12377 \u12372 \u12356 \u65281 \u23436 \u29863 \u12384 \u12424 \u65281 ')\
+  \} else \{\
+    showMokunReaction('think_hard', '\uc0\u12418 \u12358 \u19968 \u24230 \u32771 \u12360 \u12390 \u12415 \u12424 \u12358 ')\
+  \}\
+\}\
+</script>\
+```\
+\
+---\
+\
+## 5. Mo\uc0\u12367 \u12435 \u24863 \u24773 AI\u35373 \u35336 \
+\
+### 5.1 Mo\uc0\u12367 \u12435 \u12398 \u29366 \u24907 \u31649 \u29702 \
+\
+#### \uc0\u24863 \u24773 \u12497 \u12521 \u12513 \u12540 \u12479 \
+\
+```typescript\
+// types/mokun.ts\
+export interface MokunState \{\
+  // \uc0\u25104 \u38263 \u27573 \u38542 \u65288 0=\u31278 \u12289 1=\u33469 \u12289 2=\u33495 \u12289 3=\u33509 \u26408 \u12289 4=\u26408 \u12289 5=\u38283 \u33457 \u65289 \
+  growth_stage: 0 | 1 | 2 | 3 | 4 | 5;\
+  \
+  // \uc0\u24184 \u31119 \u24230 \u65288 0-100\u65289 \
+  happiness: number;\
+  \
+  // \uc0\u26368 \u32066 \u12452 \u12531 \u12479 \u12521 \u12463 \u12471 \u12519 \u12531 \u26178 \u21051 \
+  last_interaction: Date;\
+  \
+  // \uc0\u12518 \u12540 \u12470 \u12540 \u12398 \u36899 \u32154 \u26085 \u25968 \
+  user_streak: number;\
+  \
+  // \uc0\u23398 \u32722 \u36914 \u25431 \u65288 \u20840 \u12473 \u12486 \u12540 \u12472 \u21512 \u35336 \u65289 \
+  total_progress: number; // 0-100%\
+\}\
+\
+// Mo\uc0\u12367 \u12435 \u12398 \u25104 \u38263 \u26465 \u20214 \
+export const GROWTH_THRESHOLDS = \{\
+  0: \{ xp: 0, name: '\uc0\u31278 ' \},\
+  1: \{ xp: 100, name: '\uc0\u33469 ' \},\
+  2: \{ xp: 500, name: '\uc0\u33495 ' \},\
+  3: \{ xp: 1500, name: '\uc0\u33509 \u26408 ' \},\
+  4: \{ xp: 5000, name: '\uc0\u26408 ' \},\
+  5: \{ xp: 10000, name: '\uc0\u38283 \u33457 ' \}\
+\}\
+```\
+\
+### 5.2 \uc0\u24863 \u24773 \u21453 \u24540 \u12525 \u12472 \u12483 \u12463 \
+\
+```typescript\
+// composables/useMokun.ts\
+import \{ ref, computed \} from 'vue'\
+import \{ supabase \} from '@/lib/supabase'\
+\
+export function useMokun(userId: string) \{\
+  const mokunState = ref<MokunState>(\{\
+    growth_stage: 0,\
+    happiness: 50,\
+    last_interaction: new Date(),\
+    user_streak: 0,\
+    total_progress: 0\
+  \})\
+  \
+  // \uc0\u24184 \u31119 \u24230 \u35336 \u31639 \
+  const happinessLevel = computed(() => \{\
+    if (mokunState.value.happiness >= 80) return 'very_happy'\
+    if (mokunState.value.happiness >= 60) return 'happy'\
+    if (mokunState.value.happiness >= 40) return 'neutral'\
+    if (mokunState.value.happiness >= 20) return 'sad'\
+    return 'very_sad'\
+  \})\
+  \
+  // \uc0\u12452 \u12505 \u12531 \u12488 \u21029 \u21453 \u24540 \
+  function getMokunReaction(event: string): \{\
+    animation: string;\
+    message: string;\
+    sound?: string;\
+  \} \{\
+    const reactions = \{\
+      correct_answer: [\
+        \{ animation: 'jump_joy', message: '\uc0\u12420 \u12387 \u12383 \u65281 ', sound: 'cheer.mp3' \},\
+        \{ animation: 'clap', message: '\uc0\u12377 \u12372 \u12356 \u65281 ', sound: 'applause.mp3' \},\
+        \{ animation: 'spin', message: '\uc0\u23436 \u29863 \u12384 \u12424 \u65281 ', sound: 'success.mp3' \}\
+      ],\
+      wrong_answer: [\
+        \{ animation: 'think_hard', message: '\uc0\u22823 \u19976 \u22827 \u12289 \u12418 \u12358 \u19968 \u24230 \u65281 ', sound: 'hmm.mp3' \},\
+        \{ animation: 'scratch_head', message: '\uc0\u12498 \u12531 \u12488 \u35211 \u12427 \u65311 ', sound: null \},\
+        \{ animation: 'encourage', message: '\uc0\u24796 \u12375 \u12356 \u65281 \u12354 \u12392 \u23569 \u12375 \u65281 ', sound: 'encourage.mp3' \}\
+      ],\
+      streak_broken: \{\
+        animation: 'sad_wilt',\
+        message: '\uc0\u20037 \u12375 \u12406 \u12426 \'85\u24453 \u12387 \u12390 \u12383 \u12424 \u55357 \u56866 ',\
+        sound: 'sad.mp3'\
+      \},\
+      new_level: \{\
+        animation: 'bloom_flower',\
+        message: '\uc0\u26032 \u12375 \u12356 \u12524 \u12505 \u12523 \u12384 \u65281 \u19968 \u32210 \u12395 \u38929 \u24373 \u12429 \u12358 \u65281 \u55356 \u57144 ',\
+        sound: 'levelup.mp3'\
+      \},\
+      daily_first_login: \{\
+        animation: 'wave_hello',\
+        message: '\uc0\u12362 \u12399 \u12424 \u12358 \u65281 \u20170 \u26085 \u12418 \u38929 \u24373 \u12429 \u12358 \u12397 \u65281 ',\
+        sound: 'morning.mp3'\
+      \},\
+      study_5min: \{\
+        animation: 'thumbs_up',\
+        message: '5\uc0\u20998 \u36948 \u25104 \u65281 \u12356 \u12356 \u35519 \u23376 \u12384 \u12424 \u65281 ',\
+        sound: 'good.mp3'\
+      \},\
+      study_30min: \{\
+        animation: 'celebrate',\
+        message: '30\uc0\u20998 \u12418 \u38929 \u24373 \u12387 \u12383 \u12397 \u65281 \u12377 \u12372 \u12356 \u65281 ',\
+        sound: 'amazing.mp3'\
+      \}\
+    \}\
+    \
+    if (event === 'correct_answer' || event === 'wrong_answer') \{\
+      const options = reactions[event]\
+      return options[Math.floor(Math.random() * options.length)]\
+    \}\
+    \
+    return reactions[event as keyof typeof reactions] || \{\
+      animation: 'idle',\
+      message: '\uc0\u38929 \u24373 \u12387 \u12390 \u65281 ',\
+      sound: null\
+    \}\
+  \}\
+  \
+  // Mo\uc0\u12367 \u12435 \u25104 \u38263 \u12481 \u12455 \u12483 \u12463 \
+  async function checkGrowth(currentXP: number) \{\
+    const newStage = Object.entries(GROWTH_THRESHOLDS)\
+      .reverse()\
+      .find(([_, threshold]) => currentXP >= threshold.xp)?.[0]\
+    \
+    const stageNumber = parseInt(newStage || '0')\
+    \
+    if (stageNumber > mokunState.value.growth_stage) \{\
+      mokunState.value.growth_stage = stageNumber as MokunState['growth_stage']\
+      \
+      // \uc0\u25104 \u38263 \u28436 \u20986 \
+      await showGrowthAnimation(stageNumber)\
+      \
+      // DB\uc0\u26356 \u26032 \
+      await supabase\
+        .from('user_profiles')\
+        .update(\{ mokun_growth_stage: stageNumber \})\
+        .eq('id', userId)\
+      \
+      // \uc0\u12452 \u12531 \u12479 \u12521 \u12463 \u12471 \u12519 \u12531 \u35352 \u37682 \
+      await supabase\
+        .from('mokun_interactions')\
+        .insert(\{\
+          user_id: userId,\
+          event_type: 'growth',\
+          mokun_reaction: 'bloom_flower',\
+          message: `Mo\uc0\u12367 \u12435 \u12364 \u12300 $\{GROWTH_THRESHOLDS[stageNumber].name\}\u12301 \u12395 \u25104 \u38263 \u12375 \u12383 \u12424 \u65281 `\
+        \})\
+    \}\
+  \}\
+  \
+  // \uc0\u24184 \u31119 \u24230 \u26356 \u26032 \
+  async function updateHappiness(delta: number) \{\
+    mokunState.value.happiness = Math.max(0, Math.min(100, mokunState.value.happiness + delta))\
+    \
+    await supabase\
+      .from('user_profiles')\
+      .update(\{ mokun_happiness: mokunState.value.happiness \})\
+      .eq('id', userId)\
+  \}\
+  \
+  return \{\
+    mokunState,\
+    happinessLevel,\
+    getMokunReaction,\
+    checkGrowth,\
+    updateHappiness\
+  \}\
+\}\
+```\
+\
+### 5.3 Mo\uc0\u12367 \u12435 \u12450 \u12491 \u12513 \u12540 \u12471 \u12519 \u12531 \
+\
+**\uc0\u23455 \u35013 \u26041 \u27861 **: Lottie\u65288 \u36605 \u37327 JSON\u12450 \u12491 \u12513 \u12540 \u12471 \u12519 \u12531 \u65289 \
+\
+```vue\
+<!-- components/MokunCharacter.vue -->\
+<template>\
+  <div class="mokun-container">\
+    <vue-lottie\
+      :animation-data="currentAnimation"\
+      :loop="isLooping"\
+      @complete="onAnimationComplete"\
+    />\
+    <div v-if="message" class="mokun-message">\
+      \{\{ message \}\}\
+    </div>\
+  </div>\
+</template>\
+\
+<script setup lang="ts">\
+import \{ ref, watch \} from 'vue'\
+import \{ useLottie \} from '@/composables/useLottie'\
+\
+// \uc0\u12450 \u12491 \u12513 \u12540 \u12471 \u12519 \u12531 JSON\u65288 Lottie Files\u65289 \
+import idleAnim from '@/assets/lottie/mokun_idle.json'\
+import jumpJoyAnim from '@/assets/lottie/mokun_jump_joy.json'\
+import sadWiltAnim from '@/assets/lottie/mokun_sad_wilt.json'\
+import bloomFlowerAnim from '@/assets/lottie/mokun_bloom_flower.json'\
+\
+const props = defineProps<\{\
+  animation: string;\
+  message?: string;\
+\}>()\
+\
+const animations = \{\
+  idle: idleAnim,\
+  jump_joy: jumpJoyAnim,\
+  sad_wilt: sadWiltAnim,\
+  bloom_flower: bloomFlowerAnim\
+  // ... \uc0\u20182 \u12398 \u12450 \u12491 \u12513 \u12540 \u12471 \u12519 \u12531 \
+\}\
+\
+const currentAnimation = ref(animations.idle)\
+const isLooping = ref(true)\
+const message = ref('')\
+\
+watch(() => props.animation, (newAnim) => \{\
+  currentAnimation.value = animations[newAnim as keyof typeof animations] || animations.idle\
+  isLooping.value = newAnim === 'idle'\
+  message.value = props.message || ''\
+  \
+  // 3\uc0\u31186 \u24460 \u12395 idle\u12395 \u25147 \u12427 \
+  if (newAnim !== 'idle') \{\
+    setTimeout(() => \{\
+      currentAnimation.value = animations.idle\
+      isLooping.value = true\
+      message.value = ''\
+    \}, 3000)\
+  \}\
+\})\
+</script>\
+\
+<style scoped>\
+.mokun-container \{\
+  position: relative;\
+  width: 200px;\
+  height: 200px;\
+\}\
+\
+.mokun-message \{\
+  position: absolute;\
+  bottom: -40px;\
+  left: 50%;\
+  transform: translateX(-50%);\
+  background: white;\
+  border: 2px solid #1E3A8A;\
+  border-radius: 20px;\
+  padding: 8px 16px;\
+  font-size: 14px;\
+  white-space: nowrap;\
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);\
+\}\
+\
+.mokun-message::before \{\
+  content: '';\
+  position: absolute;\
+  top: -10px;\
+  left: 50%;\
+  transform: translateX(-50%);\
+  width: 0;\
+  height: 0;\
+  border-left: 10px solid transparent;\
+  border-right: 10px solid transparent;\
+  border-bottom: 10px solid #1E3A8A;\
+\}\
+</style>\
+```\
+\
+### 5.4 Mo\uc0\u12367 \u12435 \u12503 \u12483 \u12471 \u12517 \u36890 \u30693 \u25126 \u30053 \
+\
+```typescript\
+// services/mokun-notifications.ts\
+import \{ PushNotifications \} from '@capacitor/push-notifications'\
+\
+export const MOKUN_NOTIFICATION_TEMPLATES = \{\
+  morning: \{\
+    title: '\uc0\u12362 \u12399 \u12424 \u12358 \u65281 \u9728 \u65039 ',\
+    body: 'Mo\uc0\u12367 \u12435 \u12364 \u24453 \u12387 \u12390 \u12427 \u12424 \u12290 \u20170 \u26085 \u12418 \u19968 \u32210 \u12395 5\u20998 \u12384 \u12369 \u21193 \u24375 \u12375 \u12424 \u12358 \u65281 ',\
+    schedule: \{ hour: 8, minute: 0 \}\
+  \},\
+  evening: \{\
+    title: '\uc0\u12371 \u12435 \u12400 \u12435 \u12399 \u65281 \u55356 \u57113 ',\
+    body: '\uc0\u20170 \u26085 \u12399 \u12414 \u12384 \u21193 \u24375 \u12375 \u12390 \u12394 \u12356 \u12397 \u12290 Mo\u12367 \u12435 \u12364 \u23490 \u12375 \u12364 \u12387 \u12390 \u12427 \u12424 \u55357 \u56866 ',\
+    schedule: \{ hour: 20, minute: 0 \}\
+  \},\
+  streak_3days: \{\
+    title: '3\uc0\u26085 \u36899 \u32154 \u36948 \u25104 \u65281 \u55357 \u56613 ',\
+    body: '\uc0\u12377 \u12372 \u12356 \u65281 Mo\u12367 \u12435 \u12418 \u20803 \u27671 \u12356 \u12387 \u12401 \u12356 \u12384 \u12424 \u65281 ',\
+    immediate: true\
+  \},\
+  streak_broken: \{\
+    title: 'Mo\uc0\u12367 \u12435 \u12364 \u24515 \u37197 \u12375 \u12390 \u12427 \u12424 \'85',\
+    body: '3\uc0\u26085 \u38291 \u26469 \u12390 \u12394 \u12356 \u12397 \u12290 \u20803 \u27671 \u65311 \u25147 \u12387 \u12390 \u12365 \u12390 \u12397 \u55356 \u57137 ',\
+    delay: 3 * 24 * 60 * 60 * 1000 // 3\uc0\u26085 \u24460 \
+  \}\
+\}\
+\
+export async function scheduleMokunNotification(\
+  type: keyof typeof MOKUN_NOTIFICATION_TEMPLATES,\
+  userId: string\
+) \{\
+  const template = MOKUN_NOTIFICATION_TEMPLATES[type]\
+  \
+  if (template.immediate) \{\
+    await PushNotifications.schedule(\{\
+      notifications: [\{\
+        title: template.title,\
+        body: template.body,\
+        id: Date.now(),\
+        schedule: \{ at: new Date(Date.now() + 1000) \}\
+      \}]\
+    \})\
+  \} else if (template.schedule) \{\
+    const now = new Date()\
+    const scheduleDate = new Date(\
+      now.getFullYear(),\
+      now.getMonth(),\
+      now.getDate(),\
+      template.schedule.hour,\
+      template.schedule.minute\
+    )\
+    \
+    if (scheduleDate < now) \{\
+      scheduleDate.setDate(scheduleDate.getDate() + 1)\
+    \}\
+    \
+    await PushNotifications.schedule(\{\
+      notifications: [\{\
+        title: template.title,\
+        body: template.body,\
+        id: Date.now(),\
+        schedule: \{ at: scheduleDate, repeats: true, every: 'day' \}\
+      \}]\
+    \})\
+  \}\
+\}\
+```\
+\
+---\
+\
+## 6. \uc0\u12458 \u12531 \u12508 \u12540 \u12487 \u12451 \u12531 \u12464 3\u12473 \u12486 \u12483 \u12503 \
+\
+### 6.1 \uc0\u21021 \u22238 \u36215 \u21205 \u12501 \u12525 \u12540 \
+\
+```\
+\uc0\u12450 \u12503 \u12522 \u36215 \u21205 \u65288 \u21021 \u22238 \u65289 \
+    \uc0\u8595 \
+\uc0\u12473 \u12503 \u12521 \u12483 \u12471 \u12517 \u30011 \u38754 \u65288 2\u31186 \u65289 \
+    \uc0\u8595 \
+\uc0\u12304 Step 1\u12305 \u12454 \u12455 \u12523 \u12459 \u12512 \u30011 \u38754 \u65288 30\u31186 \u65289 \
+    \uc0\u8595 \
+\uc0\u12304 Step 2\u12305 \u35386 \u26029 \u12463 \u12452 \u12474 \u65288 90\u31186 \u65289 \
+    \uc0\u8595 \
+\uc0\u12304 Step 3\u12305 Mo\u12367 \u12435 \u35477 \u29983 \u65288 60\u31186 \u65289 \
+    \uc0\u8595 \
+Stage 0 Pattern #1 \uc0\u33258 \u21205 \u38283 \u22987 \
+```\
+\
+### 6.2 Step 1: \uc0\u12454 \u12455 \u12523 \u12459 \u12512 \u30011 \u38754 \
+\
+```vue\
+<!-- views/Onboarding/Welcome.vue -->\
+<template>\
+  <v-container class="welcome-screen fill-height">\
+    <v-row align="center" justify="center">\
+      <v-col cols="12" class="text-center">\
+        <!-- Mo\uc0\u12367 \u12435 \u31278 \u12398 \u12450 \u12491 \u12513 \u12540 \u12471 \u12519 \u12531  -->\
+        <vue-lottie\
+          :animation-data="seedAnimation"\
+          :loop="true"\
+          style="width: 200px; height: 200px; margin: 0 auto;"\
+        />\
+        \
+        <h1 class="text-h4 mt-8 mb-4" style="color: #1E3A8A;">\
+          MoWISE \uc0\u12408 \u12424 \u12358 \u12371 \u12381 \
+        </h1>\
+        \
+        <p class="text-h6 mb-8" style="color: #6B7280;">\
+          \uc0\u12418 \u12387 \u12392 \u36066 \u12367 \u12289 \u33521 \u35486 \u12392 \u29983 \u12365 \u12427 \
+        </p>\
+        \
+        <v-card class="pa-6 mb-8" elevation="2">\
+          <v-icon size="48" color="primary">mdi-lightbulb-on</v-icon>\
+          <p class="text-body-1 mt-4">\
+            3\uc0\u12388 \u12398 \u36074 \u21839 \u12391 \u12289 \u12354 \u12394 \u12383 \u12395 \u12404 \u12387 \u12383 \u12426 \u12398 <br>\
+            \uc0\u12473 \u12479 \u12540 \u12488 \u22320 \u28857 \u12434 \u35211 \u12388 \u12369 \u12414 \u12377 \
+          </p>\
+        </v-card>\
+        \
+        <v-btn\
+          color="primary"\
+          size="x-large"\
+          rounded\
+          @click="startQuiz"\
+        >\
+          \uc0\u22987 \u12417 \u12427 \
+          <v-icon end>mdi-arrow-right</v-icon>\
+        </v-btn>\
+      </v-col>\
+    </v-row>\
+  </v-container>\
+</template>\
+\
+<script setup lang="ts">\
+import \{ useRouter \} from 'vue-router'\
+import seedAnimation from '@/assets/lottie/mokun_seed.json'\
+\
+const router = useRouter()\
+\
+function startQuiz() \{\
+  router.push('/onboarding/quiz')\
+\}\
+</script>\
+```\
+\
+### 6.3 Step 2: \uc0\u35386 \u26029 \u12463 \u12452 \u12474 \
+\
+```vue\
+<!-- views/Onboarding/Quiz.vue -->\
+<template>\
+  <v-container class="quiz-screen">\
+    <v-progress-linear\
+      :model-value="progress"\
+      color="primary"\
+      height="8"\
+      rounded\
+    />\
+    \
+    <v-card class="mt-8 pa-6" elevation="4">\
+      <h2 class="text-h5 mb-6">\{\{ questions[currentQuestion].title \}\}</h2>\
+      \
+      <v-radio-group v-model="answers[currentQuestion]">\
+        <v-radio\
+          v-for="option in questions[currentQuestion].options"\
+          :key="option.value"\
+          :label="option.label"\
+          :value="option.value"\
+          color="primary"\
+        />\
+      </v-radio-group>\
+      \
+      <v-btn\
+        v-if="currentQuestion < questions.length - 1"\
+        color="primary"\
+        block\
+        size="large"\
+        :disabled="!answers[currentQuestion]"\
+        @click="nextQuestion"\
+      >\
+        \uc0\u27425 \u12408 \
+      </v-btn>\
+      \
+      <v-btn\
+        v-else\
+        color="success"\
+        block\
+        size="large"\
+        :disabled="!answers[currentQuestion]"\
+        @click="completeQuiz"\
+      >\
+        \uc0\u23436 \u20102 \
+      </v-btn>\
+    </v-card>\
+  </v-container>\
+</template>\
+\
+<script setup lang="ts">\
+import \{ ref, computed \} from 'vue'\
+import \{ useRouter \} from 'vue-router'\
+import \{ supabase \} from '@/lib/supabase'\
+\
+const router = useRouter()\
+\
+const questions = [\
+  \{\
+    title: '\uc0\u12354 \u12394 \u12383 \u12398 \u33521 \u35486 \u12524 \u12505 \u12523 \u12399 \u65311 ',\
+    options: [\
+      \{ label: '\uc0\u12411 \u12412 \u12476 \u12525 \u65288 ABC\u12418 \u21361 \u12358 \u12356 \u65289 ', value: 'zero' \},\
+      \{ label: '\uc0\u20013 \u23398 \u33521 \u35486 \u12399 \u12394 \u12435 \u12392 \u12363 ', value: 'junior_high' \},\
+      \{ label: '\uc0\u39640 \u26657 \u33521 \u35486 \u12414 \u12391 \u35226 \u12360 \u12390 \u12427 ', value: 'high_school' \},\
+      \{ label: '\uc0\u33521 \u26908 \u28310 2\u32026 \u20197 \u19978 ', value: 'advanced' \}\
+    ]\
+  \},\
+  \{\
+    title: '\uc0\u20309 \u12364 \u19968 \u30058 \u33510 \u25163 \u65311 ',\
+    options: [\
+      \{ label: '\uc0\u30330 \u38899 \u12539 \u12522 \u12473 \u12491 \u12531 \u12464 ', value: 'pronunciation' \},\
+      \{ label: '\uc0\u25991 \u27861 \u12539 \u35486 \u38918 ', value: 'grammar' \},\
+      \{ label: '\uc0\u21336 \u35486 \u12364 \u20986 \u12390 \u12371 \u12394 \u12356 ', value: 'vocabulary' \},\
+      \{ label: '\uc0\u23455 \u38555 \u12395 \u35441 \u12379 \u12394 \u12356 ', value: 'speaking' \}\
+    ]\
+  \},\
+  \{\
+    title: '1\uc0\u26085 \u20309 \u20998 \u12394 \u12425 \u32154 \u12369 \u12425 \u12428 \u12427 \u65311 ',\
+    options: [\
+      \{ label: '5\uc0\u20998 ', value: 5 \},\
+      \{ label: '10\uc0\u20998 ', value: 10 \},\
+      \{ label: '30\uc0\u20998 ', value: 30 \},\
+      \{ label: '1\uc0\u26178 \u38291 ', value: 60 \}\
+    ]\
+  \}\
+]\
+\
+const currentQuestion = ref(0)\
+const answers = ref<any[]>([])\
+\
+const progress = computed(() => ((currentQuestion.value + 1) / questions.length) * 100)\
+\
+function nextQuestion() \{\
+  currentQuestion.value++\
+\}\
+\
+async function completeQuiz() \{\
+  // \uc0\u35386 \u26029 \u32080 \u26524 \u12363 \u12425 \u25512 \u22888 Stage\u12434 \u27770 \u23450 \
+  const level = answers.value[0]\
+  const weakness = answers.value[1]\
+  const dailyMinutes = answers.value[2]\
+  \
+  let recommendedStage = 0\
+  if (level === 'zero') recommendedStage = 0\
+  else if (level === 'junior_high') recommendedStage = 1\
+  else if (level === 'high_school') recommendedStage = 2\
+  \
+  // Supabase\uc0\u12395 \u20445 \u23384 \
+  const \{ data: \{ user \} \} = await supabase.auth.getUser()\
+  if (user) \{\
+    await supabase\
+      .from('user_profiles')\
+      .update(\{\
+        current_stage: recommendedStage,\
+        daily_target_minutes: dailyMinutes,\
+        onboarding_data: \{\
+          level,\
+          weakness,\
+          dailyMinutes,\
+          completed_at: new Date().toISOString()\
+        \}\
+      \})\
+      .eq('id', user.id)\
+  \}\
+  \
+  router.push('/onboarding/mokun-birth')\
+\}\
+</script>\
+```\
+\
+### 6.4 Step 3: Mo\uc0\u12367 \u12435 \u35477 \u29983 \
+\
+```vue\
+<!-- views/Onboarding/MokunBirth.vue -->\
+<template>\
+  <v-container class="mokun-birth-screen fill-height">\
+    <v-row align="center" justify="center">\
+      <v-col cols="12" class="text-center">\
+        <h2 class="text-h5 mb-8">\
+          \uc0\u12354 \u12394 \u12383 \u23554 \u29992 \u12398 Mo\u12367 \u12435 \u12364 \u35477 \u29983 \u65281 \
+        </h2>\
+        \
+        <!-- \uc0\u25104 \u38263 \u12450 \u12491 \u12513 \u12540 \u12471 \u12519 \u12531 : \u31278  \u8594  \u33469  \u8594  \u23567 \u12373 \u12394 \u26408  -->\
+        <vue-lottie\
+          :animation-data="birthAnimation"\
+          :loop="false"\
+          @complete="onAnimationComplete"\
+          style="width: 300px; height: 300px; margin: 0 auto;"\
+        />\
+        \
+        <v-card class="mt-8 pa-6" elevation="2">\
+          <p class="text-body-1 mb-4">\
+            \uc0\u23398 \u32722 \u12377 \u12427 \u12411 \u12393 \u12289 Mo\u12367 \u12435 \u12418 \u25104 \u38263 \u12375 \u12414 \u12377 \
+          </p>\
+          \
+          <v-progress-linear\
+            :model-value="growthProgress"\
+            color="success"\
+            height="20"\
+            rounded\
+          >\
+            <template v-slot:default>\
+              \{\{ growthProgress \}\}%\
+            </template>\
+          </v-progress-linear>\
+          \
+          <p class="text-caption mt-2 text-grey">\
+            \uc0\u27425 \u12398 \u25104 \u38263 \u12414 \u12391 : \{\{ nextGrowthXP \}\} XP\
+          </p>\
+        </v-card>\
+        \
+        <v-btn\
+          v-if="animationDone"\
+          color="primary"\
+          size="x-large"\
+          rounded\
+          class="mt-8"\
+          @click="startLearning"\
+        >\
+          \uc0\u26368 \u21021 \u12398 \u12524 \u12483 \u12473 \u12531 \u12434 \u22987 \u12417 \u12427 \
+          <v-icon end>mdi-sprout</v-icon>\
+        </v-btn>\
+      </v-col>\
+    </v-row>\
+  </v-container>\
+</template>\
+\
+<script setup lang="ts">\
+import \{ ref, onMounted \} from 'vue'\
+import \{ useRouter \} from 'vue-router'\
+import birthAnimation from '@/assets/lottie/mokun_birth.json'\
+\
+const router = useRouter()\
+\
+const animationDone = ref(false)\
+const growthProgress = ref(0)\
+const nextGrowthXP = ref(100)\
+\
+onMounted(() => \{\
+  // \uc0\u25104 \u38263 \u12496 \u12540 \u12450 \u12491 \u12513 \u12540 \u12471 \u12519 \u12531 \
+  let current = 0\
+  const interval = setInterval(() => \{\
+    current += 2\
+    growthProgress.value = Math.min(current, 10) // \uc0\u21021 \u26399 10%\
+    if (current >= 10) clearInterval(interval)\
+  \}, 50)\
+\})\
+\
+function onAnimationComplete() \{\
+  animationDone.value = true\
+\}\
+\
+function startLearning() \{\
+  router.push('/learn/stage0/pattern/P001')\
+\}\
+</script>\
+```\
+\
+---\
+\
+## 7. \uc0\u12467 \u12450 \u12523 \u12540 \u12503 \u35373 \u35336 \u65288 5\u20998 \u23436 \u32080 \u65289 \
+\
+### 7.1 5\uc0\u20998 \u12475 \u12483 \u12471 \u12519 \u12531 \u12398 \u27083 \u36896 \
+\
+```\
+\uc0\u9484 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9488 \
+\uc0\u9474          1\u12475 \u12483 \u12471 \u12519 \u12531  = 5\u20998                \u9474 \
+\uc0\u9500 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9508 \
+\uc0\u9474  00:00-00:30  \u12497 \u12479 \u12540 \u12531 \u25552 \u31034                \u9474 \
+\uc0\u9474               \u38899 \u22768 \u65291 \u23383 \u24149 \u65291 \u20363 \u25991 1\u20491          \u9474 \
+\uc0\u9500 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9508 \
+\uc0\u9474  00:30-02:00  \u12452 \u12531 \u12503 \u12483 \u12488 \u65288 90\u31186 \u65289          \u9474 \
+\uc0\u9474               \u20363 \u25991 5\u20491 \u12434 \u32862 \u12367 \u65291 \u12522 \u12500 \u12540 \u12488      \u9474 \
+\uc0\u9474               Mo\u12367 \u12435 \u24540 \u25588 \u12467 \u12513 \u12531 \u12488           \u9474 \
+\uc0\u9500 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9508 \
+\uc0\u9474  02:00-04:00  \u12489 \u12522 \u12523 \u65288 120\u31186 \u65289             \u9474 \
+\uc0\u9474               4\u25246 \u12463 \u12452 \u12474  5\u21839                \u9474 \
+\uc0\u9474               \u27491 \u35299 \u8594 Mo\u12367 \u12435 \u12472 \u12515 \u12531 \u12503          \u9474 \
+\uc0\u9474               \u19981 \u27491 \u35299 \u8594 \u12498 \u12531 \u12488 \u34920 \u31034             \u9474 \
+\uc0\u9500 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9508 \
+\uc0\u9474  04:00-04:30  \u30636 \u38291 \u33521 \u20316 \u25991 \u65288 30\u31186 \u65289          \u9474 \
+\uc0\u9474               \u26085 \u26412 \u35486 \u8594 3\u31186 \u20197 \u20869 \u12395 \u33521 \u35486         \u9474 \
+\uc0\u9474               1\u21839 \u12398 \u12415 \u65288 \u21021 \u32026 \u32773 \u21521 \u12369 \u65289        \u9474 \
+\uc0\u9500 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9508 \
+\uc0\u9474  04:30-05:00  \u36948 \u25104 \u24863 \u28436 \u20986 \u65288 30\u31186 \u65289          \u9474 \
+\uc0\u9474               \u10024  +50 XP\u65281                  \u9474 \
+\uc0\u9474               \u55356 \u57137  Mo\u12367 \u12435 \u25104 \u38263 \u12496 \u12540 +5%        \u9474 \
+\uc0\u9474               \u55357 \u56613  \u36899 \u32154 3\u26085 \u65281                 \u9474 \
+\uc0\u9474               [\u27425 \u12408 ] / [\u20170 \u26085 \u12399 \u32066 \u20102 ]       \u9474 \
+\uc0\u9492 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9472 \u9496 \
+```\
+\
+### 7.2 \uc0\u12467 \u12450 \u12523 \u12540 \u12503 \u23455 \u35013 \
+\
+```vue\
+<!-- views/Learn/PatternSession.vue -->\
+<template>\
+  <v-container class="pattern-session">\
+    <!-- \uc0\u36914 \u25431 \u12496 \u12540  -->\
+    <v-progress-linear\
+      :model-value="sessionProgress"\
+      color="primary"\
+      height="8"\
+      class="mb-4"\
+    />\
+    \
+    <v-card class="pa-6" elevation="4">\
+      <!-- Phase 1: \uc0\u12497 \u12479 \u12540 \u12531 \u25552 \u31034  -->\
+      <div v-if="phase === 'intro'" class="text-center">\
+        <h2 class="text-h4 mb-4">\{\{ currentPattern.pattern \}\}</h2>\
+        <p class="text-h6 text-grey mb-6">\{\{ currentPattern.patternJa \}\}</p>\
+        \
+        <v-btn\
+          icon\
+          size="x-large"\
+          color="primary"\
+          @click="playAudio(currentPattern.examples[0].audioUrl)"\
+        >\
+          <v-icon>mdi-volume-high</v-icon>\
+        </v-btn>\
+        \
+        <p class="text-body-1 mt-4">\
+          \{\{ currentPattern.examples[0].en \}\}\
+        </p>\
+        <p class="text-body-2 text-grey">\
+          \{\{ currentPattern.examples[0].ja \}\}\
+        </p>\
+      </div>\
+      \
+      <!-- Phase 2: \uc0\u12452 \u12531 \u12503 \u12483 \u12488  -->\
+      <div v-if="phase === 'input'" class="input-phase">\
+        <mokun-character animation="encourage" message="\uc0\u19968 \u32210 \u12395 \u35328 \u12387 \u12390 \u12415 \u12424 \u12358 \u65281 " />\
+        \
+        <v-card\
+          v-for="(example, index) in currentPattern.examples.slice(0, 5)"\
+          :key="index"\
+          class="mb-4 pa-4"\
+          :class="\{ 'active-example': currentExampleIndex === index \}"\
+        >\
+          <v-row align="center">\
+            <v-col cols="2">\
+              <v-btn\
+                icon\
+                @click="playAudio(example.audioUrl)"\
+              >\
+                <v-icon>mdi-play</v-icon>\
+              </v-btn>\
+            </v-col>\
+            <v-col cols="10">\
+              <p class="text-body-1 mb-1">\{\{ example.en \}\}</p>\
+              <p class="text-body-2 text-grey">\{\{ example.ja \}\}</p>\
+            </v-col>\
+          </v-row>\
+        </v-card>\
+        \
+        <v-btn\
+          color="primary"\
+          block\
+          @click="nextPhase"\
+        >\
+          \uc0\u27425 \u12408 \u36914 \u12416 \
+        </v-btn>\
+      </div>\
+      \
+      <!-- Phase 3: \uc0\u12489 \u12522 \u12523  -->\
+      <div v-if="phase === 'drill'">\
+        <h3 class="text-h6 mb-4">\uc0\u21839 \u38988  \{\{ drillQuestionIndex + 1 \}\} / 5</h3>\
+        \
+        <p class="text-body-1 mb-6">\
+          \{\{ drillQuestions[drillQuestionIndex].question \}\}\
+        </p>\
+        \
+        <v-radio-group v-model="selectedAnswer">\
+          <v-radio\
+            v-for="(option, index) in drillQuestions[drillQuestionIndex].options"\
+            :key="index"\
+            :label="option"\
+            :value="index"\
+            color="primary"\
+          />\
+        </v-radio-group>\
+        \
+        <v-btn\
+          color="primary"\
+          block\
+          :disabled="selectedAnswer === null"\
+          @click="checkAnswer"\
+        >\
+          \uc0\u31572 \u12360 \u21512 \u12431 \u12379 \
+        </v-btn>\
+      </div>\
+      \
+      <!-- Phase 4: \uc0\u30636 \u38291 \u33521 \u20316 \u25991  -->\
+      <div v-if="phase === 'translation'">\
+        <mokun-character animation="think_hard" message="3\uc0\u31186 \u20197 \u20869 \u12395 \u31572 \u12360 \u12390 \u12415 \u12390 \u65281 " />\
+        \
+        <v-card class="pa-6 mb-6 text-center" color="blue-lighten-5">\
+          <p class="text-h6">\{\{ translationQuestion.ja \}\}</p>\
+        </v-card>\
+        \
+        <v-progress-circular\
+          :model-value="timeLeft"\
+          :size="80"\
+          :width="8"\
+          color="warning"\
+          class="mb-4"\
+        >\
+          \{\{ Math.ceil(timeLeft / 100 * 3) \}\}s\
+        </v-progress-circular>\
+        \
+        <v-text-field\
+          v-model="userTranslation"\
+          label="\uc0\u33521 \u35486 \u12391 \u31572 \u12360 \u12390 \u12415 \u12424 \u12358 "\
+          variant="outlined"\
+          @keyup.enter="submitTranslation"\
+        />\
+        \
+        <v-btn\
+          color="primary"\
+          block\
+          @click="submitTranslation"\
+        >\
+          \uc0\u31572 \u12360 \u12427 \
+        </v-btn>\
+      </div>\
+      \
+      <!-- Phase 5: \uc0\u36948 \u25104 \u24863 \u28436 \u20986  -->\
+      <div v-if="phase === 'completion'" class="text-center">\
+        <mokun-character animation="jump_joy" message="\uc0\u12420 \u12387 \u12383 \u12397 \u65281 " />\
+        \
+        <v-card class="mt-6 pa-6" color="success-lighten-4">\
+          <v-icon size="64" color="success">mdi-check-circle</v-icon>\
+          <h3 class="text-h5 mt-4">\uc0\u12475 \u12483 \u12471 \u12519 \u12531 \u23436 \u20102 \u65281 </h3>\
+          \
+          <v-row class="mt-6">\
+            <v-col cols="6">\
+              <v-card class="pa-4" elevation="0">\
+                <v-icon color="warning">mdi-star</v-icon>\
+                <p class="text-h6 mt-2">+50 XP</p>\
+              </v-card>\
+            </v-col>\
+            <v-col cols="6">\
+              <v-card class="pa-4" elevation="0">\
+                <v-icon color="success">mdi-sprout</v-icon>\
+                <p class="text-h6 mt-2">+5%</p>\
+                <p class="text-caption">Mo\uc0\u12367 \u12435 \u25104 \u38263 </p>\
+              </v-card>\
+            </v-col>\
+          </v-row>\
+          \
+          <v-row class="mt-4">\
+            <v-col cols="6">\
+              <v-btn\
+                color="primary"\
+                variant="outlined"\
+                block\
+                @click="endSession"\
+              >\
+                \uc0\u20170 \u26085 \u12399 \u32066 \u20102 \
+              </v-btn>\
+            </v-col>\
+            <v-col cols="6">\
+              <v-btn\
+                color="primary"\
+                block\
+                @click="continueNext"\
+              >\
+                \uc0\u27425 \u12398 \u12497 \u12479 \u12540 \u12531 \u12408 \
+                <v-icon end>mdi-arrow-right</v-icon>\
+              </v-btn>\
+            </v-col>\
+          </v-row>\
+        </v-card>\
+      </div>\
+    </v-card>\
+  </v-container>\
+</template>\
+\
+<script setup lang="ts">\
+import \{ ref, computed, onMounted, onUnmounted \} from 'vue'\
+import \{ useRouter, useRoute \} from 'vue-router'\
+import \{ supabase \} from '@/lib/supabase'\
+import \{ useMokun \} from '@/composables/useMokun'\
+import \{ Howl \} from 'howler'\
+\
+const router = useRouter()\
+const route = useRoute()\
+\
+const patternId = route.params.patternId as string\
+\
+// \uc0\u12501 \u12455 \u12540 \u12474 \u31649 \u29702 \
+const phase = ref<'intro' | 'input' | 'drill' | 'translation' | 'completion'>('intro')\
+const sessionProgress = computed(() => \{\
+  const phases = ['intro', 'input', 'drill', 'translation', 'completion']\
+  return ((phases.indexOf(phase.value) + 1) / phases.length) * 100\
+\})\
+\
+// \uc0\u12497 \u12479 \u12540 \u12531 \u12487 \u12540 \u12479 \u65288 \u23455 \u38555 \u12399 Supabase\u12363 \u12425 \u21462 \u24471 \u65289 \
+const currentPattern = ref(\{\
+  id: 'P001',\
+  pattern: "I'm [\uc0\u21517 \u21069 ].",\
+  patternJa: "\uc0\u31169 \u12399 \u12316 \u12391 \u12377 \u12290 ",\
+  examples: [\
+    \{ en: "I'm Taro.", ja: "\uc0\u31169 \u12399 \u12479 \u12525 \u12454 \u12391 \u12377 \u12290 ", audioUrl: '/audio/p001_ex1.mp3' \},\
+    \{ en: "I'm a student.", ja: "\uc0\u31169 \u12399 \u23398 \u29983 \u12391 \u12377 \u12290 ", audioUrl: '/audio/p001_ex2.mp3' \},\
+    // ... \uc0\u27531 \u12426 3\u20363 \u25991 \
+  ]\
+\})\
+\
+// \uc0\u12452 \u12531 \u12503 \u12483 \u12488 \u12501 \u12455 \u12540 \u12474 \
+const currentExampleIndex = ref(0)\
+let exampleInterval: any = null\
+\
+onMounted(() => \{\
+  setTimeout(() => \{\
+    phase.value = 'input'\
+    startExamplePlayback()\
+  \}, 3000) // \uc0\u12452 \u12531 \u12488 \u12525 3\u31186 \u34920 \u31034 \
+\})\
+\
+function startExamplePlayback() \{\
+  exampleInterval = setInterval(() => \{\
+    currentExampleIndex.value++\
+    if (currentExampleIndex.value >= 5) \{\
+      clearInterval(exampleInterval)\
+    \}\
+  \}, 18000) // \uc0\u20363 \u25991 1\u12388 18\u31186 \u65288 \u32862 \u12367 10\u31186 +\u12522 \u12500 \u12540 \u12488 8\u31186 \u65289 \
+\}\
+\
+// \uc0\u12489 \u12522 \u12523 \u12501 \u12455 \u12540 \u12474 \
+const drillQuestions = ref([\
+  \{\
+    question: "\uc0\u12300 \u31169 \u12399 \u12479 \u12525 \u12454 \u12391 \u12377 \u12301 \u12434 \u33521 \u35486 \u12391 \u65311 ",\
+    options: ["I'm Taro.", "My name Taro.", "I am Taro is.", "Taro am I."],\
+    correct: 0\
+  \},\
+  // ... \uc0\u27531 \u12426 4\u21839 \
+])\
+\
+const drillQuestionIndex = ref(0)\
+const selectedAnswer = ref<number | null>(null)\
+const correctCount = ref(0)\
+\
+async function checkAnswer() \{\
+  const isCorrect = selectedAnswer.value === drillQuestions.value[drillQuestionIndex.value].correct\
+  \
+  if (isCorrect) \{\
+    correctCount.value++\
+    showMokunReaction('correct_answer')\
+    await addXP(10)\
+  \} else \{\
+    showMokunReaction('wrong_answer')\
+  \}\
+  \
+  // \uc0\u27425 \u12398 \u21839 \u38988 \u12408 \
+  setTimeout(() => \{\
+    drillQuestionIndex.value++\
+    selectedAnswer.value = null\
+    \
+    if (drillQuestionIndex.value >= 5) \{\
+      phase.value = 'translation'\
+      startTimer()\
+    \}\
+  \}, 2000)\
+\}\
+\
+// \uc0\u30636 \u38291 \u33521 \u20316 \u25991 \u12501 \u12455 \u12540 \u12474 \
+const translationQuestion = ref(\{\
+  ja: "\uc0\u31169 \u12399 \u23398 \u29983 \u12391 \u12377 \u12290 ",\
+  en: "I'm a student."\
+\})\
+\
+const userTranslation = ref('')\
+const timeLeft = ref(100) // 100% = 3\uc0\u31186 \
+let timer: any = null\
+\
+function startTimer() \{\
+  timer = setInterval(() => \{\
+    timeLeft.value -= 3.33 // 30ms \'d7 33.3 = 1\uc0\u31186 \
+    if (timeLeft.value <= 0) \{\
+      clearInterval(timer)\
+      submitTranslation()\
+    \}\
+  \}, 30)\
+\}\
+\
+async function submitTranslation() \{\
+  clearInterval(timer)\
+  \
+  // \uc0\u31777 \u26131 \u21028 \u23450 \u65288 \u26412 \u26469 \u12399 \u12418 \u12387 \u12392 \u26580 \u36575 \u12395 \u65289 \
+  const isCorrect = userTranslation.value.toLowerCase().trim() === translationQuestion.value.en.toLowerCase()\
+  \
+  if (isCorrect) \{\
+    showMokunReaction('correct_answer')\
+    await addXP(20)\
+  \} else \{\
+    showMokunReaction('encourage')\
+    await addXP(5) // \uc0\u25361 \u25126 \u12375 \u12383 \u12372 \u35090 \u32654 \
+  \}\
+  \
+  setTimeout(() => \{\
+    phase.value = 'completion'\
+    completeSession()\
+  \}, 2000)\
+\}\
+\
+// \uc0\u12475 \u12483 \u12471 \u12519 \u12531 \u23436 \u20102 \u20966 \u29702 \
+async function completeSession() \{\
+  const \{ data: \{ user \} \} = await supabase.auth.getUser()\
+  if (!user) return\
+  \
+  // \uc0\u23398 \u32722 \u12475 \u12483 \u12471 \u12519 \u12531 \u35352 \u37682 \
+  await supabase.from('study_sessions').insert(\{\
+    user_id: user.id,\
+    stage: 0,\
+    activity_type: 'pattern_quest',\
+    duration_seconds: 300, // 5\uc0\u20998 \
+    xp_earned: 50,\
+    performance_data: \{\
+      pattern_id: patternId,\
+      correct_count: correctCount.value,\
+      total_questions: 5\
+    \}\
+  \})\
+  \
+  // \uc0\u12497 \u12479 \u12540 \u12531 \u36914 \u25431 \u26356 \u26032 \
+  await supabase.from('pattern_progress').upsert(\{\
+    user_id: user.id,\
+    pattern_id: patternId,\
+    mastery_level: Math.min(5, correctCount.value), // \uc0\u27491 \u35299 \u25968 \u12391 \u12524 \u12505 \u12523 \u27770 \u23450 \
+    attempts: 1,\
+    correct_count: correctCount.value,\
+    last_practiced_at: new Date().toISOString()\
+  \})\
+  \
+  // Mo\uc0\u12367 \u12435 \u25104 \u38263 \u12481 \u12455 \u12483 \u12463 \
+  const \{ data: profile \} = await supabase\
+    .from('user_profiles')\
+    .select('total_xp')\
+    .eq('id', user.id)\
+    .single()\
+  \
+  if (profile) \{\
+    await checkGrowth(profile.total_xp)\
+  \}\
+\}\
+\
+function continueNext() \{\
+  // \uc0\u27425 \u12398 \u12497 \u12479 \u12540 \u12531 \u12408 \
+  const nextPatternId = `P$\{String(parseInt(patternId.slice(1)) + 1).padStart(3, '0')\}`\
+  router.push(`/learn/stage0/pattern/$\{nextPatternId\}`)\
+\}\
+\
+function endSession() \{\
+  router.push('/dashboard')\
+\}\
+\
+// \uc0\u38899 \u22768 \u20877 \u29983 \
+function playAudio(url: string) \{\
+  const sound = new Howl(\{\
+    src: [url],\
+    html5: true\
+  \})\
+  sound.play()\
+\}\
+\
+// Mo\uc0\u12367 \u12435 \u21453 \u24540 \
+const \{ getMokunReaction, checkGrowth \} = useMokun(userId)\
+\
+function showMokunReaction(event: string) \{\
+  const reaction = getMokunReaction(event)\
+  // MokunCharacter\uc0\u12467 \u12531 \u12509 \u12540 \u12493 \u12531 \u12488 \u12395 \u21453 \u24540 \u12434 \u28193 \u12377 \
+  // \uc0\u65288 \u23455 \u35013 \u30465 \u30053 \u65289 \
+\}\
+\
+// XP\uc0\u36861 \u21152 \
+async function addXP(amount: number) \{\
+  const \{ data: \{ user \} \} = await supabase.auth.getUser()\
+  if (!user) return\
+  \
+  await supabase.rpc('add_xp', \{\
+    user_id: user.id,\
+    xp: amount\
+  \})\
+\}\
+\
+onUnmounted(() => \{\
+  if (exampleInterval) clearInterval(exampleInterval)\
+  if (timer) clearInterval(timer)\
+\})\
+</script>\
+\
+<style scoped>\
+.active-example \{\
+  border: 2px solid #10B981 !important;\
+  background: #F0FDF4;\
+\}\
+</style>\
+```\
+\
+---\
+\
+## 8. \uc0\u12510 \u12493 \u12479 \u12452 \u12474 \u25126 \u30053 \u65288 \u29694 \u23455 \u30340 \u29256 \u65289 \
+\
+### 8.1 \uc0\u12501 \u12522 \u12540 \u12511 \u12450 \u12512 \u12514 \u12487 \u12523 \
+\
+| \uc0\u27231 \u33021  | \u28961 \u26009 \u29256  | Premium<br>\'a52,980/\u26376  | Premium+<br>\'a54,980/\u26376  |\
+|------|--------|----------------------|------------------------|\
+| **Stage 0-2** | \uc0\u20840 \u38283 \u25918  | \u20840 \u38283 \u25918  | \u20840 \u38283 \u25918  |\
+| **Mo\uc0\u12367 \u12435 ** | \u22522 \u26412 \u12398 \u12415  | \u20840 \u34920 \u24773 \u65291 \u34915 \u35013  | \u20840 \u12390 \u65291 \u38480 \u23450 \u34915 \u35013  |\
+| **\uc0\u24195 \u21578 ** | \u12354 \u12426  | \u12394 \u12375  | \u12394 \u12375  |\
+| **\uc0\u12458 \u12501 \u12521 \u12452 \u12531 ** | \u19981 \u21487  | \u21487  | \u21487  |\
+| **\uc0\u36914 \u25431 \u12524 \u12509 \u12540 \u12488 ** | \u36913 1\u22238 \u31777 \u26131 \u29256  | \u27598 \u26085 \u35443 \u32048 \u29256  | AI\u20998 \u26512 \u12524 \u12509 \u12540 \u12488  |\
+| **\uc0\u12503 \u12483 \u12471 \u12517 \u36890 \u30693 ** | \u22522 \u26412 \u12398 \u12415  | \u12459 \u12473 \u12479 \u12510 \u12452 \u12474 \u21487  | \u23436 \u20840 \u12459 \u12473 \u12479 \u12510 \u12452 \u12474  |\
+| **\uc0\u12467 \u12511 \u12517 \u12491 \u12486 \u12451 ** | \u38322 \u35239 \u12398 \u12415  | \u25237 \u31295 \u21487  | \u20778 \u20808 \u12469 \u12509 \u12540 \u12488  |\
+| **Phase 2\uc0\u27231 \u33021 ** | | |\
+| Stage 3 Pattern | 30/300 | \uc0\u20840 \u38283 \u25918  | \u20840 \u38283 \u25918  |\
+| Echo AI\uc0\u20250 \u35441  | \u22522 \u30990 3\u31278 \u12398 \u12415  | \u20840 30\u31278  | \u28961 \u21046 \u38480 \u12459 \u12473 \u12479 \u12512  |\
+| VR\uc0\u65288 Phase 3\u65289  | 2D\u12503 \u12524 \u12499 \u12517 \u12540 \u12398 \u12415  | \u26376 8\u12475 \u12483 \u12471 \u12519 \u12531  | \u28961 \u21046 \u38480  |\
+| **\uc0\u29305 \u20856 ** | - | \u26376 1\u22238 \u12458 \u12531 \u12521 \u12452 \u12531 \u33521 \u20250 \u35441 <br>\u65288 25\u20998 \u65289  | \u26376 2\u22238 \u65288 50\u20998 \u65289 <br>\u23554 \u23646 \u12467 \u12540 \u12481  |\
+\
+### 8.2 \uc0\u25913 \u35330 \u29256 \u21454 \u30410 \u20104 \u28204 \u65288 6\u12534 \u26376 \u65289 \
+\
+#### Month 1-3\uc0\u65288 \u21021 \u26399 \u65289 \
+\
+| \uc0\u21454 \u30410 \u28304  | Month 1 | Month 2 | Month 3 |\
+|--------|---------|---------|---------|\
+| **Premium\uc0\u20250 \u21729 ** | 5\u21517  \'d7 \'a52,980 | 10\u21517  \'d7 \'a52,980 | 12\u21517  \'d7 \'a52,980 |\
+| **Premium+\uc0\u20250 \u21729 ** | 1\u21517  \'d7 \'a54,980 | 2\u21517  \'d7 \'a54,980 | 3\u21517  \'d7 \'a54,980 |\
+| **\uc0\u23567 \u35336 \u65288 \u12469 \u12502 \u12473 \u12463 \u65289 ** | \'a519,880 | \'a539,760 | \'a550,700 |\
+| **\uc0\u24195 \u21578 \u21454 \u30410 ** | \u28961 \u26009 100\u21517  \'d7 \'a525 | 200\u21517  \'d7 \'a525 | 285\u21517  \'d7 \'a525 |\
+| **YouTube\uc0\u24195 \u21578 ** | \'a55,000 | \'a58,000 | \'a512,000 |\
+| **\uc0\u25945 \u26448 \u36009 \u22770 \u65288 Tips\u65289 ** | \'a510,000 | \'a515,000 | \'a520,000 |\
+| **\uc0\u21512 \u35336 ** | **\'a537,380** | **\'a567,760** | **\'a589,825** |\
+\
+**\uc0\u12467 \u12473 \u12488 **: \'a57,559/\u26376   \
+**\uc0\u32020 \u21033 \u30410 **: Month 1: +\'a529,821, Month 2: +\'a560,201, Month 3: +\'a582,266\
+\
+#### Month 4-6\uc0\u65288 \u25104 \u38263 \u26399 \u65289 \
+\
+| \uc0\u21454 \u30410 \u28304  | Month 4 | Month 5 | Month 6 |\
+|--------|---------|---------|---------|\
+| **Premium\uc0\u20250 \u21729 ** | 20\u21517  \'d7 \'a52,980 | 30\u21517  \'d7 \'a52,980 | 40\u21517  \'d7 \'a52,980 |\
+| **Premium+\uc0\u20250 \u21729 ** | 5\u21517  \'d7 \'a54,980 | 7\u21517  \'d7 \'a54,980 | 10\u21517  \'d7 \'a54,980 |\
+| **\uc0\u23567 \u35336 \u65288 \u12469 \u12502 \u12473 \u12463 \u65289 ** | \'a584,500 | \'a5124,260 | \'a5169,000 |\
+| **\uc0\u24195 \u21578 \u21454 \u30410 ** | 480\u21517  \'d7 \'a525 | 770\u21517  \'d7 \'a525 | 1,150\u21517  \'d7 \'a525 |\
+| **YouTube\uc0\u24195 \u21578 ** | \'a518,000 | \'a525,000 | \'a535,000 |\
+| **\uc0\u25945 \u26448 \u36009 \u22770 ** | \'a525,000 | \'a530,000 | \'a540,000 |\
+| **\uc0\u20225 \u26989 \u12488 \u12521 \u12452 \u12450 \u12523 ** | \'a50 | \'a50 | \'a550,000 |\
+| **\uc0\u21512 \u35336 ** | **\'a5139,500** | **\'a5198,510** | **\'a5322,750** |\
+\
+**\uc0\u12467 \u12473 \u12488 **: \'a57,559/\u26376   \
+**\uc0\u32020 \u21033 \u30410 **: Month 4: +\'a5131,941, Month 5: +\'a5190,951, Month 6: +\'a5315,191\
+\
+#### 6\uc0\u12534 \u26376 \u32047 \u35336 \
+\
+- **\uc0\u32047 \u31309 \u21454 \u30410 **: \'a5855,725\
+- **\uc0\u32047 \u31309 \u12467 \u12473 \u12488 **: \'a545,354\
+- **\uc0\u32020 \u21033 \u30410 **: **\'a5810,371**\
+- **Month 6 MRR**: **\'a5169,200**\uc0\u65288 \u29694 \u23455 \u30340 \u12394 \u36948 \u25104 \u21487 \u33021 \u20516 \u65289 \
+\
+### 8.3 \uc0\u12518 \u12491 \u12483 \u12488 \u12456 \u12467 \u12494 \u12511 \u12463 \u12473 \u65288 \u25913 \u35330 \u29256 \u65289 \
+\
+#### CAC\uc0\u65288 \u39015 \u23458 \u29554 \u24471 \u12467 \u12473 \u12488 \u65289 \
+\
+| \uc0\u12481 \u12515 \u12493 \u12523  | \u29554 \u24471 \u12467 \u12473 \u12488 /\u20154  | \u20633 \u32771  |\
+|---------|---------------|------|\
+| **YouTube\uc0\u26377 \u27231 \u27969 \u20837 ** | \'a5300 | \u21205 \u30011 \u21046 \u20316 \u36027 \u12398 \u12415  |\
+| **\uc0\u25945 \u23460 \u29983 \u24466 \u32057 \u20171 ** | \'a50 | \u26082 \u23384 \u38306 \u20418  |\
+| **SNS\uc0\u12458 \u12540 \u12460 \u12491 \u12483 \u12463 ** | \'a5200 | \u25237 \u31295 \u21172 \u21147 \u12398 \u12415  |\
+| **\uc0\u21451 \u36948 \u32057 \u20171 ** | \'a5500 | 1\u12534 \u26376 \u28961 \u26009 \u65309 \'a52,980/2 |\
+| **\uc0\u24179 \u22343 CAC** | **\'a5250** | \u21152 \u37325 \u24179 \u22343  |\
+\
+#### LTV\uc0\u65288 \u29983 \u28079 \u20385 \u20516 \u65289 \
+\
+- **\uc0\u24179 \u22343 \u32153 \u32154 \u26399 \u38291 **: 6\u12534 \u26376 \u65288 \u20445 \u23432 \u30340 \u35211 \u31309 \u12418 \u12426 \u65289 \
+- **Premium ARPU**: \'a52,980 \'d7 6 = \'a517,880\
+- **Premium+ ARPU**: \'a54,980 \'d7 8 = \'a539,840\uc0\u65288 \u39640 \u38989 \u12503 \u12521 \u12531 \u38263 \u26399 \u20670 \u21521 \u65289 \
+- **\uc0\u21152 \u37325 \u24179 \u22343 LTV**: \'a520,000\
+\
+#### \uc0\u37325 \u35201 \u25351 \u27161 \
+\
+- **LTV/CAC\uc0\u27604 **: 20,000 / 250 = **80** \u9989 \u65288 \u30446 \u27161  >3\u65289 \
+- **CAC\uc0\u22238 \u21454 \u26399 \u38291 **: 250 / 2,980 = **0.08\u12534 \u26376 \u65288 2.4\u26085 \u65289 ** \u9989 \
+- **Target Churn Rate**: \uc0\u26376 10%\u20197 \u19979 \u65288 \u24180 60%\u65289 \
+\
+---\
+\
+## 9. 6\uc0\u12534 \u26376 \u23455 \u35013 \u12525 \u12540 \u12489 \u12510 \u12483 \u12503 \
+\
+### 9.1 \uc0\u20840 \u20307 \u12473 \u12465 \u12472 \u12517 \u12540 \u12523 \
+\
+```\
+Month 1-2: \uc0\u25216 \u34899 \u22522 \u30436 \u65291 Stage 0\
+Month 3-4: Stage 1 Sound\uc0\u31227 \u26893 \
+Month 5-6: Stage 2 Grammar\uc0\u65291 \u946 \u12486 \u12473 \u12488 \
+```\
+\
+### 9.2 Month 1-2: \uc0\u25216 \u34899 \u22522 \u30436 \u65291 Stage 0\u23455 \u35013 \
+\
+#### Week 1-2: \uc0\u29872 \u22659 \u27083 \u31689 \u65288 2\u36913 \u38291 \u65289 \
+\
+**\uc0\u12479 \u12473 \u12463 **:\
+- [x] Supabase \uc0\u12503 \u12525 \u12472 \u12455 \u12463 \u12488 \u20316 \u25104 \
+  - [ ] \uc0\u12487 \u12540 \u12479 \u12505 \u12540 \u12473 \u12473 \u12461 \u12540 \u12510 \u23455 \u35013 \u65288 \u19978 \u35352 SQL\u23455 \u34892 \u65289 \
+  - [ ] Row Level Security\uc0\u35373 \u23450 \
+  - [ ] Storage \uc0\u12496 \u12465 \u12483 \u12488 \u20316 \u25104 \u65288 audio, images, videos\u65289 \
+- [x] Capacitor\uc0\u32113 \u21512 \
+  - [ ] iOS/Android\uc0\u12503 \u12525 \u12472 \u12455 \u12463 \u12488 \u29983 \u25104 \
+  - [ ] Preferences/Camera/Push Notifications \uc0\u12503 \u12521 \u12464 \u12452 \u12531 \u23566 \u20837 \
+- [x] \uc0\u35469 \u35388 \u12501 \u12525 \u12540 \u23455 \u35013 \
+  - [ ] Email/Password\uc0\u30331 \u37682 \u12539 \u12525 \u12464 \u12452 \u12531 \
+  - [ ] Google Sign-In\uc0\u65288 iOS/Android\u65289 \
+  - [ ] Apple Sign-In\uc0\u65288 iOS\u24517 \u38920 \u65289 \
+- [x] CI/CD\uc0\u35373 \u23450 \
+  - [ ] GitHub Actions\uc0\u65288 \u33258 \u21205 \u12499 \u12523 \u12489 \u65289 \
+  - [ ] TestFlight\uc0\u33258 \u21205 \u37197 \u20449 \u65288 iOS\u65289 \
+  - [ ] Google Play\uc0\u20869 \u37096 \u12486 \u12473 \u12488 \u65288 Android\u65289 \
+\
+**\uc0\u25104 \u26524 \u29289 **: \u31354 \u12398 \u12450 \u12503 \u12522 \u12364 iOS/Android\u12391 \u36215 \u21205 \u12377 \u12427 \
+\
+#### Week 3-4: \uc0\u12458 \u12531 \u12508 \u12540 \u12487 \u12451 \u12531 \u12464 \u23455 \u35013 \u65288 2\u36913 \u38291 \u65289 \
+\
+**\uc0\u12479 \u12473 \u12463 **:\
+- [ ] \uc0\u12454 \u12455 \u12523 \u12459 \u12512 \u30011 \u38754 \u65288 Step 1\u65289 \
+- [ ] \uc0\u35386 \u26029 \u12463 \u12452 \u12474 \u65288 Step 2\u65289 \
+  - [ ] 3\uc0\u21839 \u12398 UI\
+  - [ ] \uc0\u22238 \u31572 \u12487 \u12540 \u12479 \u12434 Supabase\u12395 \u20445 \u23384 \
+  - [ ] \uc0\u25512 \u22888 Stage\u31639 \u20986 \u12525 \u12472 \u12483 \u12463 \
+- [ ] Mo\uc0\u12367 \u12435 \u35477 \u29983 \u30011 \u38754 \u65288 Step 3\u65289 \
+  - [ ] Lottie \uc0\u12450 \u12491 \u12513 \u12540 \u12471 \u12519 \u12531 \u32113 \u21512 \
+  - [ ] \uc0\u25104 \u38263 \u12496 \u12540 \u34920 \u31034 \
+- [ ] \uc0\u21021 \u22238 Pattern #1\u12408 \u33258 \u21205 \u36983 \u31227 \
+\
+**\uc0\u25104 \u26524 \u29289 **: \u21021 \u22238 \u36215 \u21205 \u8594 3\u20998 \u12391 Pattern\u23398 \u32722 \u38283 \u22987 \
+\
+#### Week 5-8: Stage 0 Pattern Starter 30\uc0\u12497 \u12479 \u12540 \u12531 \u65288 4\u36913 \u38291 \u65289 \
+\
+**Week 5-6**: \uc0\u12467 \u12450 \u12523 \u12540 \u12503 \u23455 \u35013 \
+- [ ] 5\uc0\u20998 \u12475 \u12483 \u12471 \u12519 \u12531 UI\u65288 \u19978 \u35352 \u21442 \u29031 \u65289 \
+- [ ] \uc0\u12497 \u12479 \u12540 \u12531 \u12487 \u12540 \u12479 30\u20491 \u12434 Supabase\u12395 \u30331 \u37682 \
+- [ ] \uc0\u38899 \u22768 \u12450 \u12475 \u12483 \u12488 \u29983 \u25104 \u65288 ElevenLabs: 30\'d75\'d72=300\u38899 \u22768 \u65289 \
+- [ ] Pattern Quest RPG\uc0\u12514 \u12540 \u12489 \u65288 \u31777 \u26131 \u29256 \u65289 \
+  - [ ] 30NPC\uc0\u12392 \u12398 \u20250 \u35441 \u12471 \u12490 \u12522 \u12458 \
+  - [ ] \uc0\u36984 \u25246 \u32930 \u12471 \u12473 \u12486 \u12512 \
+\
+**Week 7**: Mo\uc0\u12367 \u12435 \u24863 \u24773 AI\u32113 \u21512 \
+- [ ] 7\uc0\u31278 \u39006 \u12398 \u21453 \u24540 \u12450 \u12491 \u12513 \u12540 \u12471 \u12519 \u12531 \u23455 \u35013 \
+- [ ] \uc0\u12452 \u12505 \u12531 \u12488 \u21029 \u21453 \u24540 \u12525 \u12472 \u12483 \u12463 \
+- [ ] XP\uc0\u20184 \u19982 \u12539 \u25104 \u38263 \u12481 \u12455 \u12483 \u12463 \
+- [ ] \uc0\u12503 \u12483 \u12471 \u12517 \u36890 \u30693 \u12473 \u12465 \u12472 \u12517 \u12540 \u12522 \u12531 \u12464 \
+\
+**Week 8**: \uc0\u12486 \u12473 \u12488 \u65291 \u25913 \u21892 \
+- [ ] \uc0\u20869 \u37096 \u12486 \u12473 \u12488 \u65288 10\u21517 \u65289 \
+- [ ] \uc0\u12496 \u12464 \u20462 \u27491 \
+- [ ] UI/UX\uc0\u12501 \u12451 \u12540 \u12489 \u12496 \u12483 \u12463 \u21453 \u26144 \
+\
+**\uc0\u25104 \u26524 \u29289 **: Stage 0\u23436 \u20840 \u21205 \u20316 \u12289 TestFlight/\u20869 \u37096 \u12486 \u12473 \u12488 \u37197 \u20449 \
+\
+---\
+\
+### 9.3 Month 3-4: Stage 1 Sound\uc0\u31227 \u26893 \
+\
+#### Week 9-10: Dexie.js \uc0\u8594  Supabase\u31227 \u34892 \u65288 2\u36913 \u38291 \u65289 \
+\
+**\uc0\u12479 \u12473 \u12463 **:\
+- [ ] MovWISE\uc0\u26082 \u23384 \u12467 \u12540 \u12489 \u20998 \u26512 \
+- [ ] Dexie.js\uc0\u12463 \u12456 \u12522 \u8594 Supabase\u12463 \u12456 \u12522 \u26360 \u12365 \u25563 \u12360 \
+  ```typescript\
+  // \uc0\u31227 \u34892 \u20363 \
+  // \uc0\u26087 \
+  await db.phonemes.where('userId').equals(userId).toArray()\
+  \
+  // \uc0\u26032 \
+  const \{ data \} = await supabase\
+    .from('learning_progress')\
+    .select('stage1_phonemes_mastered, stage1_games_completed')\
+    .eq('user_id', userId)\
+    .single()\
+  ```\
+- [ ] \uc0\u12458 \u12501 \u12521 \u12452 \u12531 \u23550 \u24540 \u65288 Capacitor Preferences\u65289 \
+- [ ] \uc0\u31227 \u34892 \u12486 \u12473 \u12488 \
+\
+#### Week 11-14: 8\uc0\u12466 \u12540 \u12512 \u31227 \u26893 \u65288 4\u36913 \u38291 \u65289 \
+\
+**\uc0\u21508 \u12466 \u12540 \u12512 \u31227 \u26893 \u12479 \u12473 \u12463 **\u65288 \u20363 : Sound Hunter\u65289 :\
+- [ ] Vue.js\uc0\u12467 \u12531 \u12509 \u12540 \u12493 \u12531 \u12488 \u31227 \u26893 \
+- [ ] Capacitor Audio\uc0\u23550 \u24540 \u65288 Howler.js\u32113 \u21512 \u65289 \
+- [ ] \uc0\u36914 \u25431 \u20445 \u23384 \u12525 \u12472 \u12483 \u12463 \u20462 \u27491 \u65288 Supabase\u65289 \
+- [ ] Mo\uc0\u12367 \u12435 \u32113 \u21512 \u65288 \u27491 \u35299 \u26178 \u12398 \u21453 \u24540 \u65289 \
+- [ ] \uc0\u12514 \u12496 \u12452 \u12523 UI\u35519 \u25972 \
+\
+**\uc0\u20006 \u34892 \u12479 \u12473 \u12463 **:\
+- [ ] \uc0\u38899 \u22768 \u12450 \u12475 \u12483 \u12488  Supabase Storage\u31227 \u34892 \u65288 440\u12501 \u12449 \u12452 \u12523 \u65289 \
+- [ ] \uc0\u12524 \u12473 \u12509 \u12531 \u12471 \u12502 \u12487 \u12470 \u12452 \u12531 \u35519 \u25972 \
+- [ ] \uc0\u27178 \u30011 \u38754 \u23550 \u24540 \
+\
+**\uc0\u25104 \u26524 \u29289 **: Stage 1\u20840 8\u12466 \u12540 \u12512 \u21205 \u20316 \u12289 \u36914 \u25431 \u12364 Supabase\u12395 \u20445 \u23384 \
+\
+---\
+\
+### 9.4 Month 5-6: Stage 2 Grammar\uc0\u65291 \u946 \u12486 \u12473 \u12488 \
+\
+#### Week 17-20: Grammar Level 1 \uc0\u31227 \u26893 \u65288 4\u36913 \u38291 \u65289 \
+\
+**\uc0\u12479 \u12473 \u12463 **:\
+- [ ] 6\uc0\u12466 \u12540 \u12512 \u31227 \u26893 \u65288 Sound\u21516 \u27096 \u12398 \u25163 \u38918 \u65289 \
+- [ ] \uc0\u25991 \u27861 \u35500 \u26126 \u30011 \u38754 \u36861 \u21152 \
+- [ ] \uc0\u12452 \u12531 \u12479 \u12521 \u12463 \u12486 \u12451 \u12502 \u35201 \u32032 \u24375 \u21270 \u65288 \u12489 \u12521 \u12483 \u12464 \u65286 \u12489 \u12525 \u12483 \u12503 \u31561 \u65289 \
+- [ ] Mo\uc0\u12367 \u12435 \u25991 \u27861 \u12498 \u12531 \u12488 \u27231 \u33021 \
+\
+#### Week 21-24: \uc0\u32113 \u21512 \u946 \u12486 \u12473 \u12488 \u65291 \u25913 \u21892 \u65288 4\u36913 \u38291 \u65289 \
+\
+**Week 21**: \uc0\u31038 \u20869 \u946 \u12486 \u12473 \u12488 \u65288 WISE\u25945 \u23460 \u29983 \u24466 30\u21517 \u65289 \
+- [ ] \uc0\u946 \u12486 \u12473 \u12488 \u25307 \u24453 \u65288 TestFlight/Google Play\u65289 \
+- [ ] \uc0\u12450 \u12531 \u12465 \u12540 \u12488 \u37197 \u24067 \u65288 Google\u12501 \u12457 \u12540 \u12512 \u65289 \
+- [ ] \uc0\u27598 \u26085 \u12398 \u20351 \u29992 \u12525 \u12464 \u30435 \u35222 \
+\
+**Week 22-23**: \uc0\u12501 \u12451 \u12540 \u12489 \u12496 \u12483 \u12463 \u23550 \u24540 \
+- [ ] \uc0\u20778 \u20808 \u24230 \u20184 \u12369 \u65288 P0/P1/P2\u65289 \
+- [ ] UI/UX\uc0\u25913 \u21892 \
+- [ ] \uc0\u12496 \u12464 \u20462 \u27491 \
+- [ ] \uc0\u12497 \u12501 \u12457 \u12540 \u12510 \u12531 \u12473 \u26368 \u36969 \u21270 \
+\
+**Week 24**: \uc0\u27491 \u24335 \u12522 \u12522 \u12540 \u12473 \u28310 \u20633 \
+- [ ] App Store\uc0\u30003 \u35531 \u65288 iOS\u65289 \
+- [ ] Google Play\uc0\u20844 \u38283 \u65288 Android\u65289 \
+- [ ] \uc0\u12503 \u12524 \u12473 \u12522 \u12522 \u12540 \u12473 \u20316 \u25104 \
+- [ ] YouTube\uc0\u21205 \u30011 5\u26412 \u21046 \u20316 \u65288 \u12450 \u12503 \u12522 \u32057 \u20171 \u65289 \
+\
+**Week 25-26**: \uc0\u27491 \u24335 \u12522 \u12522 \u12540 \u12473 \u65291 \u21021 \u26399 \u12510 \u12540 \u12465 \u12486 \u12451 \u12531 \u12464 \
+- [ ] App Store/Google Play\uc0\u20844 \u38283 \
+- [ ] Product Hunt\uc0\u25237 \u31295 \
+- [ ] SNS\uc0\u19968 \u25993 \u25237 \u31295 \
+- [ ] WISE\uc0\u25945 \u23460 \u12391 \u12398 \u20840 \u29983 \u24466 \u23566 \u20837 \
+\
+**\uc0\u25104 \u26524 \u29289 **: \
+- \uc0\u9989  Stage 0-2\u23436 \u20840 \u21205 \u20316 \
+- \uc0\u9989  App Store/Google Play\u20844 \u38283 \
+- \uc0\u9989  \u21021 \u26399 DL 500\u12289 \u26377 \u26009 \u20250 \u21729 15\u21517 \
+\
+---\
+\
+### 9.5 \uc0\u38283 \u30330 \u12479 \u12473 \u12463 \u20778 \u20808 \u24230 \
+\
+| \uc0\u20778 \u20808 \u24230  | \u12479 \u12473 \u12463  | \u29702 \u30001  |\
+|--------|--------|------|\
+| **P0\uc0\u65288 \u24517 \u38920 \u65289 ** | Supabase DB\u23455 \u35013  | \u20840 \u12390 \u12398 \u22522 \u30436  |\
+| **P0** | \uc0\u12458 \u12531 \u12508 \u12540 \u12487 \u12451 \u12531 \u12464 3\u12473 \u12486 \u12483 \u12503  | Day 1\u32153 \u32154 \u29575 \u27770 \u23450  |\
+| **P0** | Stage 0 Pattern 30 | MVP\uc0\u26680 \u24515  |\
+| **P0** | Mo\uc0\u12367 \u12435 \u24863 \u24773 AI | \u24046 \u21029 \u21270 \u35201 \u32032  |\
+| **P1\uc0\u65288 \u37325 \u35201 \u65289 ** | Stage 1 Sound\u31227 \u26893  | \u26082 \u23384 \u36039 \u29987 \u27963 \u29992  |\
+| **P1** | Stage 2 Grammar\uc0\u31227 \u26893  | \u21516 \u19978  |\
+| **P1** | \uc0\u12503 \u12483 \u12471 \u12517 \u36890 \u30693  | \u12522 \u12486 \u12531 \u12471 \u12519 \u12531 \u21521 \u19978  |\
+| **P2\uc0\u65288 \u25512 \u22888 \u65289 ** | Pattern Battle | Phase 2\u27231 \u33021  |\
+| **P2** | \uc0\u12477 \u12540 \u12471 \u12515 \u12523 \u27231 \u33021  | Phase 2 |\
+| **P3\uc0\u65288 \u23558 \u26469 \u65289 ** | Echo AI | Phase 2 |\
+| **P3** | VR | Phase 3 |\
+\
+---\
+\
+## 10. \uc0\u29694 \u23455 \u30340 KPI\u12539 \u21454 \u30410 \u20104 \u28204 \
+\
+### 10.1 6\uc0\u12534 \u26376 KPI\u65288 \u20445 \u23432 \u30340 \u35211 \u31309 \u12418 \u12426 \u65289 \
+\
+| \uc0\u25351 \u27161  | Month 1 | Month 2 | Month 3 | Month 4 | Month 5 | Month 6 |\
+|------|---------|---------|---------|---------|---------|---------|\
+| **\uc0\u12450 \u12503 \u12522 DL** | 50 | 150 | 500 | 800 | 1,200 | 2,000 |\
+| **MAU** | 30 | 100 | 300 | 500 | 800 | 1,200 |\
+| **DAU** | 15 | 50 | 150 | 250 | 400 | 600 |\
+| **DAU/MAU** | 50% | 50% | 50% | 50% | 50% | 50% |\
+| **\uc0\u26377 \u26009 \u20250 \u21729 ** | 6 | 12 | 15 | 25 | 37 | 50 |\
+| **Premium** | 5 | 10 | 12 | 20 | 30 | 40 |\
+| **Premium+** | 1 | 2 | 3 | 5 | 7 | 10 |\
+| **\uc0\u36578 \u25563 \u29575 ** | 20% | 12% | 5% | 5% | 4.6% | 4.2% |\
+| **MRR** | \'a519,880 | \'a539,760 | \'a550,700 | \'a584,500 | \'a5124,260 | \'a5169,200 |\
+| **YouTube\uc0\u30331 \u37682 \u32773 ** | 100 | 300 | 500 | 1,000 | 2,000 | 3,000 |\
+\
+### 10.2 \uc0\u23398 \u32722 \u21177 \u26524 KPI\
+\
+| \uc0\u25351 \u27161  | \u30446 \u27161 \u65288 6\u12534 \u26376 \u24460 \u65289  | \u35336 \u28204 \u26041 \u27861  |\
+|------|----------------|----------|\
+| **Day 7\uc0\u32153 \u32154 \u29575 ** | 60% | \u946 \u12486 \u12473 \u12479 \u12540 50\u21517 \u12398 \u36861 \u36321  |\
+| **Day 30\uc0\u32153 \u32154 \u29575 ** | 40% | \u21516 \u19978  |\
+| **Stage 0\uc0\u23436 \u20102 \u29575 ** | 70% | 30\u12497 \u12479 \u12540 \u12531 \u23436 \u20102 \u32773 /\u38283 \u22987 \u32773  |\
+| **Stage 2\uc0\u21040 \u36948 \u29575 ** | 40% | Stage 2\u38283 \u22987 \u32773 /\u20840 \u12518 \u12540 \u12470 \u12540  |\
+| **\uc0\u24179 \u22343 \u12475 \u12483 \u12471 \u12519 \u12531 \u26178 \u38291 ** | 15\u20998 /\u26085  | Firebase Analytics |\
+| **\uc0\u36913 \u38291 \u23398 \u32722 \u26085 \u25968 ** | 4\u26085  | \u21516 \u19978  |\
+| **NPS** | 50\uc0\u20197 \u19978  | \u22235 \u21322 \u26399 \u12450 \u12531 \u12465 \u12540 \u12488  |\
+| **Mo\uc0\u12367 \u12435 \u25104 \u38263 Stage 3\u21040 \u36948 \u29575 ** | 30% | Stage 3\u65288 \u33509 \u26408 \u65289 \u21040 \u36948 \u32773  |\
+\
+### 10.3 \uc0\u25216 \u34899 KPI\
+\
+| \uc0\u25351 \u27161  | \u30446 \u27161  | \u35336 \u28204 \u26041 \u27861  |\
+|------|------|----------|\
+| **\uc0\u12463 \u12521 \u12483 \u12471 \u12517 \u29575 ** | <0.5% | Sentry/Firebase Crashlytics |\
+| **\uc0\u24179 \u22343 \u36215 \u21205 \u26178 \u38291 ** | <2\u31186  | Firebase Performance |\
+| **API\uc0\u24540 \u31572 \u26178 \u38291 \u65288 P95\u65289 ** | <500ms | Supabase Insights |\
+| **\uc0\u38899 \u22768 \u20877 \u29983 \u25104 \u21151 \u29575 ** | >98% | \u12459 \u12473 \u12479 \u12512 \u12525 \u12464  |\
+| **\uc0\u12458 \u12501 \u12521 \u12452 \u12531 \u23550 \u24540 \u29575 ** | 100% | \u25163 \u21205 \u12486 \u12473 \u12488  |\
+| **App Store\uc0\u12524 \u12540 \u12486 \u12451 \u12531 \u12464 ** | 4.5+ | \u12524 \u12499 \u12517 \u12540 \u31649 \u29702  |\
+\
+---\
+\
+## 11. \uc0\u20170 \u36913 \u12398 TODO\u12522 \u12473 \u12488 \
+\
+### Week 1\uc0\u65288 2026\u24180 2\u26376 24\u26085 \u12316 3\u26376 2\u26085 \u65289 \
+\
+#### Monday 2/24\
+\
+**\uc0\u21320 \u21069 \u65288 9:00-12:00\u65289 **:\
+- [x] **Supabase\uc0\u12503 \u12525 \u12472 \u12455 \u12463 \u12488 \u20316 \u25104 **\
+  - [ ] supabase.com \uc0\u12391 \u12503 \u12525 \u12472 \u12455 \u12463 \u12488  "mowise-production" \u20316 \u25104 \
+  - [ ] PostgreSQL\uc0\u12473 \u12461 \u12540 \u12510 \u23455 \u34892 \u65288 \u19978 \u35352 SQL\u20840 \u12467 \u12500 \u12540 \u65286 \u23455 \u34892 \u65289 \
+  - [ ] Row Level Security\uc0\u30906 \u35469 \
+  - [ ] .env.local \uc0\u12395 Supabase URL\u12392 Anon Key\u35352 \u36617 \
+\
+**\uc0\u21320 \u24460 \u65288 14:00-17:00\u65289 **:\
+- [x] **\uc0\u26082 \u23384 MovWISE\u12467 \u12540 \u12489 \u25972 \u29702 **\
+  - [ ] GitHub\uc0\u26032 \u35215 \u12522 \u12509 \u12472 \u12488 \u12522  "mowise-app" \u20316 \u25104 \
+  - [ ] \uc0\u26082 \u23384 MovWISE\u12467 \u12540 \u12489 \u12434 \u12467 \u12500 \u12540 \
+  - [ ] Dexie.js\uc0\u20381 \u23384 \u31623 \u25152 \u12522 \u12473 \u12488 \u21270 \u65288 \u31227 \u34892 \u28310 \u20633 \u65289 \
+\
+#### Tuesday 2/25\
+\
+**\uc0\u21320 \u21069 **:\
+- [x] **Capacitor\uc0\u23566 \u20837 **\
+  ```bash\
+  npm install @capacitor/core @capacitor/cli\
+  npx cap init\
+  npm install @capacitor/ios @capacitor/android\
+  npx cap add ios\
+  npx cap add android\
+  ```\
+- [x] **\uc0\u24517 \u35201 \u12503 \u12521 \u12464 \u12452 \u12531 \u12452 \u12531 \u12473 \u12488 \u12540 \u12523 **\
+  ```bash\
+  npm install @capacitor/preferences @capacitor/push-notifications\
+  npm install capacitor-voice-recorder\
+  npm install howler @types/howler\
+  ```\
+\
+**\uc0\u21320 \u24460 **:\
+- [x] **Supabase\uc0\u32113 \u21512 \u12486 \u12473 \u12488 **\
+  - [ ] `src/lib/supabase.ts` \uc0\u20316 \u25104 \u65288 \u19978 \u35352 \u12467 \u12540 \u12489 \u65289 \
+  - [ ] \uc0\u31777 \u26131 \u12525 \u12464 \u12452 \u12531 \u30011 \u38754 \u20316 \u25104 \
+  - [ ] Supabase Auth\uc0\u21205 \u20316 \u30906 \u35469 \
+\
+#### Wednesday 2/26\
+\
+**\uc0\u32066 \u26085 **:\
+- [x] **\uc0\u12458 \u12531 \u12508 \u12540 \u12487 \u12451 \u12531 \u12464  Step 1-2 \u23455 \u35013 **\
+  - [ ] `views/Onboarding/Welcome.vue` \uc0\u20316 \u25104 \
+  - [ ] `views/Onboarding/Quiz.vue` \uc0\u20316 \u25104 \
+  - [ ] \uc0\u35386 \u26029 \u12525 \u12472 \u12483 \u12463 \u23455 \u35013 \
+  - [ ] Supabase\uc0\u12395 \u12487 \u12540 \u12479 \u20445 \u23384 \u30906 \u35469 \
+\
+#### Thursday 2/27\
+\
+**\uc0\u32066 \u26085 **:\
+- [x] **Mo\uc0\u12367 \u12435  Lottie\u12450 \u12491 \u12513 \u12540 \u12471 \u12519 \u12531 \u28310 \u20633 **\
+  - [ ] LottieFiles.com \uc0\u12391  "tree character" \u26908 \u32034 \
+  - [ ] 5\uc0\u12450 \u12491 \u12513 \u12540 \u12471 \u12519 \u12531 \u12480 \u12454 \u12531 \u12525 \u12540 \u12489 \u65288 idle, jump_joy, sad, bloom, seed\u65289 \
+  - [ ] `components/MokunCharacter.vue` \uc0\u23455 \u35013 \
+  - [ ] Step 3 Mo\uc0\u12367 \u12435 \u35477 \u29983 \u30011 \u38754 \u23455 \u35013 \
+\
+#### Friday 2/28\
+\
+**\uc0\u32066 \u26085 **:\
+- [x] **Pattern #1 \uc0\u12503 \u12525 \u12488 \u12479 \u12452 \u12503 **\
+  - [ ] Pattern \uc0\u12487 \u12540 \u12479 1\u20491 \u12434 Supabase\u12395 \u30331 \u37682 \
+  - [ ] 5\uc0\u20998 \u12475 \u12483 \u12471 \u12519 \u12531 UI\u23455 \u35013 \u65288 Phase 1-2\u12398 \u12415 \u65289 \
+  - [ ] ElevenLabs \uc0\u12391 \u20363 \u25991 5\u20491 \u38899 \u22768 \u29983 \u25104 \
+  - [ ] Howler.js \uc0\u12391 \u38899 \u22768 \u20877 \u29983 \u12486 \u12473 \u12488 \
+\
+#### Weekend\uc0\u65288 3/1-2\u65289 \
+\
+**Saturday**:\
+- [x] **iOS\uc0\u23455 \u27231 \u12486 \u12473 \u12488 **\
+  - [ ] Xcode\uc0\u12391 \u12499 \u12523 \u12489 \
+  - [ ] \uc0\u23455 \u27231 \u65288 iPhone\u65289 \u12391 \u21205 \u20316 \u30906 \u35469 \
+  - [ ] Capacitor Preferences\uc0\u21205 \u20316 \u30906 \u35469 \
+\
+**Sunday**:\
+- [x] **Week 2\uc0\u35336 \u30011 \u35443 \u32048 \u21270 **\
+  - [ ] Pattern 2-10\uc0\u12398 \u12487 \u12540 \u12479 \u28310 \u20633 \
+  - [ ] ElevenLabs\uc0\u38899 \u22768 \u29983 \u25104 \u12496 \u12483 \u12481 \u12473 \u12463 \u12522 \u12503 \u12488 \u20316 \u25104 \
+  - [ ] GitHub Issue\uc0\u25972 \u29702 \
+\
+---\
+\
+### Week 1 \uc0\u20104 \u31639 \
+\
+| \uc0\u38917 \u30446  | \u36027 \u29992  |\
+|------|------|\
+| Supabase | $0\uc0\u65288 \u28961 \u26009 \u26528 \u65289  |\
+| ElevenLabs Starter | $11\uc0\u65288 \'a51,650\u65289  |\
+| Lottie Pro\uc0\u65288 \u12458 \u12503 \u12471 \u12519 \u12531 \u65289  | $0\u65288 \u28961 \u26009 \u29256 \u65289  |\
+| **\uc0\u21512 \u35336 ** | **\'a51,650** |\
+\
+---\
+\
+## 12. \uc0\u12522 \u12473 \u12463 \u31649 \u29702 \
+\
+### 12.1 \uc0\u25216 \u34899 \u12522 \u12473 \u12463 \u65288 \u25913 \u35330 \u29256 \u65289 \
+\
+| \uc0\u12522 \u12473 \u12463  | \u30906 \u29575  | \u24433 \u38911  | \u32233 \u21644 \u31574  |\
+|--------|------|------|--------|\
+| **Capacitor iOS\uc0\u23529 \u26619 \u33853 \u12385 ** | \u20013  | \u39640  | \'95 \u20107 \u21069 \u12395 Apple Guidelines\u29087 \u35501 <br>\'95 TestFlight \u946 \u38263 \u26399 \u23455 \u26045 <br>\'95 \u23529 \u26619 \u12522 \u12472 \u12455 \u12463 \u12488 \u26178 \u12398 \u21363 \u24231 \u23550 \u24540 \u20307 \u21046  |\
+| **Supabase\uc0\u28961 \u26009 \u26528 \u36229 \u36942 ** | \u20302  | \u20013  | \'95 MAU\u30435 \u35222 \u12450 \u12521 \u12540 \u12488 \u35373 \u23450 <br>\'95 5\u19975 MAU\u21040 \u36948 \u21069 \u12395 Pro\u31227 \u34892 \u65288 $25/\u26376 \u65289 <br>\'95 DB\u26368 \u36969 \u21270 \u65288 \u19981 \u35201 \u12487 \u12540 \u12479 \u21066 \u38500 \u65289  |\
+| **\uc0\u38899 \u22768 \u20877 \u29983 \u12364 \u12514 \u12496 \u12452 \u12523 \u12391 \u19981 \u23433 \u23450 ** | \u20013  | \u20013  | \'95 Howler.js html5\u12514 \u12540 \u12489 \u20351 \u29992 <br>\'95 \u35079 \u25968 \u12501 \u12457 \u12540 \u12510 \u12483 \u12488 \u25552 \u20379 \u65288 mp3/m4a\u65289 <br>\'95 \u12501 \u12457 \u12540 \u12523 \u12496 \u12483 \u12463 \u38899 \u22768 \u12394 \u12375 \u29256  |\
+| **MovWISE\uc0\u31227 \u26893 \u12364 \u24819 \u23450 \u12424 \u12426 \u22256 \u38627 ** | \u20013  | \u39640  | \'95 Week 9-10\u12391 \u26089 \u26399 \u30330 \u35211 <br>\'95 \u24517 \u35201 \u12395 \u24540 \u12376 \u12390 Stage 1\u12398 \u19968 \u37096 \u12466 \u12540 \u12512 \u21066 \u28187 <br>\'95 \u22806 \u27880 \u26908 \u35342 \u65288 \'a550,000\u20104 \u31639 \u65289  |\
+\
+### 12.2 \uc0\u12499 \u12472 \u12493 \u12473 \u12522 \u12473 \u12463 \u65288 \u25913 \u35330 \u29256 \u65289 \
+\
+| \uc0\u12522 \u12473 \u12463  | \u30906 \u29575  | \u24433 \u38911  | \u32233 \u21644 \u31574  |\
+|--------|------|------|--------|\
+| **\uc0\u30446 \u27161 DL\u26410 \u36948 \u65288 Month 6: 2,000\u65289 ** | \u20013  | \u20013  | \'95 \u25945 \u23460 \u29983 \u24466 \u20840 \u21729 \u23566 \u20837 \u65288 \u26368 \u20302 500 DL\u20445 \u35388 \u65289 <br>\'95 YouTube\u25237 \u31295 \u32153 \u32154 \u65288 \u12458 \u12540 \u12460 \u12491 \u12483 \u12463 \u27969 \u20837 \u65289 <br>\'95 App Store\u26368 \u36969 \u21270 \u65288 ASO\u65289 \u24375 \u21270  |\
+| **\uc0\u26377 \u26009 \u36578 \u25563 \u29575 \u20302 \u36855 \u65288 <3%\u65289 ** | \u20013  | \u39640  | \'95 \u12458 \u12531 \u12508 \u12540 \u12487 \u12451 \u12531 \u12464 \u25913 \u21892 <br>\'95 \u28961 \u26009 \u29256 \u27231 \u33021 \u12434 \u27573 \u38542 \u30340 \u12395 \u21046 \u38480 <br>\'95 \u26399 \u38291 \u38480 \u23450 \u21106 \u24341 \u12461 \u12515 \u12531 \u12506 \u12540 \u12531  |\
+| **Churn Rate\uc0\u39640 \u39472 \u65288 >15%/\u26376 \u65289 ** | \u20013  | \u39640  | \'95 NPS\u35519 \u26619 \u12391 \u21407 \u22240 \u29305 \u23450 <br>\'95 Mo\u12367 \u12435 \u12503 \u12483 \u12471 \u12517 \u36890 \u30693 \u24375 \u21270 <br>\'95 \u35299 \u32004 \u29702 \u30001 \u12498 \u12450 \u12522 \u12531 \u12464 \u65288 \u20840 \u21729 \u65289  |\
+| **\uc0\u31478 \u21512 \u12398 \u39006 \u20284 \u12450 \u12503 \u12522 \u12522 \u12522 \u12540 \u12473 ** | \u20302  | \u20013  | \'95 Mo\u12367 \u12435 \u65291 \u25945 \u23460 \u36899 \u25658 \u12398 \u29420 \u33258 \u24615 \u35380 \u27714 <br>\'95 \u12467 \u12511 \u12517 \u12491 \u12486 \u12451 \u24375 \u21270 \u12391 \u12525 \u12452 \u12516 \u12523 \u12486 \u12451 \u21521 \u19978 <br>\'95 \u20808 \u34892 \u32773 \u21033 \u30410 \u12398 \u26368 \u22823 \u21270  |\
+\
+### 12.3 \uc0\u12458 \u12506 \u12524 \u12540 \u12471 \u12519 \u12490 \u12523 \u12522 \u12473 \u12463 \
+\
+| \uc0\u12522 \u12473 \u12463  | \u30906 \u29575  | \u24433 \u38911  | \u32233 \u21644 \u31574  |\
+|--------|------|------|--------|\
+| **1\uc0\u20154 \u38283 \u30330 \u12398 \u20581 \u24247 \u21839 \u38988 ** | \u20013  | \u39640  | \'95 \u36913 1\u26085 \u23436 \u20840 \u20241 \u24687 <br>\'95 \u12479 \u12473 \u12463 \u12496 \u12483 \u12501 \u12449 20%\u30906 \u20445 <br>\'95 \u32202 \u24613 \u26178 \u23550 \u24540 \u65306 Phase 2\u24310 \u26399  |\
+| **Apple\uc0\u23529 \u26619 \u12391 2\u36913 \u38291 \u36933 \u24310 ** | \u20013  | \u20013  | \'95 Month 5\u26411 \u12395 \u30003 \u35531 \u65288 1\u12534 \u26376 \u12496 \u12483 \u12501 \u12449 \u65289 <br>\'95 Android\u12434 \u20808 \u34892 \u12522 \u12522 \u12540 \u12473 <br>\'95 Web\u29256 \u12434 \u26283 \u23450 \u25552 \u20379  |\
+| **\uc0\u25945 \u23460 \u29983 \u24466 \u12398 \u21332 \u21147 \u24471 \u12425 \u12428 \u12378 ** | \u20302  | \u20013  | \'95 \u946 \u12486 \u12473 \u12488 \u22577 \u37228 \u26908 \u35342 \u65288 1\u12534 \u26376 \u28961 \u26009 \u31561 \u65289 <br>\'95 \u25945 \u23460 \u25480 \u26989 \u12391 \u12398 \u27963 \u29992 \u25552 \u26696 <br>\'95 \u20445 \u35703 \u32773 \u12408 \u12398 \u35500 \u26126 \u20250 \u23455 \u26045  |\
+\
+### 12.4 \uc0\u32202 \u24613 \u26178 \u23550 \u24540 \u12503 \u12521 \u12531 \
+\
+#### Plan A: \uc0\u38918 \u35519 \u65288 \u12505 \u12540 \u12473 \u12521 \u12452 \u12531 \u65289 \
+\uc0\u8594  \u19978 \u35352 \u12525 \u12540 \u12489 \u12510 \u12483 \u12503 \u36890 \u12426 \u23455 \u34892 \
+\
+#### Plan B: Month 3\uc0\u12391 DL < 200\
+- [ ] YouTube\uc0\u24195 \u21578 \u25237 \u20837 \u65288 \'a550,000\u65289 \
+- [ ] \uc0\u12452 \u12531 \u12501 \u12523 \u12456 \u12531 \u12469 \u12540 \u12467 \u12521 \u12508 \u26908 \u35342 \
+- [ ] \uc0\u28961 \u26009 \u29256 \u27231 \u33021 \u25313 \u22823 \u65288 \u20840 \u21729 Stage 2\u12414 \u12391 \u38283 \u25918 \u65289 \
+\
+#### Plan C: MovWISE\uc0\u31227 \u26893 \u12364 \u22256 \u38627 \
+- [ ] Stage 1\uc0\u12434 4\u12466 \u12540 \u12512 \u12395 \u21066 \u28187 \u65288 \u20778 \u20808 \u24230 \u39640 \u12356 \u12418 \u12398 \u12398 \u12415 \u65289 \
+- [ ] \uc0\u22806 \u27880 \u12456 \u12531 \u12472 \u12491 \u12450 \u36861 \u21152 \u65288 \'a5100,000\u20104 \u31639 \u65289 \
+- [ ] Stage 2\uc0\u12398 \u19968 \u37096 \u12434 \u31777 \u26131 \u29256 \u12395 \
+\
+#### Plan D: \uc0\u26377 \u26009 \u36578 \u25563 \u29575  < 2%\
+- [ ] Premium\uc0\u20385 \u26684 \u12434 \'a51,980\u12395 \u20516 \u19979 \u12370 \
+- [ ] \uc0\u24180 \u38291 \u12503 \u12521 \u12531 30% OFF\u12461 \u12515 \u12531 \u12506 \u12540 \u12531 \
+- [ ] \uc0\u24195 \u21578 \u21454 \u30410 \u12513 \u12452 \u12531 \u12514 \u12487 \u12523 \u12408 \u12500 \u12508 \u12483 \u12488 \u26908 \u35342 \
+\
+---\
+\
+## \uc0\u20184 \u37682 A: \u25216 \u34899 \u12473 \u12479 \u12483 \u12463 \u35443 \u32048 \
+\
+### \uc0\u38283 \u30330 \u29872 \u22659 \
+\
+```bash\
+# Node.js\
+node v20.11.0\
+npm 10.4.0\
+\
+# Vue.js\
+vue 3.4.21\
+vite 5.1.4\
+\
+# Capacitor\
+@capacitor/core 6.0.0\
+@capacitor/cli 6.0.0\
+\
+# Supabase\
+@supabase/supabase-js 2.39.8\
+\
+# UI Framework\
+vuetify 3.5.10\
+@mdi/font 7.4.47 # Material Design Icons\
+\
+# State Management\
+pinia 2.1.7\
+\
+# Routing\
+vue-router 4.3.0\
+\
+# Audio\
+howler 2.2.4\
+\
+# Animation\
+@lottiefiles/vue-lottie-player 1.0.3\
+\
+# HTTP Client\
+axios 1.6.7\
+\
+# Utilities\
+date-fns 3.3.1\
+lodash-es 4.17.21\
+```\
+\
+### package.json\uc0\u65288 \u25244 \u31883 \u65289 \
+\
+```json\
+\{\
+  "name": "mowise-app",\
+  "version": "1.0.0",\
+  "scripts": \{\
+    "dev": "vite",\
+    "build": "vite build",\
+    "preview": "vite preview",\
+    "ios": "npx cap run ios",\
+    "android": "npx cap run android",\
+    "sync": "npx cap sync"\
+  \},\
+  "dependencies": \{\
+    "vue": "^3.4.21",\
+    "vuetify": "^3.5.10",\
+    "pinia": "^2.1.7",\
+    "vue-router": "^4.3.0",\
+    "@capacitor/core": "^6.0.0",\
+    "@capacitor/ios": "^6.0.0",\
+    "@capacitor/android": "^6.0.0",\
+    "@capacitor/preferences": "^6.0.0",\
+    "@capacitor/push-notifications": "^6.0.0",\
+    "@supabase/supabase-js": "^2.39.8",\
+    "howler": "^2.2.4",\
+    "@lottiefiles/vue-lottie-player": "^1.0.3"\
+  \},\
+  "devDependencies": \{\
+    "@capacitor/cli": "^6.0.0",\
+    "vite": "^5.1.4",\
+    "typescript": "^5.3.3",\
+    "@vitejs/plugin-vue": "^5.0.4"\
+  \}\
+\}\
+```\
+\
+---\
+\
+## \uc0\u20184 \u37682 B: Supabase Edge Functions\u65288 \u23558 \u26469 \u25313 \u24373 \u29992 \u65289 \
+\
+```typescript\
+// supabase/functions/add-xp/index.ts\
+import \{ createClient \} from 'https://esm.sh/@supabase/supabase-js@2'\
+\
+Deno.serve(async (req) => \{\
+  const supabase = createClient(\
+    Deno.env.get('SUPABASE_URL') ?? '',\
+    Deno.env.get('SUPABASE_ANON_KEY') ?? ''\
+  )\
+  \
+  const \{ user_id, xp \} = await req.json()\
+  \
+  // XP\uc0\u36861 \u21152 \
+  const \{ data: profile, error \} = await supabase\
+    .from('user_profiles')\
+    .select('total_xp, mokun_growth_stage')\
+    .eq('id', user_id)\
+    .single()\
+  \
+  if (error) return new Response(JSON.stringify(\{ error \}), \{ status: 400 \})\
+  \
+  const newXP = profile.total_xp + xp\
+  \
+  // \uc0\u25104 \u38263 \u12481 \u12455 \u12483 \u12463 \
+  const GROWTH_THRESHOLDS = [0, 100, 500, 1500, 5000, 10000]\
+  let newStage = profile.mokun_growth_stage\
+  for (let i = GROWTH_THRESHOLDS.length - 1; i >= 0; i--) \{\
+    if (newXP >= GROWTH_THRESHOLDS[i]) \{\
+      newStage = i\
+      break\
+    \}\
+  \}\
+  \
+  // \uc0\u26356 \u26032 \
+  await supabase\
+    .from('user_profiles')\
+    .update(\{\
+      total_xp: newXP,\
+      mokun_growth_stage: newStage\
+    \})\
+    .eq('id', user_id)\
+  \
+  return new Response(\
+    JSON.stringify(\{ success: true, new_xp: newXP, new_stage: newStage \}),\
+    \{ headers: \{ 'Content-Type': 'application/json' \} \}\
+  )\
+\})\
+```\
+\
+---\
+\
+## \uc0\u55357 \u56541  \u25913 \u35330 \u29256 \u12398 \u12414 \u12392 \u12417 \
+\
+### v2.0\uc0\u12398 \u37325 \u35201 \u22793 \u26356 \
+\
+1. \uc0\u9989  **\u25216 \u34899 \u32113 \u19968 **: Vue.js + Capacitor + Supabase\u19968 \u26412 \u21270 \
+2. \uc0\u9989  **\u12473 \u12467 \u12540 \u12503 \u21066 \u28187 **: Stage 0-2\u12398 \u12415 \u12289 18\u12534 \u26376 \u8594 6\u12534 \u26376 \
+3. \uc0\u9989  **\u21454 \u30410 \u29694 \u23455 \u21270 **: Month 6 MRR \'a51.6M \u8594  \'a5169K\
+4. \uc0\u9989  **VR\u25126 \u30053 \u36578 \u25563 **: Spatial.io\u20381 \u23384 \u8594 WebXR\u20013 \u24515 \u65288 Phase 2\u20197 \u38477 \u65289 \
+5. \uc0\u9989  **DB\u35373 \u35336 \u26126 \u30906 \u21270 **: Supabase PostgreSQL\u23436 \u20840 \u12473 \u12461 \u12540 \u12510 \
+6. \uc0\u9989  **\u12458 \u12531 \u12508 \u12540 \u12487 \u12451 \u12531 \u12464 \u36861 \u21152 **: 3\u12473 \u12486 \u12483 \u12503 3\u20998 \u23436 \u32080 \
+7. \uc0\u9989  **\u12467 \u12450 \u12523 \u12540 \u12503 \u23450 \u32681 **: 5\u20998 \u12475 \u12483 \u12471 \u12519 \u12531 \u12398 \u35443 \u32048 \u35373 \u35336 \
+8. \uc0\u9989  **Mo\u12367 \u12435 \u24863 \u24773 AI**: \u20855 \u20307 \u30340 \u12394 \u23455 \u35013 \u12467 \u12540 \u12489 \
+\
+### \uc0\u27425 \u12398 \u12450 \u12463 \u12471 \u12519 \u12531 \
+\
+**\uc0\u20170 \u36913 \u20013 \u65288 Week 1\u65289 \u12395 \u23455 \u34892 **:\
+1. Supabase\uc0\u12503 \u12525 \u12472 \u12455 \u12463 \u12488 \u20316 \u25104 \u65291 \u12473 \u12461 \u12540 \u12510 \u23455 \u35013 \
+2. Capacitor\uc0\u23566 \u20837 \
+3. \uc0\u12458 \u12531 \u12508 \u12540 \u12487 \u12451 \u12531 \u12464  Step 1-2 \u23455 \u35013 \
+4. Mo\uc0\u12367 \u12435  Lottie\u28310 \u20633 \
+5. Pattern #1 \uc0\u12503 \u12525 \u12488 \u12479 \u12452 \u12503 \
+\
+**Month 1-2\uc0\u12398 \u12468 \u12540 \u12523 **:\
+- Stage 0\uc0\u65288 30\u12497 \u12479 \u12540 \u12531 \u65289 \u23436 \u20840 \u21205 \u20316 \
+- iOS/Android TestFlight\uc0\u37197 \u20449 \
+- \uc0\u25945 \u23460 \u29983 \u24466 30\u21517 \u946 \u12486 \u12473 \u12488 \u38283 \u22987 \
+\
+**Month 6\uc0\u12398 \u12468 \u12540 \u12523 **:\
+- Stage 0-2\uc0\u23436 \u25104 \
+- App Store/Google Play\uc0\u27491 \u24335 \u12522 \u12522 \u12540 \u12473 \
+- DL 2,000\uc0\u12289 \u26377 \u26009 \u20250 \u21729 50\u21517 \u12289 MRR \'a5169K\u36948 \u25104 \
+\
+---\
+\
+**\uc0\u12371 \u12398 \u25913 \u35330 \u29256 \u35373 \u35336 \u26360 \u12391 \u12289 \u29694 \u23455 \u30340 \u12363 \u12388 \u36948 \u25104 \u21487 \u33021 \u12394 MVP\u38283 \u30330 \u12434 \u36914 \u12417 \u12414 \u12375 \u12423 \u12358 \u65281 **\
+\
+**Document Version**: 2.0  \
+**Last Updated**: 2026\uc0\u24180 2\u26376 22\u26085   \
+**Author**: WISE English Club / MoWISE Project  \
+\
+**\'a9 2026 WISE English Club. All Rights Reserved.**}
