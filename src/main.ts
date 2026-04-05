@@ -7,22 +7,15 @@ import { soundManager } from './systems/SoundManager';
 
 const config: Phaser.Types.Core.GameConfig = {
     type: Phaser.AUTO,
-    title: 'Sentence Dash',
+    title: 'Reading Dash',
     parent: 'app',
-    width: 390,
-    height: 844,
+    width: 420,
+    height: 780,
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
-    physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 0, x: 0 },
-            debug: false
-        }
-    },
-    backgroundColor: '#1a1a2e',
+    backgroundColor: '#F5F7FA',
     scene: [ProfileScene, GameScene, ResultScene]
 };
 

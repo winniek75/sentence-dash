@@ -1,644 +1,745 @@
 import * as Phaser from 'phaser';
-import { Question } from '../data/questions';
-import { MemoryEngine } from '../systems/MemoryEngine';
-import { QuestionBankManager } from '../systems/QuestionBankManager';
+import { Passage, passages } from '../data/passages';
 import { soundManager } from '../systems/SoundManager';
 
+type Phase = 'reading' | 'trueFalse' | 'question' | 'passageSummary' | 'transition';
+
+interface PassageResult {
+    tfCorrect: number;
+    tfTotal: number;
+    qCorrect: number;
+    qTotal: number;
+    timeBonus: number;
+}
+
 export class GameScene extends Phaser.Scene {
-    private score: number = 0;
-    private combo: number = 0;
-    private bestCombo: number = 0;
-    private hearts: number = 3;
-    private baseSpeed: number = 300;
-    private questionsAnswered: number = 0;
-    private questionsCorrect: number = 0;
-    private grammarMistakes: Map<string, number> = new Map();
+    private readonly W = 420;
+    private readonly H = 780;
+    private readonly TOTAL_PASSAGES = 8;
+    private readonly READ_TIME = 18; // seconds
+    private readonly TF_TIME = 5;
+    private readonly Q_TIME = 10;
 
-    private player!: Phaser.GameObjects.Rectangle;
-    private playerGlow!: Phaser.GameObjects.Rectangle;
-    private currentLaneIndex: number = 1;
-    private lanes: number[] = [65, 195, 325];
+    // Game state
+    private level: 'easy' | 'medium' | 'hard' = 'easy';
+    private passageIndex = 0;
+    private currentPassages: Passage[] = [];
+    private currentPassage!: Passage;
+    private phase: Phase = 'reading';
 
-    private questionText!: Phaser.GameObjects.Text;
-    private questionTagText!: Phaser.GameObjects.Text;
+    // Scoring
+    private score = 0;
+    private streak = 0;
+    private bestStreak = 0;
+    private totalTimeBonus = 0;
+    private passageResults: PassageResult[] = [];
+    private currentPassageResult!: PassageResult;
+
+    // True/False phase
+    private tfIndex = 0;
+
+    // Question phase
+    private qIndex = 0;
+
+    // Timer
+    private timerEvent: Phaser.Time.TimerEvent | null = null;
+    private answerStartTime = 0;
+
+    // UI elements (destroyed/recreated per phase)
+    private uiGroup!: Phaser.GameObjects.Group;
+    private progressBar!: Phaser.GameObjects.Graphics;
     private scoreText!: Phaser.GameObjects.Text;
-    private comboText!: Phaser.GameObjects.Text;
-    private comboMultiplierText!: Phaser.GameObjects.Text;
     private streakText!: Phaser.GameObjects.Text;
+    private timerBar!: Phaser.GameObjects.Graphics;
+    private timerTween: Phaser.Tweens.Tween | null = null;
+    private passageText!: Phaser.GameObjects.Text;
+    private passageBg!: Phaser.GameObjects.Graphics;
 
-    private heartIcons: Phaser.GameObjects.Text[] = [];
-
-    private targetPresentationGroup!: Phaser.GameObjects.Group;
-
-    private isTargetPresentationActive: boolean = true;
-    private isGameOver: boolean = false;
-    private isTransitioning: boolean = false;
-
-    private cardGroup!: Phaser.Physics.Arcade.Group;
-    private currentQuestion!: Question;
-    private cardsSpawned: boolean = false;
-
-    private memoryEngine!: MemoryEngine;
-    private qBankManager!: QuestionBankManager;
-    private sessionId!: string;
-
-    // Word Order Mode Logic
-    private isWordOrderMode: boolean = false;
-    private wordOrderCurrentIndex: number = 0;
-    private wordOrderTotalPieces: number = 0;
-    private wordOrderSequence: string[] = [];
-
-    // Difficulty Logic
-    private difficulty: 'Easy' | 'Normal' | 'Hard' = 'Normal';
-    private difficultyMultiplier: number = 1;
-
-    // Particle emitters
-    private correctEmitter!: Phaser.GameObjects.Particles.ParticleEmitter;
+    // Prevent double-tap
+    private inputLocked = false;
 
     constructor() {
         super({ key: 'GameScene' });
     }
 
-    preload() {
+    init(data: { level?: 'easy' | 'medium' | 'hard' }) {
+        this.level = data.level || 'easy';
     }
 
     create() {
         // Reset state
+        this.passageIndex = 0;
         this.score = 0;
-        this.combo = 0;
-        this.bestCombo = 0;
-        this.hearts = 3;
-        this.baseSpeed = 300;
-        this.isTargetPresentationActive = true;
-        this.isGameOver = false;
-        this.isTransitioning = false;
-        this.cardsSpawned = false;
-        this.questionsAnswered = 0;
-        this.questionsCorrect = 0;
-        this.grammarMistakes = new Map();
-        this.heartIcons = [];
+        this.streak = 0;
+        this.bestStreak = 0;
+        this.totalTimeBonus = 0;
+        this.passageResults = [];
+        this.inputLocked = false;
 
-        // Setup Data Systems
-        this.memoryEngine = new MemoryEngine();
-        this.qBankManager = new QuestionBankManager(this.memoryEngine);
-        this.sessionId = Date.now().toString();
-        this.qBankManager.initializeSessionQueue("present_simple_3rd", 20);
+        // Select passages for this session
+        const levelPassages = passages.filter(p => p.level === this.level);
+        this.currentPassages = Phaser.Utils.Array.Shuffle([...levelPassages]).slice(0, this.TOTAL_PASSAGES);
 
-        // Difficulty Config
-        const progress = this.memoryEngine.getProgress();
-        if (progress.totalScore < 1000) this.difficulty = 'Easy';
-        else if (progress.totalScore < 5000) this.difficulty = 'Normal';
-        else this.difficulty = 'Hard';
-
-        switch(this.difficulty) {
-            case 'Easy': this.difficultyMultiplier = 0.8; break;
-            case 'Normal': this.difficultyMultiplier = 1.0; break;
-            case 'Hard': this.difficultyMultiplier = 1.3; break;
+        // If not enough passages at this level, fill from others
+        if (this.currentPassages.length < this.TOTAL_PASSAGES) {
+            const others = passages.filter(p => p.level !== this.level);
+            const extra = Phaser.Utils.Array.Shuffle([...others]).slice(0, this.TOTAL_PASSAGES - this.currentPassages.length);
+            this.currentPassages.push(...extra);
         }
 
-        this.baseSpeed = 300 * this.difficultyMultiplier;
+        // Background
+        const bg = this.add.graphics();
+        bg.fillGradientStyle(0xF5F7FA, 0xF5F7FA, 0xE8ECF2, 0xE8ECF2, 1);
+        bg.fillRect(0, 0, this.W, this.H);
 
-        // Setup Particles
-        this.correctEmitter = this.add.particles(0, 0, 'star', {
-            speed: { min: 100, max: 300 },
-            angle: { min: 250, max: 290 },
-            scale: { start: 0.5, end: 0 },
-            alpha: { start: 1, end: 0 },
-            gravityY: 400,
-            lifespan: 1000,
-            emitting: false
-        }).setDepth(10);
+        // HUD (persistent)
+        this.createHUD();
 
-        // Background gradient effect
-        const bgGrad = this.add.graphics();
-        bgGrad.fillGradientStyle(0x1a1a2e, 0x1a1a2e, 0x16213e, 0x16213e, 1);
-        bgGrad.fillRect(0, 0, 390, 844);
+        // UI group for phase-specific elements
+        this.uiGroup = this.add.group();
 
-        // Draw lanes with subtle gradient lines
-        const graphics = this.add.graphics();
-        graphics.lineStyle(1, 0x2a2a4a, 0.5);
-        graphics.beginPath();
-        graphics.moveTo(130, 50); graphics.lineTo(130, 844);
-        graphics.moveTo(260, 50); graphics.lineTo(260, 844);
-        graphics.strokePath();
+        // Start first passage
+        this.startPassage();
 
-        // Player glow effect
-        this.playerGlow = this.add.rectangle(this.lanes[this.currentLaneIndex], 750, 70, 70, 0x4CAF50, 0.3);
-        this.playerGlow.setDepth(4);
+        this.cameras.main.fadeIn(300, 245, 247, 250);
+    }
 
-        // Player
-        this.player = this.add.rectangle(this.lanes[this.currentLaneIndex], 750, 56, 56, 0xffffff);
-        this.player.setStrokeStyle(3, 0x4CAF50);
-        this.player.setDepth(5);
-        this.physics.add.existing(this.player);
+    // ==================== HUD ====================
 
-        // Pulsing glow animation
-        this.tweens.add({
-            targets: this.playerGlow,
-            alpha: { from: 0.2, to: 0.5 },
-            scale: { from: 1, to: 1.2 },
-            duration: 800,
-            yoyo: true,
-            repeat: -1,
-            ease: 'Sine.easeInOut'
-        });
+    private createHUD() {
+        // Progress bar background
+        this.progressBar = this.add.graphics().setDepth(50);
+        this.drawProgressBar();
 
-        // HUD Background
-        const hudBg = this.add.graphics();
-        hudBg.fillStyle(0x000000, 0.8);
-        hudBg.fillRoundedRect(5, 5, 380, 45, 10);
-        hudBg.setDepth(20);
+        // Score
+        this.scoreText = this.add.text(15, 12, 'Score: 0', {
+            fontFamily: 'Fredoka One', fontSize: '16px', color: '#2D5BCC'
+        }).setDepth(51);
 
-        this.scoreText = this.add.text(15, 15, 'SCORE: 0', {
-            fontFamily: 'Fredoka One', fontSize: '18px', color: '#FFD700'
-        }).setDepth(21);
+        // Streak
+        this.streakText = this.add.text(this.W - 15, 12, '', {
+            fontFamily: 'Fredoka One', fontSize: '16px', color: '#FF9800'
+        }).setOrigin(1, 0).setDepth(51);
 
-        this.comboText = this.add.text(155, 15, 'COMBO: 0', {
-            fontFamily: 'Fredoka One', fontSize: '18px', color: '#4CAF50'
-        }).setDepth(21);
+        // Timer bar
+        this.timerBar = this.add.graphics().setDepth(50);
+    }
 
-        // Individual heart icons
-        for (let i = 0; i < 3; i++) {
-            const heart = this.add.text(295 + i * 28, 12, '\u2764\ufe0f', {
-                fontFamily: 'Fredoka One', fontSize: '22px'
-            }).setDepth(21);
-            this.heartIcons.push(heart);
+    private drawProgressBar() {
+        this.progressBar.clear();
+        // Background
+        this.progressBar.fillStyle(0xDDE3ED, 1);
+        this.progressBar.fillRoundedRect(10, 40, this.W - 20, 8, 4);
+        // Fill
+        const fillW = ((this.passageIndex) / this.TOTAL_PASSAGES) * (this.W - 20);
+        if (fillW > 0) {
+            this.progressBar.fillStyle(0x4CAF50, 1);
+            this.progressBar.fillRoundedRect(10, 40, fillW, 8, 4);
         }
+        // Label
+        // Remove old label if exists
+        const existingLabel = this.children.getByName('progressLabel') as Phaser.GameObjects.Text;
+        if (existingLabel) existingLabel.destroy();
 
-        // Combo multiplier display (hidden initially)
-        this.comboMultiplierText = this.add.text(195, 400, '', {
-            fontFamily: 'Fredoka One', fontSize: '64px', color: '#FFD700',
-            stroke: '#000', strokeThickness: 6
-        }).setOrigin(0.5).setAlpha(0).setDepth(30);
-
-        // Streak text
-        this.streakText = this.add.text(195, 55, '', {
-            fontFamily: 'Fredoka One', fontSize: '14px', color: '#FFD700',
-            align: 'center'
-        }).setOrigin(0.5).setAlpha(0).setDepth(21);
-
-        // Question Area with improved styling
-        const qAreaBg = this.add.graphics();
-        qAreaBg.fillStyle(0x2a2a4a, 0.9);
-        qAreaBg.fillRoundedRect(10, 70, 370, 180, 16);
-        qAreaBg.lineStyle(2, 0x4a4a6a, 0.5);
-        qAreaBg.strokeRoundedRect(10, 70, 370, 180, 16);
-
-        this.questionTagText = this.add.text(195, 85, '', {
-            fontFamily: 'Nunito', fontSize: '12px', color: '#8888bb',
-            align: 'center'
-        }).setOrigin(0.5);
-
-        this.questionText = this.add.text(195, 165, '', {
-            fontFamily: 'Nunito', fontSize: '22px', color: '#fff',
-            align: 'center', wordWrap: { width: 340 },
-            lineSpacing: 6
-        }).setOrigin(0.5);
-
-        // Setup Card Group
-        this.cardGroup = this.physics.add.group();
-
-        // Input Handling
-        this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
-            if (this.isTargetPresentationActive || this.isGameOver || this.isTransitioning) return;
-            if (pointer.x < 130 && this.currentLaneIndex > 0) this.currentLaneIndex--;
-            else if (pointer.x > 260 && this.currentLaneIndex < 2) this.currentLaneIndex++;
-            else if (pointer.x >= 130 && pointer.x <= 260) this.currentLaneIndex = 1;
-
-            this.tweens.add({
-                targets: [this.player, this.playerGlow],
-                x: this.lanes[this.currentLaneIndex],
-                duration: 100
-            });
-        });
-
-        // Overlap Check
-        this.physics.add.overlap(this.player, this.cardGroup, this.onCardCollected, undefined, this);
-
-        this.startTargetPresentation();
+        this.add.text(this.W / 2, 44, `${this.passageIndex + 1} / ${this.TOTAL_PASSAGES}`, {
+            fontFamily: 'Nunito', fontSize: '10px', color: '#888'
+        }).setOrigin(0.5).setDepth(51).setName('progressLabel');
     }
 
-    startTargetPresentation() {
-        this.targetPresentationGroup = this.add.group();
-        const overlay = this.add.rectangle(195, 422, 390, 844, 0x000000, 0.92);
-
-        const title = this.add.text(195, 280, "TODAY'S TARGET", {
-            fontFamily: 'Fredoka One', fontSize: '32px', color: '#FFD700',
-            stroke: '#000', strokeThickness: 4
-        }).setOrigin(0.5).setAlpha(0);
-
-        const targetgrammar = this.add.text(195, 340, "Present Simple: He/She", {
-            fontFamily: 'Nunito', fontSize: '24px', color: '#fff'
-        }).setOrigin(0.5).setAlpha(0);
-
-        const diffLabel = this.add.text(195, 400, `Difficulty: ${this.difficulty}`, {
-            fontFamily: 'Nunito', fontSize: '18px',
-            color: this.difficulty === 'Easy' ? '#4CAF50' : this.difficulty === 'Normal' ? '#FFD700' : '#FF5252'
-        }).setOrigin(0.5).setAlpha(0);
-
-        this.targetPresentationGroup.addMultiple([overlay, title, targetgrammar, diffLabel]);
-
-        // Animate in
-        this.tweens.add({ targets: title, alpha: 1, y: 300, duration: 500, ease: 'Back.out' });
-        this.tweens.add({ targets: targetgrammar, alpha: 1, y: 360, duration: 500, delay: 300, ease: 'Back.out' });
-        this.tweens.add({ targets: diffLabel, alpha: 1, y: 420, duration: 500, delay: 600, ease: 'Back.out' });
-
-        soundManager.playSound('start');
-
-        this.time.delayedCall(3000, () => {
-            this.tweens.add({
-                targets: [overlay, title, targetgrammar, diffLabel],
-                alpha: 0,
-                duration: 400,
-                onComplete: () => {
-                    this.targetPresentationGroup.clear(true, true);
-                    this.isTargetPresentationActive = false;
-                    this.loadNextQuestion();
-                }
-            });
-        });
-    }
-
-    loadNextQuestion() {
-        this.isTransitioning = true;
-        this.currentQuestion = this.qBankManager.getNextQuestion();
-
-        // Format grammar tag for display
-        const tagDisplay = this.currentQuestion.grammar_tag.replace(/_/g, ' ').toUpperCase();
-        this.questionTagText.setText(tagDisplay);
-
-        if (this.currentQuestion.grammar_tag?.includes("word_order") || this.currentQuestion.correct_order) {
-            this.isWordOrderMode = true;
-            this.wordOrderSequence = this.currentQuestion.correct_order || [];
-            this.wordOrderTotalPieces = this.wordOrderSequence.length;
-            this.wordOrderCurrentIndex = 0;
-            this.questionText.setText("[Word Order Mode]\nGather in correct order!");
+    private updateScoreDisplay() {
+        this.scoreText.setText(`Score: ${this.score}`);
+        if (this.streak >= 2) {
+            const mult = this.getStreakMultiplier();
+            this.streakText.setText(`${this.streak} streak ${mult > 1 ? mult + 'x' : ''}`);
+            this.streakText.setColor(mult >= 3 ? '#F44336' : mult >= 2 ? '#FF9800' : '#FF9800');
         } else {
-            this.isWordOrderMode = false;
-            const answer = this.currentQuestion.correct_answer || "___";
-            let displaySentence = this.currentQuestion.sentence.replace(answer, "___");
-            this.questionText.setText(displaySentence);
-        }
-
-        // Transition animation
-        this.questionText.setAlpha(0);
-        this.questionTagText.setAlpha(0);
-        this.tweens.add({
-            targets: [this.questionText, this.questionTagText],
-            alpha: 1,
-            duration: 400,
-            ease: 'Power2',
-            onComplete: () => {
-                this.isTransitioning = false;
-                this.cardsSpawned = false;
-            }
-        });
-    }
-
-    spawnCards() {
-        this.cardsSpawned = true;
-
-        if (this.isWordOrderMode) {
-             const targetWord = this.wordOrderSequence[this.wordOrderCurrentIndex];
-             let pool = [...this.wordOrderSequence];
-             pool.splice(pool.indexOf(targetWord), 1);
-             Phaser.Utils.Array.Shuffle(pool);
-
-             let distractors = [pool[0] || "dummy1", pool[1] || "dummy2"];
-             let answers = [targetWord, ...distractors];
-             Phaser.Utils.Array.Shuffle(answers);
-             this.layoutCards(answers, targetWord);
-
-        } else {
-            const answer = this.currentQuestion.correct_answer || "";
-            const dists = this.currentQuestion.distractors || [];
-            let answers = [answer, ...dists];
-            Phaser.Utils.Array.Shuffle(answers);
-            this.layoutCards(answers, answer);
+            this.streakText.setText('');
         }
     }
 
-    layoutCards(answers: string[], correctWord: string) {
-        const cardColors = [0x5C6BC0, 0x42A5F5, 0x26C6DA];
-        const correctColor = 0x66BB6A;
-
-        for (let i = 0; i < Math.min(answers.length, 3); i++) {
-            const isCorrect = answers[i] === correctWord;
-            const color = isCorrect ? correctColor : cardColors[i % cardColors.length];
-
-            // Card container with rounded appearance
-            const cardBg = this.add.rectangle(
-                this.lanes[i], 280, 110, 70, color
-            ).setInteractive();
-            cardBg.setStrokeStyle(2, 0xffffff, 0.3);
-            cardBg.setDepth(8);
-
-            // Card shadow
-            const shadow = this.add.rectangle(
-                this.lanes[i] + 3, 283, 110, 70, 0x000000, 0.3
-            ).setDepth(7);
-
-            const cardText = this.add.text(this.lanes[i], 280, answers[i], {
-                fontFamily: 'Nunito', fontSize: '17px', color: '#fff',
-                fontStyle: 'bold', align: 'center', wordWrap: { width: 100 }
-            }).setOrigin(0.5).setDepth(9);
-
-            this.physics.add.existing(cardBg);
-            (cardBg.body as Phaser.Physics.Arcade.Body).setVelocityY(this.baseSpeed);
-
-            cardBg.setData('isCorrect', isCorrect);
-            cardBg.setData('textObj', cardText);
-            cardBg.setData('shadowObj', shadow);
-
-            // Entrance animation
-            cardBg.setScale(0);
-            cardText.setScale(0);
-            shadow.setScale(0);
-            this.tweens.add({
-                targets: [cardBg, cardText, shadow],
-                scale: 1,
-                duration: 350,
-                delay: i * 80,
-                ease: 'Back.out'
-            });
-
-            this.cardGroup.add(cardBg);
-        }
-    }
-
-    override update() {
-        if (this.isTargetPresentationActive || this.isGameOver || this.isTransitioning) return;
-
-        this.cardGroup.getChildren().forEach((child) => {
-            const card = child as Phaser.GameObjects.Rectangle;
-            const textObj = card.getData('textObj') as Phaser.GameObjects.Text;
-            const shadowObj = card.getData('shadowObj') as Phaser.GameObjects.Rectangle;
-            if (textObj) textObj.y = card.y;
-            if (shadowObj) {
-                shadowObj.y = card.y + 3;
-                shadowObj.x = card.x + 3;
-            }
-
-            if (card.y > 850) {
-                const isCorrect = card.getData('isCorrect');
-                if (textObj) textObj.destroy();
-                if (shadowObj) shadowObj.destroy();
-                card.destroy();
-
-                if (isCorrect && !this.isGameOver) {
-                   this.handleWrongAnswer();
-                }
-            }
-        });
-
-        if (!this.cardsSpawned && this.cardGroup.countActive() === 0) {
-            this.spawnCards();
-        }
-    }
-
-    onCardCollected(_player: any, card: any) {
-        if (this.isGameOver || this.isTransitioning) return;
-
-        const isCorrect = card.getData('isCorrect');
-
-        // Destroy all existing cards in this wave
-        this.cardGroup.getChildren().forEach(c => {
-            const t = c.getData('textObj');
-            const s = c.getData('shadowObj');
-            if (t) t.destroy();
-            if (s) s.destroy();
-            c.destroy();
-        });
-
-        if (isCorrect) {
-            this.handleCorrectAnswer();
-        } else {
-            this.handleWrongAnswer();
-        }
-    }
-
-    handleCorrectAnswer() {
-        this.questionsAnswered++;
-        this.questionsCorrect++;
-
-        if (this.isWordOrderMode) {
-            this.wordOrderCurrentIndex++;
-            this.score += 50;
-            this.updateHUD();
-            this.cameras.main.flash(200, 0, 255, 0);
-            soundManager.playSound('correct');
-
-            this.tweens.add({
-                targets: [this.player, this.playerGlow],
-                y: this.player.y - 30,
-                yoyo: true,
-                duration: 150,
-                ease: 'Sine.easeInOut'
-            });
-
-            if (this.wordOrderCurrentIndex >= this.wordOrderTotalPieces) {
-                this.correctEmitter.explode(20, this.player.x, this.player.y);
-                this.memoryEngine.processAnswer(this.currentQuestion.id, true, this.sessionId);
-                this.combo++;
-                if (this.combo > this.bestCombo) this.bestCombo = this.combo;
-                this.score += 50 * this.getComboMultiplier();
-                this.baseSpeed = Math.min(this.baseSpeed * 1.03, 600);
-                this.updateHUD();
-                this.showComboEffect();
-                this.loadNextQuestion();
-            } else {
-                this.cardsSpawned = false;
-            }
-        } else {
-            this.memoryEngine.processAnswer(this.currentQuestion.id, true, this.sessionId);
-
-            this.combo++;
-            if (this.combo > this.bestCombo) this.bestCombo = this.combo;
-            this.score += 100 * this.getComboMultiplier();
-            this.updateHUD();
-
-            this.correctEmitter.explode(15, this.player.x, this.player.y);
-            this.tweens.add({
-                targets: [this.player, this.playerGlow],
-                y: this.player.y - 30,
-                yoyo: true,
-                duration: 150,
-                ease: 'Sine.easeInOut'
-            });
-
-            // Smoother difficulty progression
-            this.baseSpeed = Math.min(this.baseSpeed * 1.03, 600);
-            this.cameras.main.flash(300, 0, 200, 0, true);
-            soundManager.playSound('correct');
-
-            this.showComboEffect();
-            this.loadNextQuestion();
-        }
-    }
-
-    getComboMultiplier(): number {
-        if (this.combo >= 10) return 4;
-        if (this.combo >= 7) return 3;
-        if (this.combo >= 4) return 2;
+    private getStreakMultiplier(): number {
+        if (this.streak >= 5) return 3;
+        if (this.streak >= 3) return 2;
         return 1;
     }
 
-    showComboEffect() {
-        const multiplier = this.getComboMultiplier();
+    // ==================== TIMER ====================
 
-        if (multiplier > 1) {
-            this.comboMultiplierText.setText(`${multiplier}x!`);
-            this.comboMultiplierText.setAlpha(1);
-            this.comboMultiplierText.setScale(0.5);
+    private startTimer(seconds: number, onExpire: () => void) {
+        this.answerStartTime = this.time.now;
 
-            // Color based on multiplier
-            const colors: Record<number, string> = { 2: '#4CAF50', 3: '#FF9800', 4: '#FF1744' };
-            this.comboMultiplierText.setColor(colors[multiplier] || '#FFD700');
+        // Draw timer bar
+        this.drawTimerBar(1);
 
+        // Tween-based timer bar animation
+        if (this.timerTween) this.timerTween.destroy();
+
+        const duration = seconds * 1000;
+
+        this.timerTween = this.tweens.addCounter({
+            from: 1,
+            to: 0,
+            duration: duration,
+            onUpdate: (tween) => {
+                this.drawTimerBar(tween.getValue() ?? 0);
+            },
+            onComplete: () => {
+                this.drawTimerBar(0);
+            }
+        });
+
+        // Timer event for expiration
+        if (this.timerEvent) this.timerEvent.destroy();
+        this.timerEvent = this.time.delayedCall(seconds * 1000, () => {
+            onExpire();
+        });
+    }
+
+    private stopTimer(): number {
+        const elapsed = (this.time.now - this.answerStartTime) / 1000;
+        if (this.timerEvent) {
+            this.timerEvent.destroy();
+            this.timerEvent = null;
+        }
+        if (this.timerTween) {
+            this.timerTween.destroy();
+            this.timerTween = null;
+        }
+        return elapsed;
+    }
+
+    private drawTimerBar(fraction: number) {
+        this.timerBar.clear();
+        const barY = 55;
+        const barH = 5;
+        // Background
+        this.timerBar.fillStyle(0xDDE3ED, 1);
+        this.timerBar.fillRect(10, barY, this.W - 20, barH);
+        // Fill
+        const fillW = fraction * (this.W - 20);
+        if (fillW > 0) {
+            const color = fraction > 0.3 ? 0x4CAF50 : fraction > 0.15 ? 0xFF9800 : 0xF44336;
+            this.timerBar.fillStyle(color, 1);
+            this.timerBar.fillRect(10, barY, fillW, barH);
+        }
+    }
+
+    // ==================== PASSAGE FLOW ====================
+
+    private startPassage() {
+        this.currentPassage = this.currentPassages[this.passageIndex];
+        this.currentPassageResult = { tfCorrect: 0, tfTotal: 0, qCorrect: 0, qTotal: 0, timeBonus: 0 };
+        this.tfIndex = 0;
+        this.qIndex = 0;
+        this.drawProgressBar();
+        this.updateScoreDisplay();
+
+        // Show passage number transition
+        this.phase = 'transition';
+        this.clearUI();
+
+        const overlay = this.add.graphics();
+        overlay.fillStyle(0x2D5BCC, 0.9);
+        overlay.fillRoundedRect(this.W / 2 - 130, this.H / 2 - 60, 260, 120, 20);
+        this.uiGroup.add(overlay);
+
+        const numText = this.add.text(this.W / 2, this.H / 2 - 20, `Passage ${this.passageIndex + 1}/${this.TOTAL_PASSAGES}`, {
+            fontFamily: 'Fredoka One', fontSize: '24px', color: '#FFFFFF'
+        }).setOrigin(0.5).setAlpha(0);
+        this.uiGroup.add(numText);
+
+        const titleText = this.add.text(this.W / 2, this.H / 2 + 15, this.currentPassage.title, {
+            fontFamily: 'Nunito', fontSize: '18px', color: '#C5D8F7'
+        }).setOrigin(0.5).setAlpha(0);
+        this.uiGroup.add(titleText);
+
+        this.tweens.add({ targets: numText, alpha: 1, duration: 300, ease: 'Power2' });
+        this.tweens.add({ targets: titleText, alpha: 1, duration: 300, delay: 200, ease: 'Power2' });
+
+        this.time.delayedCall(1800, () => {
             this.tweens.add({
-                targets: this.comboMultiplierText,
-                scale: 1.5,
+                targets: [overlay, numText, titleText],
                 alpha: 0,
-                y: 350,
-                duration: 800,
-                ease: 'Power2',
+                duration: 300,
                 onComplete: () => {
-                    this.comboMultiplierText.y = 400;
+                    this.clearUI();
+                    this.showReadingPhase();
                 }
             });
-        }
-
-        // Streak display
-        if (this.combo >= 3) {
-            this.streakText.setText(`${this.combo} streak!`);
-            this.streakText.setAlpha(1);
-            this.tweens.add({
-                targets: this.streakText,
-                alpha: 0,
-                duration: 1500,
-                delay: 500
-            });
-        }
-
-        // Player color shift on high combo
-        if (this.combo >= 7) {
-            this.player.setFillStyle(0xFFD700);
-            this.player.setStrokeStyle(3, 0xFF9800);
-            this.playerGlow.setFillStyle(0xFFD700, 0.3);
-        } else if (this.combo >= 4) {
-            this.player.setFillStyle(0x4CAF50);
-            this.player.setStrokeStyle(3, 0x66BB6A);
-            this.playerGlow.setFillStyle(0x4CAF50, 0.3);
-        } else {
-            this.player.setFillStyle(0xffffff);
-            this.player.setStrokeStyle(3, 0x4CAF50);
-            this.playerGlow.setFillStyle(0x4CAF50, 0.3);
-        }
+        });
     }
 
-    handleWrongAnswer() {
-        this.questionsAnswered++;
-        this.memoryEngine.processAnswer(this.currentQuestion.id, false, this.sessionId);
+    // ==================== READING PHASE ====================
 
-        // Track grammar mistakes
-        const tag = this.currentQuestion.grammar_tag;
-        this.grammarMistakes.set(tag, (this.grammarMistakes.get(tag) || 0) + 1);
+    private showReadingPhase() {
+        this.phase = 'reading';
+        this.clearUI();
 
-        this.combo = 0;
-        this.hearts--;
-        this.updateHUD();
+        // Passage box
+        this.passageBg = this.add.graphics();
+        this.passageBg.fillStyle(0xFFFFFF, 1);
+        this.passageBg.fillRoundedRect(15, 70, this.W - 30, 380, 16);
+        this.passageBg.lineStyle(2, 0xDDE3ED, 1);
+        this.passageBg.strokeRoundedRect(15, 70, this.W - 30, 380, 16);
+        this.uiGroup.add(this.passageBg);
 
-        // Reset player color
-        this.player.setFillStyle(0xffffff);
-        this.player.setStrokeStyle(3, 0x4CAF50);
-        this.playerGlow.setFillStyle(0x4CAF50, 0.3);
+        // Title
+        const titleLabel = this.add.text(this.W / 2, 90, this.currentPassage.title, {
+            fontFamily: 'Fredoka One', fontSize: '20px', color: '#2D5BCC'
+        }).setOrigin(0.5);
+        this.uiGroup.add(titleLabel);
 
-        // Flash the lost heart red before hiding it
-        if (this.hearts >= 0 && this.hearts < this.heartIcons.length) {
-            const lostHeart = this.heartIcons[this.hearts];
-            this.tweens.add({
-                targets: lostHeart,
-                alpha: 0,
-                scaleX: 2,
-                scaleY: 2,
-                duration: 400,
-                ease: 'Power2',
-                onComplete: () => {
-                    lostHeart.setVisible(false);
-                    lostHeart.setScale(1);
-                }
-            });
-        }
+        // Passage text
+        this.passageText = this.add.text(this.W / 2, 120, this.currentPassage.text, {
+            fontFamily: 'Nunito', fontSize: '17px', color: '#333333',
+            wordWrap: { width: this.W - 70 },
+            lineSpacing: 8,
+            align: 'left'
+        }).setOrigin(0.5, 0);
+        this.uiGroup.add(this.passageText);
 
-        // Screen shake effect
-        this.cameras.main.shake(300, 0.01);
-        this.cameras.main.flash(400, 255, 0, 0);
-
-        if (this.hearts <= 0) {
-            this.triggerGameOver();
-        } else {
-            this.loadNextQuestion();
-        }
-    }
-
-    updateHUD() {
-        this.scoreText.setText(`SCORE: ${this.score}`);
-
-        const multiplier = this.getComboMultiplier();
-        const comboColor = multiplier >= 4 ? '#FF1744' : multiplier >= 3 ? '#FF9800' : multiplier >= 2 ? '#4CAF50' : '#4CAF50';
-        this.comboText.setColor(comboColor);
-        this.comboText.setText(`COMBO: ${this.combo}`);
-    }
-
-    triggerGameOver() {
-        this.isGameOver = true;
-
-        const overlay = this.add.rectangle(195, 422, 390, 844, 0x000000, 0);
-        this.tweens.add({ targets: overlay, alpha: 0.85, duration: 600 });
-
-        const gameOverText = this.add.text(195, 300, 'GAME OVER', {
-            fontFamily: 'Fredoka One', fontSize: '48px', color: '#FF5252',
-            stroke: '#000', strokeThickness: 6
-        }).setOrigin(0.5).setAlpha(0).setScale(0.5);
+        // "READ" badge
+        const readBadge = this.add.text(this.W / 2, 470, 'READ CAREFULLY', {
+            fontFamily: 'Fredoka One', fontSize: '22px', color: '#4CAF50'
+        }).setOrigin(0.5);
+        this.uiGroup.add(readBadge);
 
         this.tweens.add({
-            targets: gameOverText,
-            alpha: 1,
-            scale: 1,
-            duration: 500,
-            delay: 300,
+            targets: readBadge,
+            alpha: 0.4,
+            yoyo: true,
+            repeat: -1,
+            duration: 1000
+        });
+
+        // Timer
+        this.startTimer(this.READ_TIME, () => {
+            this.beginTrueFalsePhase();
+        });
+    }
+
+    // ==================== TRUE/FALSE PHASE ====================
+
+    private beginTrueFalsePhase() {
+        this.stopTimer();
+        this.phase = 'trueFalse';
+        this.tfIndex = 0;
+        this.showTrueFalseQuestion();
+    }
+
+    private showTrueFalseQuestion() {
+        this.clearUI();
+        this.inputLocked = false;
+
+        // Shrunk passage at top
+        this.showShrunkPassage();
+
+        const tf = this.currentPassage.trueFalse[this.tfIndex];
+
+        // Phase label
+        const phaseLabel = this.add.text(this.W / 2, 260, `TRUE or FALSE  (${this.tfIndex + 1}/3)`, {
+            fontFamily: 'Fredoka One', fontSize: '16px', color: '#888'
+        }).setOrigin(0.5);
+        this.uiGroup.add(phaseLabel);
+
+        // Statement box
+        const stmtBg = this.add.graphics();
+        stmtBg.fillStyle(0xFFFFFF, 1);
+        stmtBg.fillRoundedRect(20, 285, this.W - 40, 120, 14);
+        stmtBg.lineStyle(2, 0xDDE3ED, 1);
+        stmtBg.strokeRoundedRect(20, 285, this.W - 40, 120, 14);
+        this.uiGroup.add(stmtBg);
+
+        const stmtText = this.add.text(this.W / 2, 345, `"${tf.statement}"`, {
+            fontFamily: 'Nunito', fontSize: '18px', color: '#333',
+            wordWrap: { width: this.W - 80 },
+            align: 'center',
+            fontStyle: 'bold'
+        }).setOrigin(0.5);
+        this.uiGroup.add(stmtText);
+
+        // TRUE button (left)
+        this.createTFButton(this.W / 2 - 80, 480, '\u2B55', 'TRUE', 0x4CAF50, () => {
+            this.handleTFAnswer(true);
+        });
+
+        // FALSE button (right)
+        this.createTFButton(this.W / 2 + 80, 480, '\u274C', 'FALSE', 0xF44336, () => {
+            this.handleTFAnswer(false);
+        });
+
+        // Timer
+        this.startTimer(this.TF_TIME, () => {
+            this.handleTFAnswer(null); // Time up = wrong
+        });
+    }
+
+    private createTFButton(x: number, y: number, emoji: string, label: string, color: number, onTap: () => void) {
+        const btnBg = this.add.graphics();
+        btnBg.fillStyle(color, 1);
+        btnBg.fillRoundedRect(x - 60, y - 45, 120, 90, 18);
+        this.uiGroup.add(btnBg);
+
+        const emojiText = this.add.text(x, y - 12, emoji, {
+            fontSize: '32px'
+        }).setOrigin(0.5);
+        this.uiGroup.add(emojiText);
+
+        const labelText = this.add.text(x, y + 25, label, {
+            fontFamily: 'Fredoka One', fontSize: '16px', color: '#FFFFFF'
+        }).setOrigin(0.5);
+        this.uiGroup.add(labelText);
+
+        const zone = this.add.zone(x, y, 120, 90).setInteractive({ useHandCursor: true });
+        this.uiGroup.add(zone);
+        zone.on('pointerdown', () => {
+            if (this.inputLocked) return;
+            this.inputLocked = true;
+            onTap();
+        });
+    }
+
+    private handleTFAnswer(playerSaidTrue: boolean | null) {
+        const elapsed = this.stopTimer();
+        const tf = this.currentPassage.trueFalse[this.tfIndex];
+        const isCorrect = playerSaidTrue !== null && playerSaidTrue === tf.isTrue;
+
+        this.currentPassageResult.tfTotal++;
+
+        if (isCorrect) {
+            this.currentPassageResult.tfCorrect++;
+            let points = 100 * this.getStreakMultiplier();
+            let bonus = 0;
+            if (elapsed < 2) {
+                bonus = 50;
+                this.totalTimeBonus += bonus;
+                this.currentPassageResult.timeBonus += bonus;
+            }
+            this.score += points + bonus;
+            this.streak++;
+            if (this.streak > this.bestStreak) this.bestStreak = this.streak;
+
+            soundManager.playSound('correct');
+            this.showFeedback(true, tf.explanation, bonus);
+        } else {
+            this.streak = 0;
+            soundManager.playSound('wrong');
+            this.showFeedback(false, tf.explanation, 0);
+        }
+
+        this.updateScoreDisplay();
+    }
+
+    // ==================== QUESTION PHASE ====================
+
+    private beginQuestionPhase() {
+        this.phase = 'question';
+        this.qIndex = 0;
+        this.showQuestion();
+    }
+
+    private showQuestion() {
+        this.clearUI();
+        this.inputLocked = false;
+
+        // Shrunk passage
+        this.showShrunkPassage();
+
+        const q = this.currentPassage.questions[this.qIndex];
+
+        // Question type badge
+        const typeBadge = this.add.text(this.W / 2, 260, q.type.toUpperCase(), {
+            fontFamily: 'Fredoka One', fontSize: '14px', color: '#FFFFFF',
+            backgroundColor: '#2D5BCC',
+            padding: { left: 12, right: 12, top: 4, bottom: 4 }
+        }).setOrigin(0.5);
+        this.uiGroup.add(typeBadge);
+
+        // Phase label
+        const phaseLabel = this.add.text(this.W / 2, 285, `Question ${this.qIndex + 1}/2`, {
+            fontFamily: 'Nunito', fontSize: '13px', color: '#888'
+        }).setOrigin(0.5);
+        this.uiGroup.add(phaseLabel);
+
+        // Question text
+        const qText = this.add.text(this.W / 2, 330, q.question, {
+            fontFamily: 'Nunito', fontSize: '18px', color: '#333',
+            wordWrap: { width: this.W - 60 },
+            align: 'center',
+            fontStyle: 'bold'
+        }).setOrigin(0.5);
+        this.uiGroup.add(qText);
+
+        // Answer choices
+        q.choices.forEach((choice, i) => {
+            this.createChoiceButton(this.W / 2, 410 + i * 70, choice, i, () => {
+                this.handleQuestionAnswer(i);
+            });
+        });
+
+        // Timer
+        this.startTimer(this.Q_TIME, () => {
+            this.handleQuestionAnswer(-1); // Time up
+        });
+    }
+
+    private createChoiceButton(x: number, y: number, text: string, _index: number, onTap: () => void) {
+        const btnW = this.W - 60;
+        const btnH = 52;
+
+        const btnBg = this.add.graphics();
+        btnBg.fillStyle(0xFFFFFF, 1);
+        btnBg.fillRoundedRect(x - btnW / 2, y - btnH / 2, btnW, btnH, 14);
+        btnBg.lineStyle(2, 0x2D5BCC, 0.4);
+        btnBg.strokeRoundedRect(x - btnW / 2, y - btnH / 2, btnW, btnH, 14);
+        this.uiGroup.add(btnBg);
+
+        const btnText = this.add.text(x, y, text, {
+            fontFamily: 'Nunito', fontSize: '17px', color: '#333',
+            fontStyle: 'bold',
+            wordWrap: { width: btnW - 30 },
+            align: 'center'
+        }).setOrigin(0.5);
+        this.uiGroup.add(btnText);
+
+        const zone = this.add.zone(x, y, btnW, btnH).setInteractive({ useHandCursor: true });
+        this.uiGroup.add(zone);
+        zone.on('pointerdown', () => {
+            if (this.inputLocked) return;
+            this.inputLocked = true;
+            onTap();
+        });
+    }
+
+    private handleQuestionAnswer(choiceIndex: number) {
+        const elapsed = this.stopTimer();
+        const q = this.currentPassage.questions[this.qIndex];
+        const isCorrect = choiceIndex === q.correctIndex;
+
+        this.currentPassageResult.qTotal++;
+
+        if (isCorrect) {
+            this.currentPassageResult.qCorrect++;
+            let points = 200 * this.getStreakMultiplier();
+            let bonus = 0;
+            if (elapsed < 5) {
+                bonus = 100;
+                this.totalTimeBonus += bonus;
+                this.currentPassageResult.timeBonus += bonus;
+            }
+            this.score += points + bonus;
+            this.streak++;
+            if (this.streak > this.bestStreak) this.bestStreak = this.streak;
+
+            soundManager.playSound('correct');
+            const explanation = `Correct! The answer is: ${q.choices[q.correctIndex]}`;
+            this.showFeedback(true, explanation, bonus);
+        } else {
+            this.streak = 0;
+            soundManager.playSound('wrong');
+            const explanation = `The correct answer is: ${q.choices[q.correctIndex]}`;
+            this.showFeedback(false, explanation, 0);
+        }
+
+        this.updateScoreDisplay();
+    }
+
+    // ==================== FEEDBACK ====================
+
+    private showFeedback(correct: boolean, explanation: string, bonus: number) {
+        // Overlay for feedback
+        const feedbackBg = this.add.graphics().setDepth(100);
+        feedbackBg.fillStyle(correct ? 0x4CAF50 : 0xF44336, 0.15);
+        feedbackBg.fillRect(0, 0, this.W, this.H);
+
+        // Feedback icon
+        const icon = this.add.text(this.W / 2, this.H / 2 - 40, correct ? '\u2713' : '\u2717', {
+            fontFamily: 'Fredoka One', fontSize: '64px',
+            color: correct ? '#4CAF50' : '#F44336'
+        }).setOrigin(0.5).setDepth(101).setAlpha(0).setScale(0.5);
+
+        this.tweens.add({
+            targets: icon,
+            alpha: 1, scale: 1,
+            duration: 250,
             ease: 'Back.out'
         });
 
-        const scoreDisplay = this.add.text(195, 380, `Final Score: ${this.score}`, {
-            fontFamily: 'Fredoka One', fontSize: '28px', color: '#FFD700'
-        }).setOrigin(0.5).setAlpha(0);
+        // Explanation
+        const explText = this.add.text(this.W / 2, this.H / 2 + 20, explanation, {
+            fontFamily: 'Nunito', fontSize: '15px',
+            color: correct ? '#2E7D32' : '#C62828',
+            wordWrap: { width: this.W - 60 },
+            align: 'center'
+        }).setOrigin(0.5).setDepth(101).setAlpha(0);
 
-        this.tweens.add({
-            targets: scoreDisplay,
-            alpha: 1,
-            duration: 500,
-            delay: 600
+        this.tweens.add({ targets: explText, alpha: 1, duration: 200, delay: 150 });
+
+        // Bonus text
+        if (bonus > 0) {
+            const bonusText = this.add.text(this.W / 2, this.H / 2 + 60, `+${bonus} time bonus!`, {
+                fontFamily: 'Fredoka One', fontSize: '16px', color: '#FF9800'
+            }).setOrigin(0.5).setDepth(101).setAlpha(0);
+            this.tweens.add({
+                targets: bonusText,
+                alpha: 1, y: this.H / 2 + 50,
+                duration: 300, delay: 200,
+                onComplete: () => {
+                    this.tweens.add({ targets: bonusText, alpha: 0, duration: 300, delay: 600 });
+                }
+            });
+        }
+
+        // Streak multiplier popup
+        if (correct && this.getStreakMultiplier() > 1) {
+            const multText = this.add.text(this.W / 2, this.H / 2 - 90, `${this.getStreakMultiplier()}x STREAK!`, {
+                fontFamily: 'Fredoka One', fontSize: '28px', color: '#FF9800',
+                stroke: '#FFF', strokeThickness: 3
+            }).setOrigin(0.5).setDepth(101).setAlpha(0).setScale(0.5);
+
+            this.tweens.add({
+                targets: multText,
+                alpha: 1, scale: 1.2,
+                duration: 300,
+                yoyo: true,
+                hold: 400
+            });
+        }
+
+        // Screen effect
+        if (!correct) {
+            this.cameras.main.shake(200, 0.008);
+        }
+
+        // Auto-advance after feedback
+        this.time.delayedCall(1500, () => {
+            feedbackBg.destroy();
+            icon.destroy();
+            explText.destroy();
+            this.advancePhase();
         });
+    }
+
+    private advancePhase() {
+        if (this.phase === 'trueFalse') {
+            this.tfIndex++;
+            if (this.tfIndex < this.currentPassage.trueFalse.length) {
+                this.showTrueFalseQuestion();
+            } else {
+                this.beginQuestionPhase();
+            }
+        } else if (this.phase === 'question') {
+            this.qIndex++;
+            if (this.qIndex < this.currentPassage.questions.length) {
+                this.showQuestion();
+            } else {
+                this.showPassageSummary();
+            }
+        }
+    }
+
+    // ==================== PASSAGE SUMMARY ====================
+
+    private showPassageSummary() {
+        this.phase = 'passageSummary';
+        this.clearUI();
+        this.stopTimer();
+        this.drawTimerBar(0);
+
+        this.passageResults.push({ ...this.currentPassageResult });
+
+        const totalCorrect = this.currentPassageResult.tfCorrect + this.currentPassageResult.qCorrect;
+        const totalQ = this.currentPassageResult.tfTotal + this.currentPassageResult.qTotal;
+
+        // Summary card
+        const cardBg = this.add.graphics();
+        cardBg.fillStyle(0xFFFFFF, 1);
+        cardBg.fillRoundedRect(this.W / 2 - 140, this.H / 2 - 80, 280, 160, 20);
+        cardBg.lineStyle(2, 0xDDE3ED, 1);
+        cardBg.strokeRoundedRect(this.W / 2 - 140, this.H / 2 - 80, 280, 160, 20);
+        this.uiGroup.add(cardBg);
+
+        const emoji = totalCorrect >= 4 ? '\u2B50' : totalCorrect >= 2 ? '\u{1F44D}' : '\u{1F4AA}';
+        const summaryIcon = this.add.text(this.W / 2, this.H / 2 - 50, emoji, {
+            fontSize: '36px'
+        }).setOrigin(0.5);
+        this.uiGroup.add(summaryIcon);
+
+        const summaryText = this.add.text(this.W / 2, this.H / 2, `${totalCorrect} / ${totalQ} correct`, {
+            fontFamily: 'Fredoka One', fontSize: '24px', color: '#333'
+        }).setOrigin(0.5);
+        this.uiGroup.add(summaryText);
+
+        if (this.currentPassageResult.timeBonus > 0) {
+            const bonusLabel = this.add.text(this.W / 2, this.H / 2 + 35, `+${this.currentPassageResult.timeBonus} time bonus`, {
+                fontFamily: 'Nunito', fontSize: '15px', color: '#FF9800'
+            }).setOrigin(0.5);
+            this.uiGroup.add(bonusLabel);
+        }
 
         this.time.delayedCall(2000, () => {
-            const accuracy = this.questionsAnswered > 0
-                ? Math.round((this.questionsCorrect / this.questionsAnswered) * 100) : 0;
+            this.passageIndex++;
+            if (this.passageIndex < this.TOTAL_PASSAGES && this.passageIndex < this.currentPassages.length) {
+                this.startPassage();
+            } else {
+                this.goToResults();
+            }
+        });
+    }
 
-            // Convert grammar mistakes map to a plain object for passing to ResultScene
-            const mistakesObj: Record<string, number> = {};
-            this.grammarMistakes.forEach((count, tag) => {
-                mistakesObj[tag] = count;
-            });
+    // ==================== SHRUNK PASSAGE ====================
 
+    private showShrunkPassage() {
+        const shrunkBg = this.add.graphics();
+        shrunkBg.fillStyle(0xFFFFFF, 0.7);
+        shrunkBg.fillRoundedRect(10, 65, this.W - 20, 185, 12);
+        shrunkBg.lineStyle(1, 0xDDE3ED, 0.5);
+        shrunkBg.strokeRoundedRect(10, 65, this.W - 20, 185, 12);
+        this.uiGroup.add(shrunkBg);
+
+        const shrunkTitle = this.add.text(20, 72, this.currentPassage.title, {
+            fontFamily: 'Fredoka One', fontSize: '13px', color: '#2D5BCC'
+        });
+        this.uiGroup.add(shrunkTitle);
+
+        const shrunkText = this.add.text(20, 90, this.currentPassage.text, {
+            fontFamily: 'Nunito', fontSize: '12px', color: '#555',
+            wordWrap: { width: this.W - 50 },
+            lineSpacing: 3
+        });
+        this.uiGroup.add(shrunkText);
+    }
+
+    // ==================== UTILITIES ====================
+
+    private clearUI() {
+        this.uiGroup.clear(true, true);
+    }
+
+    private goToResults() {
+        // Aggregate stats
+        let totalTFCorrect = 0, totalTFTotal = 0;
+        let totalQCorrect = 0, totalQTotal = 0;
+
+        this.passageResults.forEach(r => {
+            totalTFCorrect += r.tfCorrect;
+            totalTFTotal += r.tfTotal;
+            totalQCorrect += r.qCorrect;
+            totalQTotal += r.qTotal;
+        });
+
+        this.cameras.main.fadeOut(400, 255, 255, 255);
+        this.time.delayedCall(400, () => {
             this.scene.start('ResultScene', {
                 score: this.score,
-                sessionId: this.sessionId,
-                bestCombo: this.bestCombo,
-                accuracy: accuracy,
-                questionsAnswered: this.questionsAnswered,
-                questionsCorrect: this.questionsCorrect,
-                grammarMistakes: mistakesObj
+                level: this.level,
+                tfCorrect: totalTFCorrect,
+                tfTotal: totalTFTotal,
+                qCorrect: totalQCorrect,
+                qTotal: totalQTotal,
+                bestStreak: this.bestStreak,
+                timeBonus: this.totalTimeBonus,
+                passagesCompleted: this.passageIndex
             });
         });
     }
