@@ -95,6 +95,9 @@ export class GameScene extends Phaser.Scene {
         // HUD (persistent)
         this.createHUD();
 
+        // Back button
+        this.createBackButton();
+
         // UI group for phase-specific elements
         this.uiGroup = this.add.group();
 
@@ -102,6 +105,25 @@ export class GameScene extends Phaser.Scene {
         this.startPassage();
 
         this.cameras.main.fadeIn(300, 245, 247, 250);
+    }
+
+    // ==================== BACK BUTTON ====================
+
+    private createBackButton() {
+        const btn = this.add.text(this.W - 15, 12, '✕ やめる', {
+            fontFamily: 'Nunito', fontSize: '14px', color: '#999',
+            fontStyle: 'bold'
+        }).setOrigin(1, 0).setDepth(100).setInteractive({ useHandCursor: true });
+
+        btn.on('pointerover', () => btn.setColor('#F44336'));
+        btn.on('pointerout', () => btn.setColor('#999'));
+        btn.on('pointerdown', () => {
+            this.stopTimer();
+            this.cameras.main.fadeOut(300, 245, 247, 250);
+            this.time.delayedCall(300, () => {
+                this.scene.start('ProfileScene');
+            });
+        });
     }
 
     // ==================== HUD ====================
@@ -117,9 +139,9 @@ export class GameScene extends Phaser.Scene {
         }).setDepth(51);
 
         // Streak
-        this.streakText = this.add.text(this.W - 15, 12, '', {
+        this.streakText = this.add.text(this.W / 2, 12, '', {
             fontFamily: 'Fredoka One', fontSize: '16px', color: '#FF9800'
-        }).setOrigin(1, 0).setDepth(51);
+        }).setOrigin(0.5, 0).setDepth(51);
 
         // Timer bar
         this.timerBar = this.add.graphics().setDepth(50);
