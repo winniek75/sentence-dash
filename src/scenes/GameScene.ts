@@ -713,6 +713,31 @@ export class GameScene extends Phaser.Scene {
             });
         }
 
+        // Milestone streak celebration (5, 10, 15...)
+        if (correct && this.streak > 0 && this.streak % 5 === 0) {
+            const celebEmoji = this.streak >= 15 ? '\uD83D\uDD25' : this.streak >= 10 ? '\u2B50' : '\uD83C\uDF1F';
+            const celebText = this.add.text(this.W / 2, this.H / 2 - 130, `${celebEmoji} ${this.streak} COMBO! ${celebEmoji}`, {
+                fontFamily: 'Fredoka One', fontSize: '22px', color: '#FFD700',
+                stroke: '#000', strokeThickness: 2
+            }).setOrigin(0.5).setDepth(102).setAlpha(0).setScale(0.3);
+
+            this.tweens.add({
+                targets: celebText,
+                alpha: 1, scale: 1.3, y: this.H / 2 - 150,
+                duration: 400,
+                ease: 'Back.out',
+                onComplete: () => {
+                    this.tweens.add({
+                        targets: celebText,
+                        alpha: 0, y: this.H / 2 - 180,
+                        duration: 500,
+                        delay: 600,
+                        onComplete: () => celebText.destroy()
+                    });
+                }
+            });
+        }
+
         // Screen effect
         if (!correct) {
             this.cameras.main.shake(200, 0.008);

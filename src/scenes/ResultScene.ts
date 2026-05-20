@@ -87,7 +87,10 @@ export class ResultScene extends Phaser.Scene {
 
         let headerText: string;
         let headerColor: string;
-        if (accuracy >= 80) {
+        if (accuracy === 100) {
+            headerText = 'PERFECT! \uD83D\uDC8E';
+            headerColor = '#FFD700';
+        } else if (accuracy >= 80) {
             headerText = 'GREAT JOB!';
             headerColor = '#4CAF50';
         } else if (accuracy >= 50) {
@@ -170,6 +173,28 @@ export class ResultScene extends Phaser.Scene {
 
         // Overall accuracy
         this.createStatItem(this.W / 2, 455, `${accuracy}%`, 'Overall', accuracy >= 80 ? '#4CAF50' : '#FF9800');
+
+        // Near-miss feedback
+        if (accuracy === 100) {
+            const perfectText = this.add.text(this.W / 2, 490, 'PERFECT! \uD83D\uDC8E', {
+                fontFamily: 'Fredoka One', fontSize: '18px', color: '#FFD700'
+            }).setOrigin(0.5).setAlpha(0).setScale(0.5);
+            this.tweens.add({
+                targets: perfectText,
+                alpha: 1, scale: 1.2,
+                duration: 500,
+                ease: 'Back.out',
+                yoyo: true,
+                hold: 1000,
+                onComplete: () => perfectText.setScale(1).setAlpha(1)
+            });
+        } else if (accuracy >= 80) {
+            const wrongCount = totalQuestions - totalCorrect;
+            this.add.text(this.W / 2, 490, `\u3042\u3068${wrongCount}\u554F\u3067\u30D1\u30FC\u30D5\u30A7\u30AF\u30C8\uFF01`, {
+                fontFamily: 'Nunito', fontSize: '14px', color: '#4CAF50',
+                fontStyle: 'bold'
+            }).setOrigin(0.5);
+        }
 
         // Wrong answers summary
         const hasWrongAnswers = wrongAnswers && wrongAnswers.length > 0;
