@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import { Passage, passages } from '../data/passages';
 import { soundManager } from '../systems/SoundManager';
+import { SaveManager } from '../systems/SaveManager';
 
 type Phase = 'reading' | 'trueFalse' | 'question' | 'passageSummary' | 'transition';
 
@@ -58,6 +59,17 @@ export class GameScene extends Phaser.Scene {
     // Prevent double-tap
     private inputLocked = false;
 
+    // Wrong answers tracked during this session
+    private sessionWrongAnswers: Array<{
+        passageTitle: string;
+        level: 'easy' | 'medium' | 'hard';
+        type: 'trueFalse' | 'question';
+        question: string;
+        playerAnswer: string;
+        correctAnswer: string;
+        explanation: string;
+    }> = [];
+
     constructor() {
         super({ key: 'GameScene' });
     }
@@ -75,6 +87,7 @@ export class GameScene extends Phaser.Scene {
         this.totalTimeBonus = 0;
         this.passageResults = [];
         this.inputLocked = false;
+        this.sessionWrongAnswers = [];
 
         // Select passages for this session
         const levelPassages = passages.filter(p => p.level === this.level);
@@ -119,6 +132,7 @@ export class GameScene extends Phaser.Scene {
         btn.on('pointerout', () => btn.setColor('#999'));
         btn.on('pointerdown', () => {
             this.stopTimer();
+            soundManager.stopSpeech();
             this.cameras.main.fadeOut(300, 245, 247, 250);
             this.time.delayedCall(300, () => {
                 this.scene.start('ProfileScene');
@@ -334,8 +348,31 @@ export class GameScene extends Phaser.Scene {
             duration: 1000
         });
 
+        // TTS Listen button
+        const listenBtnBg = this.add.graphics();
+        listenBtnBg.fillStyle(0x2D5BCC, 1);
+        listenBtnBg.fillRoundedRect(this.W / 2 - 60, 500, 120, 40, 20);
+        this.uiGroup.add(listenBtnBg);
+
+        const listenText = this.add.text(this.W / 2, 520, 'Listen', {
+            fontFamily: 'Fredoka One', fontSize: '16px', color: '#FFFFFF'
+        }).setOrigin(0.5);
+        this.uiGroup.add(listenText);
+
+        const listenZone = this.add.zone(this.W / 2, 520, 120, 40).setInteractive({ useHandCursor: true });
+        this.uiGroup.add(listenZone);
+        listenZone.on('pointerdown', () => {
+            soundManager.speak(this.currentPassage.text, 0.85);
+        });
+
+        // Auto-read the passage via TTS
+        this.time.delayedCall(500, () => {
+            soundManager.speak(this.currentPassage.text, 0.85);
+        });
+
         // Timer
         this.startTimer(this.READ_TIME, () => {
+            soundManager.stopSpeech();
             this.beginTrueFalsePhase();
         });
     }
@@ -379,6 +416,9 @@ export class GameScene extends Phaser.Scene {
             fontStyle: 'bold'
         }).setOrigin(0.5);
         this.uiGroup.add(stmtText);
+
+        // Read the T/F statement aloud
+        soundManager.speak(tf.statement, 0.9);
 
         // TRUE button (left)
         this.createTFButton(this.W / 2 - 80, 480, '\u2B55', 'TRUE', 0x4CAF50, () => {
@@ -447,6 +487,22 @@ export class GameScene extends Phaser.Scene {
             this.streak = 0;
             soundManager.playSound('wrong');
             this.showFeedback(false, tf.explanation, 0);
+
+            // Track wrong answer
+            const wrongEntry = {
+                passageTitle: this.currentPassage.title,
+                level: this.level,
+                type: 'trueFalse' as const,
+                question: tf.statement,
+                playerAnswer: playerSaidTrue === null ? 'Time up' : (playerSaidTrue ? 'TRUE' : 'FALSE'),
+                correctAnswer: tf.isTrue ? 'TRUE' : 'FALSE',
+                explanation: tf.explanation
+            };
+            this.sessionWrongAnswers.push(wrongEntry);
+            SaveManager.recordWrongAnswer({
+                ...wrongEntry,
+                date: new Date().toISOString().split('T')[0]
+            });
         }
 
         this.updateScoreDisplay();
@@ -491,6 +547,9 @@ export class GameScene extends Phaser.Scene {
             fontStyle: 'bold'
         }).setOrigin(0.5);
         this.uiGroup.add(qText);
+
+        // Read the question aloud
+        soundManager.speak(q.question, 0.9);
 
         // Answer choices
         q.choices.forEach((choice, i) => {
@@ -561,6 +620,22 @@ export class GameScene extends Phaser.Scene {
             soundManager.playSound('wrong');
             const explanation = `The correct answer is: ${q.choices[q.correctIndex]}`;
             this.showFeedback(false, explanation, 0);
+
+            // Track wrong answer
+            const wrongEntry = {
+                passageTitle: this.currentPassage.title,
+                level: this.level,
+                type: 'question' as const,
+                question: q.question,
+                playerAnswer: choiceIndex >= 0 ? q.choices[choiceIndex] : 'Time up',
+                correctAnswer: q.choices[q.correctIndex],
+                explanation: explanation
+            };
+            this.sessionWrongAnswers.push(wrongEntry);
+            SaveManager.recordWrongAnswer({
+                ...wrongEntry,
+                date: new Date().toISOString().split('T')[0]
+            });
         }
 
         this.updateScoreDisplay();
@@ -761,7 +836,8 @@ export class GameScene extends Phaser.Scene {
                 qTotal: totalQTotal,
                 bestStreak: this.bestStreak,
                 timeBonus: this.totalTimeBonus,
-                passagesCompleted: this.passageIndex
+                passagesCompleted: this.passageIndex,
+                wrongAnswers: this.sessionWrongAnswers
             });
         });
     }
