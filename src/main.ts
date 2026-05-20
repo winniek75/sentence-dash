@@ -5,6 +5,13 @@ import { ProfileScene } from './scenes/ProfileScene';
 
 import { soundManager } from './systems/SoundManager';
 
+declare global { interface Window { WiseXP?: any; } }
+
+// Initialize WiseXP SDK
+if (typeof window !== 'undefined' && window.WiseXP) {
+    window.WiseXP.init('sentence-dash');
+}
+
 const config: Phaser.Types.Core.GameConfig = {
     type: Phaser.AUTO,
     title: 'Reading Dash',

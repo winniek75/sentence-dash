@@ -3,6 +3,8 @@ import { Passage, passages } from '../data/passages';
 import { soundManager } from '../systems/SoundManager';
 import { SaveManager } from '../systems/SaveManager';
 
+declare global { interface Window { WiseXP?: any; } }
+
 type Phase = 'reading' | 'trueFalse' | 'question' | 'passageSummary' | 'transition';
 
 interface PassageResult {
@@ -503,6 +505,10 @@ export class GameScene extends Phaser.Scene {
                 ...wrongEntry,
                 date: new Date().toISOString().split('T')[0]
             });
+            // Report wrong answer to WiseXP
+            if (window.WiseXP) {
+                window.WiseXP.reportWrong({ question: tf.statement, correct: tf.isTrue ? 'TRUE' : 'FALSE', playerAnswer: wrongEntry.playerAnswer });
+            }
         }
 
         this.updateScoreDisplay();
@@ -636,6 +642,10 @@ export class GameScene extends Phaser.Scene {
                 ...wrongEntry,
                 date: new Date().toISOString().split('T')[0]
             });
+            // Report wrong answer to WiseXP
+            if (window.WiseXP) {
+                window.WiseXP.reportWrong({ question: q.question, correct: q.choices[q.correctIndex], playerAnswer: wrongEntry.playerAnswer });
+            }
         }
 
         this.updateScoreDisplay();

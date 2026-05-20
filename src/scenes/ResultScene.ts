@@ -1,6 +1,8 @@
 import * as Phaser from 'phaser';
 import { SaveManager } from '../systems/SaveManager';
 
+declare global { interface Window { WiseXP?: any; } }
+
 interface WrongAnswerEntry {
     passageTitle: string;
     level: 'easy' | 'medium' | 'hard';
@@ -47,6 +49,17 @@ export class ResultScene extends Phaser.Scene {
         const bg = this.add.graphics();
         bg.fillGradientStyle(0xF5F7FA, 0xF5F7FA, 0xE8ECF2, 0xE8ECF2, 1);
         bg.fillRect(0, 0, this.W, this.H);
+
+        // Report game result to WiseXP
+        if (window.WiseXP) {
+            window.WiseXP.reportGame({
+                score,
+                correct: tfCorrect + qCorrect,
+                total: tfTotal + qTotal,
+                maxCombo: bestStreak,
+                grade: 0,
+            });
+        }
 
         // Save progress
         SaveManager.updateHighScore(score);
