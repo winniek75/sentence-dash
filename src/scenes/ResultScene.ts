@@ -50,6 +50,18 @@ export class ResultScene extends Phaser.Scene {
         bg.fillGradientStyle(0xF5F7FA, 0xF5F7FA, 0xE8ECF2, 0xE8ECF2, 1);
         bg.fillRect(0, 0, this.W, this.H);
 
+        // → MoWISE portal へスコア送信 (WiseGame Bridge)
+        try {
+            const w = window as any;
+            const totalQ = tfTotal + qTotal;
+            const acc = totalQ > 0 ? Math.round(((tfCorrect + qCorrect) / totalQ) * 100) : 0;
+            w.WiseGame && w.WiseGame.reportComplete({
+                score, maxScore: Math.max(score, 100), accuracy: acc,
+                metadata: { level, bestStreak, timeBonus,
+                            wrongAnswers: (wrongAnswers || []).slice(0, 20) }
+            });
+        } catch (e) {}
+
         // Report game result to WiseXP
         if (window.WiseXP) {
             window.WiseXP.reportGame({
