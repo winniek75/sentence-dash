@@ -58,7 +58,9 @@ export class ResultScene extends Phaser.Scene {
             w.WiseGame && w.WiseGame.reportComplete({
                 score, maxScore: Math.max(score, 100), accuracy: acc,
                 metadata: { level, bestStreak, timeBonus,
-                            wrongAnswers: (wrongAnswers || []).slice(0, 20) }
+                            wrongAnswers: (wrongAnswers || []).slice(0, 20).map((w: WrongAnswerEntry) => ({
+                                q: w.question, correct: w.correctAnswer, chosen: w.playerAnswer, tag: 'word_order'
+                            })) }
             });
         } catch (e) {}
 
