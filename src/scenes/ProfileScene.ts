@@ -1,8 +1,14 @@
 import * as Phaser from 'phaser';
 import { SaveManager } from '../systems/SaveManager';
+import {
+    Level, GameMode, COUNT_OPTIONS, DEFAULT_COUNT, DEFAULT_MODE, JP_FONT,
+    consumeLaunchParams, isEmbedded, goToPortal
+} from '../systems/Launch';
 
 export class ProfileScene extends Phaser.Scene {
-    private selectedLevel: 'easy' | 'medium' | 'hard' = 'easy';
+    private selectedLevel: Level = 'easy';
+    private selectedMode: GameMode = DEFAULT_MODE;
+    private selectedCount = DEFAULT_COUNT;
     private progress = SaveManager.loadProgress();
 
     constructor() {
@@ -12,6 +18,19 @@ export class ProfileScene extends Phaser.Scene {
     create() {
         this.progress = SaveManager.loadProgress();
         this.selectedLevel = this.progress.selectedLevel || 'easy';
+        this.selectedMode = this.progress.selectedMode || DEFAULT_MODE;
+        this.selectedCount = this.progress.selectedCount || DEFAULT_COUNT;
+
+        // URLパラメータで指定されていれば、メニューを飛ばして直接はじめる
+        const launch = consumeLaunchParams();
+        if (launch) {
+            this.scene.start('GameScene', {
+                level: launch.level || this.selectedLevel,
+                mode: launch.mode || DEFAULT_MODE,
+                count: launch.count || DEFAULT_COUNT
+            });
+            return;
+        }
 
         const W = 420;
         const H = 780;
@@ -26,13 +45,17 @@ export class ProfileScene extends Phaser.Scene {
         this.add.circle(380, 650, 130, 0xC5D8F7, 0.3);
 
         // Title
-        const title = this.add.text(W / 2, 80, 'Reading Dash', {
-            fontFamily: 'Fredoka One', fontSize: '40px', color: '#2D5BCC',
+        const title = this.add.text(W / 2, 52, 'Reading Dash', {
+            fontFamily: 'Fredoka One', fontSize: '38px', color: '#2D5BCC',
             stroke: '#fff', strokeThickness: 3
         }).setOrigin(0.5);
 
-        this.add.text(W / 2, 125, 'English Reading Training', {
-            fontFamily: 'Nunito', fontSize: '16px', color: '#5B7DB8'
+        this.add.text(W / 2, 92, 'リーディングダッシュ', {
+            fontFamily: JP_FONT, fontSize: '15px', color: '#3A5FA0', fontStyle: 'bold'
+        }).setOrigin(0.5);
+
+        this.add.text(W / 2, 116, '英語の文章を読んで、しつもんに答えよう', {
+            fontFamily: JP_FONT, fontSize: '13px', color: '#5B7DB8'
         }).setOrigin(0.5);
 
         this.tweens.add({
@@ -45,84 +68,118 @@ export class ProfileScene extends Phaser.Scene {
         });
 
         // --- Name Input Card ---
-        this.createNameCard(W / 2, 210);
+        this.createNameCard(W / 2, 168);
 
-        // --- Difficulty Selector ---
-        this.add.text(W / 2, 310, 'Difficulty', {
-            fontFamily: 'Fredoka One', fontSize: '22px', color: '#3A5FA0'
-        }).setOrigin(0.5);
+        // --- Level ---
+        this.sectionLabel(W / 2, 222, 'レベル');
 
-        const levels: Array<{ level: 'easy' | 'medium' | 'hard'; label: string; stars: string; color: number }> = [
-            { level: 'easy', label: 'Easy', stars: '\u2B50', color: 0x4CAF50 },
-            { level: 'medium', label: 'Medium', stars: '\u2B50\u2B50', color: 0xFF9800 },
-            { level: 'hard', label: 'Hard', stars: '\u2B50\u2B50\u2B50', color: 0xF44336 }
+        const levels: Array<{ level: Level; label: string; sub: string; stars: string; color: number }> = [
+            { level: 'easy', label: 'Easy', sub: 'みじかい文', stars: '⭐', color: 0x4CAF50 },
+            { level: 'medium', label: 'Medium', sub: 'ふつう', stars: '⭐⭐', color: 0xFF9800 },
+            { level: 'hard', label: 'Hard', sub: 'ながい文', stars: '⭐⭐⭐', color: 0xF44336 }
         ];
 
-        const levelButtons: Array<{ bg: Phaser.GameObjects.Graphics; text: Phaser.GameObjects.Text; starsText: Phaser.GameObjects.Text; level: 'easy' | 'medium' | 'hard' }> = [];
-
         levels.forEach((item, i) => {
-            const bx = 75 + i * 120;
-            const by = 380;
+            const bx = 85 + i * 125;
+            const by = 276;
             const isSelected = this.selectedLevel === item.level;
-
-            const btnBg = this.add.graphics();
-            if (isSelected) {
-                btnBg.fillStyle(item.color, 1);
-                btnBg.fillRoundedRect(bx - 50, by - 40, 100, 80, 14);
-            } else {
-                btnBg.fillStyle(0xFFFFFF, 1);
-                btnBg.fillRoundedRect(bx - 50, by - 40, 100, 80, 14);
-                btnBg.lineStyle(2, item.color, 0.6);
-                btnBg.strokeRoundedRect(bx - 50, by - 40, 100, 80, 14);
-            }
+            this.optionBox(bx, by, 110, 76, item.color, isSelected);
 
             const labelColor = isSelected ? '#FFFFFF' : '#333333';
-            const labelText = this.add.text(bx, by - 12, item.label, {
+            this.add.text(bx, by - 22, item.label, {
                 fontFamily: 'Fredoka One', fontSize: '18px', color: labelColor
             }).setOrigin(0.5);
 
-            const starsText = this.add.text(bx, by + 15, item.stars, {
-                fontSize: '18px'
+            this.add.text(bx, by + 1, item.stars, { fontSize: '14px' }).setOrigin(0.5);
+
+            this.add.text(bx, by + 23, item.sub, {
+                fontFamily: JP_FONT, fontSize: '11px', color: isSelected ? '#FFFFFF' : '#777777'
             }).setOrigin(0.5);
 
-            const zone = this.add.zone(bx, by, 100, 80).setInteractive({ useHandCursor: true });
+            const zone = this.add.zone(bx, by, 110, 76).setInteractive({ useHandCursor: true });
             zone.on('pointerdown', () => {
-                this.selectedLevel = item.level;
                 this.progress.selectedLevel = item.level;
                 SaveManager.saveProgress(this.progress);
                 this.scene.restart();
             });
+        });
 
-            levelButtons.push({ bg: btnBg, text: labelText, starsText, level: item.level });
+        // --- Mode (じっくり読む / 速読チャレンジ) ---
+        this.sectionLabel(W / 2, 336, '読みかた');
+
+        const modes: Array<{ mode: GameMode; label: string; sub: string; color: number }> = [
+            { mode: 'careful', label: '🐢 じっくり読む', sub: '時間せいげんなし', color: 0x2D9C8F },
+            { mode: 'speed', label: '⚡ 速読チャレンジ', sub: '時間せいげんあり', color: 0x7E57C2 }
+        ];
+
+        modes.forEach((item, i) => {
+            const bx = 115 + i * 190;
+            const by = 386;
+            const isSelected = this.selectedMode === item.mode;
+            this.optionBox(bx, by, 180, 68, item.color, isSelected);
+
+            this.add.text(bx, by - 12, item.label, {
+                fontFamily: JP_FONT, fontSize: '16px', fontStyle: 'bold',
+                color: isSelected ? '#FFFFFF' : '#333333'
+            }).setOrigin(0.5);
+
+            this.add.text(bx, by + 15, item.sub, {
+                fontFamily: JP_FONT, fontSize: '12px', color: isSelected ? '#FFFFFF' : '#777777'
+            }).setOrigin(0.5);
+
+            const zone = this.add.zone(bx, by, 180, 68).setInteractive({ useHandCursor: true });
+            zone.on('pointerdown', () => {
+                this.progress.selectedMode = item.mode;
+                SaveManager.saveProgress(this.progress);
+                this.scene.restart();
+            });
+        });
+
+        // --- Number of passages (2 / 4 / 8) ---
+        this.sectionLabel(W / 2, 442, '文章の数');
+
+        // 1文章あたりの目安: じっくり 約1分半 / 速読 約1分
+        const minutesPer = this.selectedMode === 'careful' ? 1.5 : 1;
+        COUNT_OPTIONS.forEach((n, i) => {
+            const bx = 85 + i * 125;
+            const by = 490;
+            const isSelected = this.selectedCount === n;
+            this.optionBox(bx, by, 110, 60, 0x2D5BCC, isSelected);
+
+            this.add.text(bx, by - 10, `${n}`, {
+                fontFamily: 'Fredoka One', fontSize: '24px', color: isSelected ? '#FFFFFF' : '#2D5BCC'
+            }).setOrigin(0.5);
+
+            this.add.text(bx, by + 17, `やく${Math.round(n * minutesPer)}分`, {
+                fontFamily: JP_FONT, fontSize: '11px', color: isSelected ? '#FFFFFF' : '#777777'
+            }).setOrigin(0.5);
+
+            const zone = this.add.zone(bx, by, 110, 60).setInteractive({ useHandCursor: true });
+            zone.on('pointerdown', () => {
+                this.progress.selectedCount = n;
+                SaveManager.saveProgress(this.progress);
+                this.scene.restart();
+            });
         });
 
         // --- High Score Display ---
         if (this.progress.highScore > 0) {
-            const scoreBg = this.add.graphics();
-            scoreBg.fillStyle(0xFFFFFF, 0.8);
-            scoreBg.fillRoundedRect(W / 2 - 150, 460, 300, 60, 12);
-
-            this.add.text(W / 2, 475, `High Score: ${this.progress.highScore}`, {
-                fontFamily: 'Fredoka One', fontSize: '20px', color: '#FF9800'
-            }).setOrigin(0.5);
-
-            this.add.text(W / 2, 500, `Total: ${this.progress.totalScore} pts`, {
-                fontFamily: 'Nunito', fontSize: '14px', color: '#888'
+            this.add.text(W / 2, 546, `High Score: ${this.progress.highScore}   (Total: ${this.progress.totalScore} pts)`, {
+                fontFamily: 'Nunito', fontSize: '13px', color: '#C77700', fontStyle: 'bold'
             }).setOrigin(0.5);
         }
 
         // --- Start Button ---
-        const startY = this.progress.highScore > 0 ? 580 : 500;
-
-        const startBg = this.add.graphics();
-        startBg.fillStyle(0x2D5BCC, 1);
-        startBg.fillRoundedRect(W / 2 - 110, startY - 30, 220, 60, 30);
+        const startY = 610;
 
         // Shadow
         const startShadow = this.add.graphics();
         startShadow.fillStyle(0x1A3D8F, 0.4);
         startShadow.fillRoundedRect(W / 2 - 107, startY - 27, 220, 60, 30);
-        startShadow.setDepth(-1);
+
+        const startBg = this.add.graphics();
+        startBg.fillStyle(0x2D5BCC, 1);
+        startBg.fillRoundedRect(W / 2 - 110, startY - 30, 220, 60, 30);
 
         const startText = this.add.text(W / 2, startY, 'START', {
             fontFamily: 'Fredoka One', fontSize: '28px', color: '#FFFFFF'
@@ -144,37 +201,70 @@ export class ProfileScene extends Phaser.Scene {
             SaveManager.saveProgress(this.progress);
             this.cameras.main.fadeOut(300, 255, 255, 255);
             this.time.delayedCall(300, () => {
-                this.scene.start('GameScene', { level: this.selectedLevel });
+                this.scene.start('GameScene', {
+                    level: this.selectedLevel,
+                    mode: this.selectedMode,
+                    count: this.selectedCount
+                });
             });
         });
+
+        // --- Portal link (iframe 埋め込み時は親側に戻る手段があるので出さない) ---
+        if (!isEmbedded()) {
+            const home = this.add.text(W / 2, 690, '🏠 学習ホームにもどる', {
+                fontFamily: JP_FONT, fontSize: '14px', color: '#5B7DB8'
+            }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+            home.on('pointerover', () => home.setColor('#2D5BCC'));
+            home.on('pointerout', () => home.setColor('#5B7DB8'));
+            home.on('pointerdown', () => goToPortal());
+        }
 
         // Fade in
         this.cameras.main.fadeIn(300, 255, 255, 255);
     }
 
+    private sectionLabel(x: number, y: number, text: string) {
+        this.add.text(x, y, text, {
+            fontFamily: JP_FONT, fontSize: '15px', color: '#3A5FA0', fontStyle: 'bold'
+        }).setOrigin(0.5);
+    }
+
+    private optionBox(x: number, y: number, w: number, h: number, color: number, selected: boolean) {
+        const g = this.add.graphics();
+        if (selected) {
+            g.fillStyle(color, 1);
+            g.fillRoundedRect(x - w / 2, y - h / 2, w, h, 14);
+        } else {
+            g.fillStyle(0xFFFFFF, 1);
+            g.fillRoundedRect(x - w / 2, y - h / 2, w, h, 14);
+            g.lineStyle(2, color, 0.6);
+            g.strokeRoundedRect(x - w / 2, y - h / 2, w, h, 14);
+        }
+    }
+
     private createNameCard(x: number, y: number) {
         const cardBg = this.add.graphics();
         cardBg.fillStyle(0xFFFFFF, 0.9);
-        cardBg.fillRoundedRect(x - 170, y - 35, 340, 70, 14);
+        cardBg.fillRoundedRect(x - 170, y - 30, 340, 60, 14);
         cardBg.lineStyle(2, 0xD0D8E8, 1);
-        cardBg.strokeRoundedRect(x - 170, y - 35, 340, 70, 14);
+        cardBg.strokeRoundedRect(x - 170, y - 30, 340, 60, 14);
 
-        this.add.text(x - 150, y - 22, 'Your Name', {
-            fontFamily: 'Nunito', fontSize: '12px', color: '#8899BB'
+        this.add.text(x - 150, y - 23, 'Your Name / なまえ', {
+            fontFamily: JP_FONT, fontSize: '11px', color: '#8899BB'
         });
 
-        const displayName = this.progress.playerName || 'Tap to enter name';
+        const displayName = this.progress.playerName || 'タップして なまえを入れる';
         const nameColor = this.progress.playerName ? '#333333' : '#AABBCC';
 
-        this.add.text(x - 150, y + 2, displayName, {
-            fontFamily: 'Nunito', fontSize: '20px', color: nameColor, fontStyle: 'bold'
+        this.add.text(x - 150, y - 4, displayName, {
+            fontFamily: JP_FONT, fontSize: '18px', color: nameColor, fontStyle: 'bold'
         });
 
-        this.add.text(x + 140, y - 5, '\u270F\uFE0F', { fontSize: '20px' }).setOrigin(0.5);
+        this.add.text(x + 140, y, '✏️', { fontSize: '20px' }).setOrigin(0.5);
 
-        const zone = this.add.zone(x, y, 340, 70).setInteractive({ useHandCursor: true });
+        const zone = this.add.zone(x, y, 340, 60).setInteractive({ useHandCursor: true });
         zone.on('pointerdown', () => {
-            const name = window.prompt("Your Name:", this.progress.playerName || '');
+            const name = window.prompt('Your Name / なまえ:', this.progress.playerName || '');
             if (name !== null && name.trim()) {
                 this.progress.playerName = name.trim();
                 SaveManager.saveProgress(this.progress);

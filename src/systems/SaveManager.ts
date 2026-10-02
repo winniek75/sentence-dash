@@ -9,6 +9,11 @@ export interface SessionRecord {
   qTotal: number;
   bestStreak: number;
   timeBonus: number;
+  /** 以下は 2026-10 以降の記録のみ */
+  mode?: 'careful' | 'speed';
+  passages?: number;
+  /** 時間切れの問題数（誤答とは別に数える） */
+  timeouts?: number;
 }
 
 export interface WrongAnswer {
@@ -26,6 +31,10 @@ export interface WrongAnswer {
 export interface GameProgress {
   playerName: string;
   selectedLevel: 'easy' | 'medium' | 'hard';
+  selectedMode?: 'careful' | 'speed';
+  selectedCount?: number;
+  /** 最近読んだ文章のID（同じ文章ばかり出ないようにするため） */
+  recentPassages?: string[];
   totalScore: number;
   highScore: number;
   sessionHistory: SessionRecord[];
@@ -124,8 +133,18 @@ export class SaveManager {
    */
   public static getMostMissed(limit: number = 10): WrongAnswer[] {
     const progress = this.loadProgress();
-    return [...progress.wrongAnswers]
+    // 以前の版が保存した「時間切れ」は誤答ではないので除く
+    return progress.wrongAnswers
+      .filter(w => w.playerAnswer !== 'Time up')
       .sort((a, b) => b.timesWrong - a.timesWrong)
       .slice(0, limit);
+  }
+
+  /** 今回読んだ文章を記録する（直近24件まで） */
+  public static rememberPassages(ids: string[]): void {
+    const progress = this.loadProgress();
+    const recent = (progress.recentPassages || []).filter(id => !ids.includes(id));
+    progress.recentPassages = [...recent, ...ids].slice(-24);
+    this.saveProgress(progress);
   }
 }
