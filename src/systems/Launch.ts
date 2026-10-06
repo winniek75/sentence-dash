@@ -13,7 +13,7 @@
  * 省略した項目は level=保存済みの選択（なければ easy）、mode=careful、count=2。
  */
 
-export type Level = 'easy' | 'medium' | 'hard';
+export type Level = 'easy' | 'medium' | 'hard' | 'advanced';
 export type GameMode = 'careful' | 'speed';
 
 export const PORTAL_URL = 'https://wise-english-portal.vercel.app';

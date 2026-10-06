@@ -1,12 +1,12 @@
 import * as Phaser from 'phaser';
 import { SaveManager } from '../systems/SaveManager';
-import { GameMode, DEFAULT_COUNT, DEFAULT_MODE, JP_FONT, MODE_LABEL, isEmbedded, goToPortal } from '../systems/Launch';
+import { Level, GameMode, DEFAULT_COUNT, DEFAULT_MODE, JP_FONT, MODE_LABEL, isEmbedded, goToPortal } from '../systems/Launch';
 
 declare global { interface Window { WiseXP?: any; } }
 
 interface WrongAnswerEntry {
     passageTitle: string;
-    level: 'easy' | 'medium' | 'hard';
+    level: Level;
     type: 'trueFalse' | 'question';
     question: string;
     playerAnswer: string;
@@ -16,7 +16,7 @@ interface WrongAnswerEntry {
 
 interface ResultData {
     score: number;
-    level: 'easy' | 'medium' | 'hard';
+    level: Level;
     mode?: GameMode;
     count?: number;
     /** 時間切れの数（tfTotal / qTotal には含まれるが、誤答ではない） */
@@ -173,7 +173,7 @@ export class ResultScene extends Phaser.Scene {
         }
 
         // Level + mode badge
-        const levelColors: Record<string, string> = { easy: '#4CAF50', medium: '#FF9800', hard: '#F44336' };
+        const levelColors: Record<string, string> = { easy: '#4CAF50', medium: '#FF9800', hard: '#F44336', advanced: '#9C27B0' };
         this.add.text(this.W / 2, 238, `${level.toUpperCase()}  ・  ${MODE_LABEL[mode]}  ・  ${passagesCompleted}文章`, {
             fontFamily: JP_FONT, fontSize: '12px', color: '#FFFFFF', fontStyle: 'bold',
             backgroundColor: levelColors[level],

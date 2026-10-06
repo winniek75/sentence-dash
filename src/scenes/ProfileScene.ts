@@ -75,12 +75,13 @@ export class ProfileScene extends Phaser.Scene {
 
         const levels: Array<{ level: Level; label: string; sub: string; stars: string; color: number }> = [
             { level: 'easy', label: 'Easy', sub: 'みじかい文', stars: '⭐', color: 0x4CAF50 },
-            { level: 'medium', label: 'Medium', sub: 'ふつう', stars: '⭐⭐', color: 0xFF9800 },
-            { level: 'hard', label: 'Hard', sub: 'ながい文', stars: '⭐⭐⭐', color: 0xF44336 }
+            { level: 'medium', label: 'Medium', sub: '3級', stars: '⭐⭐', color: 0xFF9800 },
+            { level: 'hard', label: 'Hard', sub: '準2級', stars: '⭐⭐⭐', color: 0xF44336 },
+            { level: 'advanced', label: 'Adv.', sub: '2級', stars: '⭐⭐⭐⭐', color: 0x9C27B0 }
         ];
 
         levels.forEach((item, i) => {
-            const bx = 85 + i * 125;
+            const bx = 55 + i * 103;
             const by = 276;
             const isSelected = this.selectedLevel === item.level;
             this.optionBox(bx, by, 110, 76, item.color, isSelected);

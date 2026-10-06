@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="theme-color" content="#E8F0FE" />
-    <title>Reading Dash</title>
+    <title>Reading Dash｜リーディングダッシュ（英語の短文読解）</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Noto+Sans+JP&family=Nunito:wght@700&display=swap" rel="stylesheet">
     <style>
       *, *::before, *::after {
@@ -142,12 +142,14 @@
         }
       }
     </style>
-    <script type="module" crossorigin src="./assets/index-DUZc14jQ.js"></script>
-  </head>
+  <script src="./wise-game-bridge.js"></script>
+<script>window.addEventListener("DOMContentLoaded",function(){window.WiseGame&&window.WiseGame.init({gameId:"sentence-dash"})});</script>
+  <script type="module" crossorigin src="./assets/index-DGY-G77z.js"></script>
+</head>
   <body>
     <div id="loading">
       <div class="loading-title">Reading Dash</div>
-      <div class="loading-subtitle">English Reading Training</div>
+      <div class="loading-subtitle">英語の文章を読んで、しつもんに答えよう</div>
       <div class="loading-bar-container">
         <div class="loading-bar"></div>
       </div>
@@ -156,6 +158,7 @@
       </div>
     </div>
     <div id="app"></div>
+    <script src="https://cdn.jsdelivr.net/gh/winniek75/wise-xp-sdk@main/wise-xp.js"></script>
     <script>
       // Hide loading screen once game is ready
       window.addEventListener('load', function() {

@@ -13,7 +13,7 @@ if (typeof window !== 'undefined' && window.WiseXP) {
 }
 
 const config: Phaser.Types.Core.GameConfig = {
-    type: Phaser.AUTO,
+    type: Phaser.CANVAS,
     title: 'Reading Dash',
     parent: 'app',
     width: 420,
@@ -23,8 +23,27 @@ const config: Phaser.Types.Core.GameConfig = {
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
     backgroundColor: '#F5F7FA',
-    scene: [ProfileScene, GameScene, ResultScene]
+    scene: [ProfileScene, GameScene, ResultScene],
+    render: {
+        antialias: true,
+    }
 };
 
 soundManager.init();
-new Phaser.Game(config);
+const game = new Phaser.Game(config);
+
+// 高解像度ディスプレイでのぼやけを解消
+game.events.once('ready', () => {
+    const canvas = game.canvas;
+    const dpr = Math.min(window.devicePixelRatio || 1, 3);
+    if (dpr > 1) {
+        const w = canvas.width;
+        const h = canvas.height;
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        canvas.style.width = `${w}px`;
+        canvas.style.height = `${h}px`;
+        const ctx = canvas.getContext('2d');
+        if (ctx) ctx.scale(dpr, dpr);
+    }
+});

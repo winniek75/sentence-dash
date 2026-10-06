@@ -1,8 +1,10 @@
+import { Level } from './Launch';
+
 export interface SessionRecord {
   sessionId: string;
   date: string;
   score: number;
-  level: 'easy' | 'medium' | 'hard';
+  level: Level;
   tfCorrect: number;
   tfTotal: number;
   qCorrect: number;
@@ -19,7 +21,7 @@ export interface SessionRecord {
 export interface WrongAnswer {
   date: string;
   passageTitle: string;
-  level: 'easy' | 'medium' | 'hard';
+  level: Level;
   type: 'trueFalse' | 'question';
   question: string;
   playerAnswer: string;
@@ -30,7 +32,7 @@ export interface WrongAnswer {
 
 export interface GameProgress {
   playerName: string;
-  selectedLevel: 'easy' | 'medium' | 'hard';
+  selectedLevel: Level;
   selectedMode?: 'careful' | 'speed';
   selectedCount?: number;
   /** 最近読んだ文章のID（同じ文章ばかり出ないようにするため） */
@@ -120,7 +122,7 @@ export class SaveManager {
   /**
    * Get wrong answers, optionally filtered by level
    */
-  public static getWrongAnswers(level?: 'easy' | 'medium' | 'hard'): WrongAnswer[] {
+  public static getWrongAnswers(level?: Level): WrongAnswer[] {
     const progress = this.loadProgress();
     if (level) {
       return progress.wrongAnswers.filter(w => w.level === level);
