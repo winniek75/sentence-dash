@@ -26,24 +26,18 @@ const config: Phaser.Types.Core.GameConfig = {
     scene: [ProfileScene, GameScene, ResultScene],
     render: {
         antialias: true,
+        pixelArt: false,
+    },
+    input: {
+        activePointers: 1,
+        touch: {
+            capture: true,
+        }
     }
 };
 
 soundManager.init();
-const game = new Phaser.Game(config);
+new Phaser.Game(config);
 
-// 高解像度ディスプレイでのぼやけを解消
-game.events.once('ready', () => {
-    const canvas = game.canvas;
-    const dpr = Math.min(window.devicePixelRatio || 1, 3);
-    if (dpr > 1) {
-        const w = canvas.width;
-        const h = canvas.height;
-        canvas.width = w * dpr;
-        canvas.height = h * dpr;
-        canvas.style.width = `${w}px`;
-        canvas.style.height = `${h}px`;
-        const ctx = canvas.getContext('2d');
-        if (ctx) ctx.scale(dpr, dpr);
-    }
-});
+// DPR処理を削除 — Phaser の Scale.FIT がポインター座標を正しく変換するので
+// canvas サイズを手動で変更するとタッチ座標がずれる原因になる
