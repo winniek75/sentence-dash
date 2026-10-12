@@ -21,12 +21,12 @@ const config: Phaser.Types.Core.GameConfig = {
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
+        expandParent: true,
     },
     backgroundColor: '#F5F7FA',
     scene: [ProfileScene, GameScene, ResultScene],
     render: {
         antialias: true,
-        pixelArt: false,
     },
     input: {
         activePointers: 1,
@@ -37,24 +37,4 @@ const config: Phaser.Types.Core.GameConfig = {
 };
 
 soundManager.init();
-const game = new Phaser.Game(config);
-
-// 高解像度ディスプレイ対応:
-// Phaser がポインター座標を管理した後で、canvas の描画バッファだけ拡大する。
-// scale.refresh() を呼ぶことで入力座標も再計算される。
-game.events.once('ready', () => {
-    const canvas = game.canvas;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    if (dpr > 1) {
-        const cssW = canvas.clientWidth;
-        const cssH = canvas.clientHeight;
-        canvas.width = Math.round(cssW * dpr);
-        canvas.height = Math.round(cssH * dpr);
-        canvas.style.width = cssW + 'px';
-        canvas.style.height = cssH + 'px';
-        const ctx = canvas.getContext('2d');
-        if (ctx) ctx.scale(dpr, dpr);
-        // Phaserの入力座標を再計算
-        game.scale.refresh();
-    }
-});
+new Phaser.Game(config);
