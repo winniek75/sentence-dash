@@ -11,12 +11,16 @@ if (typeof window !== 'undefined' && window.WiseXP) {
     window.WiseXP.init('sentence-dash');
 }
 
+const DPR = Math.min(window.devicePixelRatio || 1, 2);
+// Export globally for scenes to use
+(window as any).__RD_S = DPR;
+
 const config: Phaser.Types.Core.GameConfig = {
     type: Phaser.CANVAS,
     title: 'Reading Dash',
     parent: 'app',
-    width: 960,
-    height: 540,
+    width: Math.round(960 * DPR),
+    height: Math.round(540 * DPR),
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -34,16 +38,4 @@ const config: Phaser.Types.Core.GameConfig = {
 };
 
 soundManager.init();
-const game = new Phaser.Game(config);
-
-// テキストの鮮明化: 全シーンの Text オブジェクトの resolution を DPR に設定
-const DPR = Math.min(window.devicePixelRatio || 1, 3);
-game.scene.scenes.forEach((s) => {
-    s.events.on('create', () => {
-        s.children.list.forEach((child) => {
-            if (child instanceof Phaser.GameObjects.Text) {
-                child.setResolution(DPR);
-            }
-        });
-    });
-});
+new Phaser.Game(config);

@@ -31,14 +31,16 @@ interface FeedbackInfo {
 }
 
 export class GameScene extends Phaser.Scene {
-    private readonly W = 960;
-    private readonly H = 540;
+    private readonly S = (window as any).__RD_S || 1;
+    private p(v: number) { return Math.round(v * this.S); }
+    private readonly W = Math.round(960 * ((window as any).__RD_S || 1));
+    private readonly H = Math.round(540 * ((window as any).__RD_S || 1));
     // Left column: passage area
-    private readonly LEFT_W = 560;
+    private readonly LEFT_W = Math.round(560 * ((window as any).__RD_S || 1));
     // Right column: questions/answers area
-    private readonly RIGHT_X = 580;
-    private readonly RIGHT_W = 360;
-    private readonly RIGHT_CX = 760; // center of right column
+    private readonly RIGHT_X = Math.round(580 * ((window as any).__RD_S || 1));
+    private readonly RIGHT_W = Math.round(360 * ((window as any).__RD_S || 1));
+    private readonly RIGHT_CX = Math.round(760 * ((window as any).__RD_S || 1)); // center of right column
 
     // 速読チャレンジ（speed）のときだけ使う制限時間（秒）
     private readonly READ_TIME = 18;
@@ -160,8 +162,8 @@ export class GameScene extends Phaser.Scene {
     // ==================== BACK BUTTON ====================
 
     private createBackButton() {
-        const btn = this.add.text(this.W - 15, 12, '✕ やめる', {
-            fontFamily: 'Nunito', fontSize: '14px', color: '#999',
+        const btn = this.add.text(this.W - this.p(15), this.p(12), '✕ やめる', {
+            fontFamily: 'Nunito', fontSize: `${this.p(14)}px`, color: '#999',
             fontStyle: 'bold'
         }).setOrigin(1, 0).setDepth(100).setInteractive({ useHandCursor: true });
 
@@ -185,13 +187,13 @@ export class GameScene extends Phaser.Scene {
         this.drawProgressBar();
 
         // Score
-        this.scoreText = this.add.text(15, 12, 'Score: 0', {
-            fontFamily: 'Fredoka One', fontSize: '16px', color: '#2D5BCC'
+        this.scoreText = this.add.text(this.p(15), this.p(12), 'Score: 0', {
+            fontFamily: 'Fredoka One', fontSize: `${this.p(16)}px`, color: '#2D5BCC'
         }).setDepth(51);
 
         // Streak
-        this.streakText = this.add.text(this.W / 2, 12, '', {
-            fontFamily: 'Fredoka One', fontSize: '16px', color: '#FF9800'
+        this.streakText = this.add.text(this.W / 2, this.p(12), '', {
+            fontFamily: 'Fredoka One', fontSize: `${this.p(16)}px`, color: '#FF9800'
         }).setOrigin(0.5, 0).setDepth(51);
 
         // Timer bar
@@ -202,19 +204,19 @@ export class GameScene extends Phaser.Scene {
         this.progressBar.clear();
         // Background
         this.progressBar.fillStyle(0xDDE3ED, 1);
-        this.progressBar.fillRoundedRect(10, 36, this.W - 20, 8, 4);
+        this.progressBar.fillRoundedRect(this.p(10), this.p(36), this.W - this.p(20), this.p(8), this.p(4));
         // Fill
-        const fillW = ((this.passageIndex) / this.totalPassages) * (this.W - 20);
+        const fillW = ((this.passageIndex) / this.totalPassages) * (this.W - this.p(20));
         if (fillW > 0) {
             this.progressBar.fillStyle(0x4CAF50, 1);
-            this.progressBar.fillRoundedRect(10, 36, fillW, 8, 4);
+            this.progressBar.fillRoundedRect(this.p(10), this.p(36), fillW, this.p(8), this.p(4));
         }
         // Label
         const existingLabel = this.children.getByName('progressLabel') as Phaser.GameObjects.Text;
         if (existingLabel) existingLabel.destroy();
 
-        this.add.text(this.W / 2, 40, `${this.passageIndex + 1} / ${this.totalPassages}`, {
-            fontFamily: 'Nunito', fontSize: '10px', color: '#888'
+        this.add.text(this.W / 2, this.p(40), `${this.passageIndex + 1} / ${this.totalPassages}`, {
+            fontFamily: 'Nunito', fontSize: `${this.p(10)}px`, color: '#888'
         }).setOrigin(0.5).setDepth(51).setName('progressLabel');
     }
 
@@ -282,17 +284,17 @@ export class GameScene extends Phaser.Scene {
 
     private drawTimerBar(fraction: number) {
         this.timerBar.clear();
-        const barY = 50;
-        const barH = 4;
+        const barY = this.p(50);
+        const barH = this.p(4);
         // Background
         this.timerBar.fillStyle(0xDDE3ED, 1);
-        this.timerBar.fillRect(10, barY, this.W - 20, barH);
+        this.timerBar.fillRect(this.p(10), barY, this.W - this.p(20), barH);
         // Fill
-        const fillW = fraction * (this.W - 20);
+        const fillW = fraction * (this.W - this.p(20));
         if (fillW > 0) {
             const color = fraction > 0.3 ? 0x4CAF50 : fraction > 0.15 ? 0xFF9800 : 0xF44336;
             this.timerBar.fillStyle(color, 1);
-            this.timerBar.fillRect(10, barY, fillW, barH);
+            this.timerBar.fillRect(this.p(10), barY, fillW, barH);
         }
     }
 
@@ -312,16 +314,16 @@ export class GameScene extends Phaser.Scene {
 
         const overlay = this.add.graphics();
         overlay.fillStyle(0x2D5BCC, 0.9);
-        overlay.fillRoundedRect(this.W / 2 - 160, this.H / 2 - 50, 320, 100, 20);
+        overlay.fillRoundedRect(this.W / 2 - this.p(160), this.H / 2 - this.p(50), this.p(320), this.p(100), this.p(20));
         this.uiGroup.add(overlay);
 
-        const numText = this.add.text(this.W / 2, this.H / 2 - 18, `Passage ${this.passageIndex + 1}/${this.totalPassages}`, {
-            fontFamily: 'Fredoka One', fontSize: '24px', color: '#FFFFFF'
+        const numText = this.add.text(this.W / 2, this.H / 2 - this.p(18), `Passage ${this.passageIndex + 1}/${this.totalPassages}`, {
+            fontFamily: 'Fredoka One', fontSize: `${this.p(24)}px`, color: '#FFFFFF'
         }).setOrigin(0.5).setAlpha(0);
         this.uiGroup.add(numText);
 
-        const titleText = this.add.text(this.W / 2, this.H / 2 + 15, this.currentPassage.title, {
-            fontFamily: 'Nunito', fontSize: '18px', color: '#C5D8F7'
+        const titleText = this.add.text(this.W / 2, this.H / 2 + this.p(15), this.currentPassage.title, {
+            fontFamily: 'Nunito', fontSize: `${this.p(18)}px`, color: '#C5D8F7'
         }).setOrigin(0.5).setAlpha(0);
         this.uiGroup.add(titleText);
 
@@ -350,29 +352,29 @@ export class GameScene extends Phaser.Scene {
         // Full-width passage box during reading (use more space)
         this.passageBg = this.add.graphics();
         this.passageBg.fillStyle(0xFFFFFF, 1);
-        this.passageBg.fillRoundedRect(15, 60, this.W - 30, 340, 16);
-        this.passageBg.lineStyle(2, 0xDDE3ED, 1);
-        this.passageBg.strokeRoundedRect(15, 60, this.W - 30, 340, 16);
+        this.passageBg.fillRoundedRect(this.p(15), this.p(60), this.W - this.p(30), this.p(340), this.p(16));
+        this.passageBg.lineStyle(this.p(2), 0xDDE3ED, 1);
+        this.passageBg.strokeRoundedRect(this.p(15), this.p(60), this.W - this.p(30), this.p(340), this.p(16));
         this.uiGroup.add(this.passageBg);
 
         // Title
-        const titleLabel = this.add.text(this.W / 2, 80, this.currentPassage.title, {
-            fontFamily: 'Fredoka One', fontSize: '20px', color: '#2D5BCC'
+        const titleLabel = this.add.text(this.W / 2, this.p(80), this.currentPassage.title, {
+            fontFamily: 'Fredoka One', fontSize: `${this.p(20)}px`, color: '#2D5BCC'
         }).setOrigin(0.5);
         this.uiGroup.add(titleLabel);
 
         // Passage text
-        this.passageText = this.add.text(this.W / 2, 108, this.currentPassage.text, {
-            fontFamily: 'Nunito', fontSize: '17px', color: '#333333',
-            wordWrap: { width: this.W - 80 },
-            lineSpacing: 8,
+        this.passageText = this.add.text(this.W / 2, this.p(108), this.currentPassage.text, {
+            fontFamily: 'Nunito', fontSize: `${this.p(17)}px`, color: '#333333',
+            wordWrap: { width: this.W - this.p(80) },
+            lineSpacing: this.p(8),
             align: 'left'
         }).setOrigin(0.5, 0);
         this.uiGroup.add(this.passageText);
 
         // "READ" badge
-        const readBadge = this.add.text(this.W / 2, 420, 'READ CAREFULLY', {
-            fontFamily: 'Fredoka One', fontSize: '22px', color: '#4CAF50'
+        const readBadge = this.add.text(this.W / 2, this.p(420), 'READ CAREFULLY', {
+            fontFamily: 'Fredoka One', fontSize: `${this.p(22)}px`, color: '#4CAF50'
         }).setOrigin(0.5);
         this.uiGroup.add(readBadge);
 
@@ -387,15 +389,15 @@ export class GameScene extends Phaser.Scene {
         // TTS Listen button
         const listenBtnBg = this.add.graphics();
         listenBtnBg.fillStyle(0x2D5BCC, 1);
-        listenBtnBg.fillRoundedRect(this.W / 2 - 60, 448, 120, 36, 18);
+        listenBtnBg.fillRoundedRect(this.W / 2 - this.p(60), this.p(448), this.p(120), this.p(36), this.p(18));
         this.uiGroup.add(listenBtnBg);
 
-        const listenText = this.add.text(this.W / 2, 466, 'Listen', {
-            fontFamily: 'Fredoka One', fontSize: '15px', color: '#FFFFFF'
+        const listenText = this.add.text(this.W / 2, this.p(466), 'Listen', {
+            fontFamily: 'Fredoka One', fontSize: `${this.p(15)}px`, color: '#FFFFFF'
         }).setOrigin(0.5);
         this.uiGroup.add(listenText);
 
-        const listenZone = this.add.zone(this.W / 2, 466, 120, 36).setInteractive({ useHandCursor: true });
+        const listenZone = this.add.zone(this.W / 2, this.p(466), this.p(120), this.p(36)).setInteractive({ useHandCursor: true });
         this.uiGroup.add(listenZone);
         listenZone.on('pointerdown', () => {
             soundManager.speak(this.currentPassage.text, 0.85);
@@ -407,8 +409,8 @@ export class GameScene extends Phaser.Scene {
         });
 
         if (this.timed) {
-            const hint = this.add.text(this.W / 2, 496, `${this.READ_TIME}びょうで読もう`, {
-                fontFamily: JP_FONT, fontSize: '13px', color: '#888'
+            const hint = this.add.text(this.W / 2, this.p(496), `${this.READ_TIME}びょうで読もう`, {
+                fontFamily: JP_FONT, fontSize: `${this.p(13)}px`, color: '#888'
             }).setOrigin(0.5);
             this.uiGroup.add(hint);
 
@@ -420,12 +422,12 @@ export class GameScene extends Phaser.Scene {
         } else {
             // じっくり読む: 時間制限なし。読めたら自分で進む。
             this.timerBar.clear();
-            const hint = this.add.text(this.W / 2, 496, '時間は気にしなくていいよ。読めたらボタンをおそう', {
-                fontFamily: JP_FONT, fontSize: '13px', color: '#888'
+            const hint = this.add.text(this.W / 2, this.p(496), '時間は気にしなくていいよ。読めたらボタンをおそう', {
+                fontFamily: JP_FONT, fontSize: `${this.p(13)}px`, color: '#888'
             }).setOrigin(0.5);
             this.uiGroup.add(hint);
 
-            this.createWideButton(this.W / 2, 510, '読めた！ もんだいへ \u25B6', 0x4CAF50, () => {
+            this.createWideButton(this.W / 2, this.p(510), '読めた！ もんだいへ \u25B6', 0x4CAF50, () => {
                 soundManager.stopSpeech();
                 this.beginTrueFalsePhase();
             });
@@ -434,15 +436,15 @@ export class GameScene extends Phaser.Scene {
 
     /** ボタン（じっくりモードの「読めた」「つぎへ」など） */
     private createWideButton(x: number, y: number, label: string, color: number, onTap: () => void) {
-        const w = 260;
-        const h = 48;
+        const w = this.p(260);
+        const h = this.p(48);
         const bg = this.add.graphics();
         bg.fillStyle(color, 1);
-        bg.fillRoundedRect(x - w / 2, y - h / 2, w, h, 24);
+        bg.fillRoundedRect(x - w / 2, y - h / 2, w, h, this.p(24));
         this.uiGroup.add(bg);
 
         const text = this.add.text(x, y, label, {
-            fontFamily: JP_FONT, fontSize: '16px', color: '#FFFFFF', fontStyle: 'bold'
+            fontFamily: JP_FONT, fontSize: `${this.p(16)}px`, color: '#FFFFFF', fontStyle: 'bold'
         }).setOrigin(0.5);
         this.uiGroup.add(text);
 
@@ -476,22 +478,22 @@ export class GameScene extends Phaser.Scene {
         const rcx = this.RIGHT_CX;
 
         // Phase label
-        const phaseLabel = this.add.text(rcx, 68, `TRUE or FALSE  (${this.tfIndex + 1}/${this.currentPassage.trueFalse.length})`, {
-            fontFamily: 'Fredoka One', fontSize: '15px', color: '#888'
+        const phaseLabel = this.add.text(rcx, this.p(68), `TRUE or FALSE  (${this.tfIndex + 1}/${this.currentPassage.trueFalse.length})`, {
+            fontFamily: 'Fredoka One', fontSize: `${this.p(15)}px`, color: '#888'
         }).setOrigin(0.5);
         this.uiGroup.add(phaseLabel);
 
         // Statement box
         const stmtBg = this.add.graphics();
         stmtBg.fillStyle(0xFFFFFF, 1);
-        stmtBg.fillRoundedRect(this.RIGHT_X, 90, this.RIGHT_W, 120, 14);
-        stmtBg.lineStyle(2, 0xDDE3ED, 1);
-        stmtBg.strokeRoundedRect(this.RIGHT_X, 90, this.RIGHT_W, 120, 14);
+        stmtBg.fillRoundedRect(this.RIGHT_X, this.p(90), this.RIGHT_W, this.p(120), this.p(14));
+        stmtBg.lineStyle(this.p(2), 0xDDE3ED, 1);
+        stmtBg.strokeRoundedRect(this.RIGHT_X, this.p(90), this.RIGHT_W, this.p(120), this.p(14));
         this.uiGroup.add(stmtBg);
 
-        const stmtText = this.add.text(rcx, 150, `"${tf.statement}"`, {
-            fontFamily: 'Nunito', fontSize: '17px', color: '#333',
-            wordWrap: { width: this.RIGHT_W - 30 },
+        const stmtText = this.add.text(rcx, this.p(150), `"${tf.statement}"`, {
+            fontFamily: 'Nunito', fontSize: `${this.p(17)}px`, color: '#333',
+            wordWrap: { width: this.RIGHT_W - this.p(30) },
             align: 'center',
             fontStyle: 'bold'
         }).setOrigin(0.5);
@@ -501,12 +503,12 @@ export class GameScene extends Phaser.Scene {
         soundManager.speak(tf.statement, 0.9);
 
         // TRUE button (left)
-        this.createTFButton(rcx - 80, 280, '\u2B55', 'TRUE', 0x4CAF50, () => {
+        this.createTFButton(rcx - this.p(80), this.p(280), '\u2B55', 'TRUE', 0x4CAF50, () => {
             this.handleTFAnswer(true);
         });
 
         // FALSE button (right)
-        this.createTFButton(rcx + 80, 280, '\u274C', 'FALSE', 0xF44336, () => {
+        this.createTFButton(rcx + this.p(80), this.p(280), '\u274C', 'FALSE', 0xF44336, () => {
             this.handleTFAnswer(false);
         });
 
@@ -526,20 +528,20 @@ export class GameScene extends Phaser.Scene {
     private createTFButton(x: number, y: number, emoji: string, label: string, color: number, onTap: () => void) {
         const btnBg = this.add.graphics();
         btnBg.fillStyle(color, 1);
-        btnBg.fillRoundedRect(x - 60, y - 40, 120, 80, 18);
+        btnBg.fillRoundedRect(x - this.p(60), y - this.p(40), this.p(120), this.p(80), this.p(18));
         this.uiGroup.add(btnBg);
 
-        const emojiText = this.add.text(x, y - 10, emoji, {
-            fontSize: '28px'
+        const emojiText = this.add.text(x, y - this.p(10), emoji, {
+            fontSize: `${this.p(28)}px`
         }).setOrigin(0.5);
         this.uiGroup.add(emojiText);
 
-        const labelText = this.add.text(x, y + 22, label, {
-            fontFamily: 'Fredoka One', fontSize: '15px', color: '#FFFFFF'
+        const labelText = this.add.text(x, y + this.p(22), label, {
+            fontFamily: 'Fredoka One', fontSize: `${this.p(15)}px`, color: '#FFFFFF'
         }).setOrigin(0.5);
         this.uiGroup.add(labelText);
 
-        const zone = this.add.zone(x, y, 120, 80).setInteractive({ useHandCursor: true });
+        const zone = this.add.zone(x, y, this.p(120), this.p(80)).setInteractive({ useHandCursor: true });
         this.uiGroup.add(zone);
         zone.on('pointerdown', () => {
             if (this.inputLocked) return;
@@ -638,23 +640,23 @@ export class GameScene extends Phaser.Scene {
         const rcx = this.RIGHT_CX;
 
         // Question type badge
-        const typeBadge = this.add.text(rcx, 68, q.type.toUpperCase(), {
-            fontFamily: 'Fredoka One', fontSize: '13px', color: '#FFFFFF',
+        const typeBadge = this.add.text(rcx, this.p(68), q.type.toUpperCase(), {
+            fontFamily: 'Fredoka One', fontSize: `${this.p(13)}px`, color: '#FFFFFF',
             backgroundColor: '#2D5BCC',
-            padding: { left: 10, right: 10, top: 3, bottom: 3 }
+            padding: { left: this.p(10), right: this.p(10), top: this.p(3), bottom: this.p(3) }
         }).setOrigin(0.5);
         this.uiGroup.add(typeBadge);
 
         // Phase label
-        const phaseLabel = this.add.text(rcx, 92, `Question ${this.qIndex + 1}/${this.currentPassage.questions.length}`, {
-            fontFamily: 'Nunito', fontSize: '12px', color: '#888'
+        const phaseLabel = this.add.text(rcx, this.p(92), `Question ${this.qIndex + 1}/${this.currentPassage.questions.length}`, {
+            fontFamily: 'Nunito', fontSize: `${this.p(12)}px`, color: '#888'
         }).setOrigin(0.5);
         this.uiGroup.add(phaseLabel);
 
         // Question text
-        const qText = this.add.text(rcx, 130, q.question, {
-            fontFamily: 'Nunito', fontSize: '16px', color: '#333',
-            wordWrap: { width: this.RIGHT_W - 30 },
+        const qText = this.add.text(rcx, this.p(130), q.question, {
+            fontFamily: 'Nunito', fontSize: `${this.p(16)}px`, color: '#333',
+            wordWrap: { width: this.RIGHT_W - this.p(30) },
             align: 'center',
             fontStyle: 'bold'
         }).setOrigin(0.5);
@@ -664,8 +666,8 @@ export class GameScene extends Phaser.Scene {
         soundManager.speak(q.question, 0.9);
 
         // Answer choices - compact vertical layout in right column
-        const choiceStartY = 190;
-        const choiceSpacing = 62;
+        const choiceStartY = this.p(190);
+        const choiceSpacing = this.p(62);
         q.choices.forEach((choice, i) => {
             this.createChoiceButton(rcx, choiceStartY + i * choiceSpacing, choice, i, () => {
                 this.handleQuestionAnswer(i);
@@ -686,20 +688,20 @@ export class GameScene extends Phaser.Scene {
     }
 
     private createChoiceButton(x: number, y: number, text: string, _index: number, onTap: () => void) {
-        const btnW = this.RIGHT_W - 20;
-        const btnH = 48;
+        const btnW = this.RIGHT_W - this.p(20);
+        const btnH = this.p(48);
 
         const btnBg = this.add.graphics();
         btnBg.fillStyle(0xFFFFFF, 1);
-        btnBg.fillRoundedRect(x - btnW / 2, y - btnH / 2, btnW, btnH, 14);
-        btnBg.lineStyle(2, 0x2D5BCC, 0.4);
-        btnBg.strokeRoundedRect(x - btnW / 2, y - btnH / 2, btnW, btnH, 14);
+        btnBg.fillRoundedRect(x - btnW / 2, y - btnH / 2, btnW, btnH, this.p(14));
+        btnBg.lineStyle(this.p(2), 0x2D5BCC, 0.4);
+        btnBg.strokeRoundedRect(x - btnW / 2, y - btnH / 2, btnW, btnH, this.p(14));
         this.uiGroup.add(btnBg);
 
         const btnText = this.add.text(x, y, text, {
-            fontFamily: 'Nunito', fontSize: '15px', color: '#333',
+            fontFamily: 'Nunito', fontSize: `${this.p(15)}px`, color: '#333',
             fontStyle: 'bold',
-            wordWrap: { width: btnW - 24 },
+            wordWrap: { width: btnW - this.p(24) },
             align: 'center'
         }).setOrigin(0.5);
         this.uiGroup.add(btnText);
@@ -779,50 +781,50 @@ export class GameScene extends Phaser.Scene {
             timeout: { label: '\u23F0 時間切れ', color: '#E65100' }
         }[info.outcome];
 
-        const verdictText = this.add.text(rcx, 72, verdict.label, {
-            fontFamily: JP_FONT, fontSize: '24px', color: verdict.color, fontStyle: 'bold'
+        const verdictText = this.add.text(rcx, this.p(72), verdict.label, {
+            fontFamily: JP_FONT, fontSize: `${this.p(24)}px`, color: verdict.color, fontStyle: 'bold'
         }).setOrigin(0.5).setAlpha(0).setScale(0.6);
         this.uiGroup.add(verdictText);
         this.tweens.add({ targets: verdictText, alpha: 1, scale: 1, duration: 250, ease: 'Back.out' });
 
-        let y = 98;
+        let y = this.p(98);
 
         const promptText = this.add.text(rcx, y, info.prompt, {
-            fontFamily: 'Nunito', fontSize: '13px', color: '#555',
-            wordWrap: { width: this.RIGHT_W - 20 }, align: 'center'
+            fontFamily: 'Nunito', fontSize: `${this.p(13)}px`, color: '#555',
+            wordWrap: { width: this.RIGHT_W - this.p(20) }, align: 'center'
         }).setOrigin(0.5, 0);
         this.uiGroup.add(promptText);
-        y += promptText.height + 6;
+        y += promptText.height + this.p(6);
 
         const answerText = this.add.text(rcx, y, `こたえ:  ${info.correctAnswer}`, {
-            fontFamily: JP_FONT, fontSize: '15px', color: '#2E7D32', fontStyle: 'bold',
-            wordWrap: { width: this.RIGHT_W - 20 }, align: 'center'
+            fontFamily: JP_FONT, fontSize: `${this.p(15)}px`, color: '#2E7D32', fontStyle: 'bold',
+            wordWrap: { width: this.RIGHT_W - this.p(20) }, align: 'center'
         }).setOrigin(0.5, 0);
         this.uiGroup.add(answerText);
-        y += answerText.height + 4;
+        y += answerText.height + this.p(4);
 
         if (info.outcome === 'wrong' && info.playerAnswer) {
             const yours = this.add.text(rcx, y, `きみの答え:  ${info.playerAnswer}`, {
-                fontFamily: JP_FONT, fontSize: '12px', color: '#C62828',
-                wordWrap: { width: this.RIGHT_W - 20 }, align: 'center'
+                fontFamily: JP_FONT, fontSize: `${this.p(12)}px`, color: '#C62828',
+                wordWrap: { width: this.RIGHT_W - this.p(20) }, align: 'center'
             }).setOrigin(0.5, 0);
             this.uiGroup.add(yours);
-            y += yours.height + 4;
+            y += yours.height + this.p(4);
         } else if (info.outcome === 'timeout') {
             const note = this.add.text(rcx, y, 'まちがいには数えないよ。答えをたしかめよう', {
-                fontFamily: JP_FONT, fontSize: '11px', color: '#E65100'
+                fontFamily: JP_FONT, fontSize: `${this.p(11)}px`, color: '#E65100'
             }).setOrigin(0.5, 0);
             this.uiGroup.add(note);
-            y += note.height + 4;
+            y += note.height + this.p(4);
         }
 
         if (info.explanation) {
-            const expl = this.add.text(rcx, y + 2, info.explanation, {
-                fontFamily: 'Nunito', fontSize: '12px', color: '#555',
-                wordWrap: { width: this.RIGHT_W - 20 }, align: 'center'
+            const expl = this.add.text(rcx, y + this.p(2), info.explanation, {
+                fontFamily: 'Nunito', fontSize: `${this.p(12)}px`, color: '#555',
+                wordWrap: { width: this.RIGHT_W - this.p(20) }, align: 'center'
             }).setOrigin(0.5, 0);
             this.uiGroup.add(expl);
-            y += expl.height + 6;
+            y += expl.height + this.p(6);
         }
 
         // 根拠の文（本文からの引用） - show in right column
@@ -833,42 +835,42 @@ export class GameScene extends Phaser.Scene {
             .map(sp => sp.text)
             .join(' ');
         if (evidenceText) {
-            y += 4;
+            y += this.p(4);
             const boxBg = this.add.graphics();
             this.uiGroup.add(boxBg);
 
-            const label = this.add.text(this.RIGHT_X + 12, y + 6, '\uD83D\uDCD6 本文のここに書いてあるよ', {
-                fontFamily: JP_FONT, fontSize: '11px', color: '#8A6D00', fontStyle: 'bold'
+            const label = this.add.text(this.RIGHT_X + this.p(12), y + this.p(6), '\uD83D\uDCD6 本文のここに書いてあるよ', {
+                fontFamily: JP_FONT, fontSize: `${this.p(11)}px`, color: '#8A6D00', fontStyle: 'bold'
             });
             this.uiGroup.add(label);
 
-            const quote = this.add.text(this.RIGHT_X + 12, y + 24, evidenceText, {
-                fontFamily: 'Nunito', fontSize: '13px', color: '#333',
-                wordWrap: { width: this.RIGHT_W - 24 }, lineSpacing: 3
+            const quote = this.add.text(this.RIGHT_X + this.p(12), y + this.p(24), evidenceText, {
+                fontFamily: 'Nunito', fontSize: `${this.p(13)}px`, color: '#333',
+                wordWrap: { width: this.RIGHT_W - this.p(24) }, lineSpacing: this.p(3)
             });
             this.uiGroup.add(quote);
 
-            const boxH = 24 + quote.height + 8;
+            const boxH = this.p(24) + quote.height + this.p(8);
             boxBg.fillStyle(0xFFF6CC, 1);
-            boxBg.fillRoundedRect(this.RIGHT_X, y, this.RIGHT_W, boxH, 10);
-            boxBg.lineStyle(2, 0xF2C94C, 1);
-            boxBg.strokeRoundedRect(this.RIGHT_X, y, this.RIGHT_W, boxH, 10);
+            boxBg.fillRoundedRect(this.RIGHT_X, y, this.RIGHT_W, boxH, this.p(10));
+            boxBg.lineStyle(this.p(2), 0xF2C94C, 1);
+            boxBg.strokeRoundedRect(this.RIGHT_X, y, this.RIGHT_W, boxH, this.p(10));
             y += boxH;
         }
 
         // Bonus text
         if (info.bonus > 0) {
-            const bonusText = this.add.text(rcx, y + 10, `+${info.bonus} time bonus!`, {
-                fontFamily: 'Fredoka One', fontSize: '14px', color: '#FF9800'
+            const bonusText = this.add.text(rcx, y + this.p(10), `+${info.bonus} time bonus!`, {
+                fontFamily: 'Fredoka One', fontSize: `${this.p(14)}px`, color: '#FF9800'
             }).setOrigin(0.5);
             this.uiGroup.add(bonusText);
         }
 
         // Streak multiplier popup
         if (correct && this.getStreakMultiplier() > 1) {
-            const multText = this.add.text(this.W / 2, this.H / 2 - 40, `${this.getStreakMultiplier()}x STREAK!`, {
-                fontFamily: 'Fredoka One', fontSize: '28px', color: '#FF9800',
-                stroke: '#FFF', strokeThickness: 3
+            const multText = this.add.text(this.W / 2, this.H / 2 - this.p(40), `${this.getStreakMultiplier()}x STREAK!`, {
+                fontFamily: 'Fredoka One', fontSize: `${this.p(28)}px`, color: '#FF9800',
+                stroke: '#FFF', strokeThickness: this.p(3)
             }).setOrigin(0.5).setDepth(101).setAlpha(0).setScale(0.5);
 
             this.tweens.add({
@@ -884,20 +886,20 @@ export class GameScene extends Phaser.Scene {
         // Milestone streak celebration (5, 10, 15...)
         if (correct && this.streak > 0 && this.streak % 5 === 0) {
             const celebEmoji = this.streak >= 15 ? '\uD83D\uDD25' : this.streak >= 10 ? '\u2B50' : '\uD83C\uDF1F';
-            const celebText = this.add.text(this.W / 2, this.H / 2 - 80, `${celebEmoji} ${this.streak} COMBO! ${celebEmoji}`, {
-                fontFamily: 'Fredoka One', fontSize: '22px', color: '#FFD700',
-                stroke: '#000', strokeThickness: 2
+            const celebText = this.add.text(this.W / 2, this.H / 2 - this.p(80), `${celebEmoji} ${this.streak} COMBO! ${celebEmoji}`, {
+                fontFamily: 'Fredoka One', fontSize: `${this.p(22)}px`, color: '#FFD700',
+                stroke: '#000', strokeThickness: this.p(2)
             }).setOrigin(0.5).setDepth(102).setAlpha(0).setScale(0.3);
 
             this.tweens.add({
                 targets: celebText,
-                alpha: 1, scale: 1.3, y: this.H / 2 - 100,
+                alpha: 1, scale: 1.3, y: this.H / 2 - this.p(100),
                 duration: 400,
                 ease: 'Back.out',
                 onComplete: () => {
                     this.tweens.add({
                         targets: celebText,
-                        alpha: 0, y: this.H / 2 - 120,
+                        alpha: 0, y: this.H / 2 - this.p(120),
                         duration: 500,
                         delay: 600,
                         onComplete: () => celebText.destroy()
@@ -918,7 +920,7 @@ export class GameScene extends Phaser.Scene {
             advanced = true;
             this.advancePhase();
         };
-        this.createWideButton(rcx, 500, 'つぎへ \u25B6', 0x2D5BCC, advance);
+        this.createWideButton(rcx, this.p(500), 'つぎへ \u25B6', 0x2D5BCC, advance);
 
         if (this.timed) {
             const expectedPhase = this.phase;
@@ -968,19 +970,19 @@ export class GameScene extends Phaser.Scene {
         // Summary card (centered)
         const cardBg = this.add.graphics();
         cardBg.fillStyle(0xFFFFFF, 1);
-        cardBg.fillRoundedRect(this.W / 2 - 160, this.H / 2 - 70, 320, 140, 20);
-        cardBg.lineStyle(2, 0xDDE3ED, 1);
-        cardBg.strokeRoundedRect(this.W / 2 - 160, this.H / 2 - 70, 320, 140, 20);
+        cardBg.fillRoundedRect(this.W / 2 - this.p(160), this.H / 2 - this.p(70), this.p(320), this.p(140), this.p(20));
+        cardBg.lineStyle(this.p(2), 0xDDE3ED, 1);
+        cardBg.strokeRoundedRect(this.W / 2 - this.p(160), this.H / 2 - this.p(70), this.p(320), this.p(140), this.p(20));
         this.uiGroup.add(cardBg);
 
         const emoji = totalCorrect >= 4 ? '\u2B50' : totalCorrect >= 2 ? '\u{1F44D}' : '\u{1F4AA}';
-        const summaryIcon = this.add.text(this.W / 2, this.H / 2 - 42, emoji, {
-            fontSize: '32px'
+        const summaryIcon = this.add.text(this.W / 2, this.H / 2 - this.p(42), emoji, {
+            fontSize: `${this.p(32)}px`
         }).setOrigin(0.5);
         this.uiGroup.add(summaryIcon);
 
-        const summaryText = this.add.text(this.W / 2, this.H / 2 + 2, `${totalCorrect} / ${totalQ} correct`, {
-            fontFamily: 'Fredoka One', fontSize: '24px', color: '#333'
+        const summaryText = this.add.text(this.W / 2, this.H / 2 + this.p(2), `${totalCorrect} / ${totalQ} correct`, {
+            fontFamily: 'Fredoka One', fontSize: `${this.p(24)}px`, color: '#333'
         }).setOrigin(0.5);
         this.uiGroup.add(summaryText);
 
@@ -989,8 +991,8 @@ export class GameScene extends Phaser.Scene {
         if (this.currentPassageResult.timeBonus > 0) notes.push(`+${this.currentPassageResult.timeBonus} time bonus`);
         if (timeouts > 0) notes.push(`\u23F0 時間切れ ${timeouts}問`);
         if (notes.length > 0) {
-            const bonusLabel = this.add.text(this.W / 2, this.H / 2 + 35, notes.join('   '), {
-                fontFamily: JP_FONT, fontSize: '14px', color: '#FF9800'
+            const bonusLabel = this.add.text(this.W / 2, this.H / 2 + this.p(35), notes.join('   '), {
+                fontFamily: JP_FONT, fontSize: `${this.p(14)}px`, color: '#FF9800'
             }).setOrigin(0.5);
             this.uiGroup.add(bonusLabel);
         }
@@ -1008,16 +1010,16 @@ export class GameScene extends Phaser.Scene {
     // ==================== SHRUNK PASSAGE (LEFT COLUMN) ====================
 
     private showShrunkPassage(evidence?: number[]) {
-        const passageW = this.LEFT_W - 20;
+        const passageW = this.LEFT_W - this.p(20);
         const shrunkBg = this.add.graphics();
         shrunkBg.fillStyle(0xFFFFFF, evidence ? 1 : 0.7);
-        shrunkBg.fillRoundedRect(10, 58, passageW, this.H - 72, 12);
-        shrunkBg.lineStyle(1, 0xDDE3ED, 0.5);
-        shrunkBg.strokeRoundedRect(10, 58, passageW, this.H - 72, 12);
+        shrunkBg.fillRoundedRect(this.p(10), this.p(58), passageW, this.H - this.p(72), this.p(12));
+        shrunkBg.lineStyle(this.p(1), 0xDDE3ED, 0.5);
+        shrunkBg.strokeRoundedRect(this.p(10), this.p(58), passageW, this.H - this.p(72), this.p(12));
         this.uiGroup.add(shrunkBg);
 
-        const shrunkTitle = this.add.text(20, 65, this.currentPassage.title, {
-            fontFamily: 'Fredoka One', fontSize: '14px', color: '#2D5BCC'
+        const shrunkTitle = this.add.text(this.p(20), this.p(65), this.currentPassage.title, {
+            fontFamily: 'Fredoka One', fontSize: `${this.p(14)}px`, color: '#2D5BCC'
         });
         this.uiGroup.add(shrunkTitle);
 
@@ -1025,10 +1027,10 @@ export class GameScene extends Phaser.Scene {
         const marker = this.add.graphics();
         this.uiGroup.add(marker);
 
-        const shrunkText = this.add.text(20, 86, this.currentPassage.text, {
-            fontFamily: 'Nunito', fontSize: '14px', color: evidence ? '#333' : '#555',
-            wordWrap: { width: passageW - 24 },
-            lineSpacing: 4
+        const shrunkText = this.add.text(this.p(20), this.p(86), this.currentPassage.text, {
+            fontFamily: 'Nunito', fontSize: `${this.p(14)}px`, color: evidence ? '#333' : '#555',
+            wordWrap: { width: passageW - this.p(24) },
+            lineSpacing: this.p(4)
         });
         this.uiGroup.add(shrunkText);
 
@@ -1070,7 +1072,7 @@ export class GameScene extends Phaser.Scene {
                 if (a >= b) return;
                 const x0 = ctx.measureText(line.slice(0, lead + a - ls)).width;
                 const x1 = ctx.measureText(line.slice(0, lead + b - ls)).width;
-                g.fillRoundedRect(textObj.x + x0 - 2, textObj.y + i * lineH - 1, x1 - x0 + 4, metrics.fontSize + 2, 3);
+                g.fillRoundedRect(textObj.x + x0 - this.p(2), textObj.y + i * lineH - this.p(1), x1 - x0 + this.p(4), metrics.fontSize + this.p(2), this.p(3));
             });
         });
         ctx.restore();
