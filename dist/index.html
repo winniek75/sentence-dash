@@ -153,17 +153,50 @@
           border-radius: 0;
         }
 
-        /* Ensure canvas fills available space */
         canvas {
           max-width: 100vw !important;
           max-height: 100vh !important;
           max-height: -webkit-fill-available !important;
         }
       }
+
+      /* スマホ縦持ち: 横向き推奨オーバーレイ */
+      #rotate-msg {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        background: linear-gradient(135deg, #2D5BCC, #5B7DB8);
+        color: #fff;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        font-family: 'Noto Sans JP', sans-serif;
+        text-align: center;
+        padding: 24px;
+      }
+      #rotate-msg .icon { font-size: 64px; animation: rotate-hint 2s ease-in-out infinite; }
+      #rotate-msg .text { font-size: 20px; font-weight: 700; }
+      #rotate-msg .sub { font-size: 14px; opacity: 0.8; }
+      #rotate-msg .skip-btn {
+        margin-top: 12px; padding: 10px 24px; border-radius: 12px;
+        background: rgba(255,255,255,0.2); color: #fff;
+        font-weight: 700; font-size: 14px; border: none; cursor: pointer;
+      }
+      @keyframes rotate-hint {
+        0%, 100% { transform: rotate(0deg); }
+        25% { transform: rotate(-90deg); }
+        50% { transform: rotate(-90deg); }
+        75% { transform: rotate(0deg); }
+      }
+      @media (max-width: 768px) and (orientation: portrait) {
+        #rotate-msg { display: flex; }
+      }
     </style>
   <script src="./wise-game-bridge.js"></script>
 <script>window.addEventListener("DOMContentLoaded",function(){window.WiseGame&&window.WiseGame.init({gameId:"sentence-dash"})});</script>
-  <script type="module" crossorigin src="./assets/index-Bia96kI-.js"></script>
+  <script type="module" crossorigin src="./assets/index-CqEx8LP5.js"></script>
 </head>
   <body>
     <div id="loading">
@@ -175,6 +208,12 @@
       <div class="loading-dots">
         <span></span><span></span><span></span>
       </div>
+    </div>
+    <div id="rotate-msg">
+      <div class="icon">📱</div>
+      <div class="text">スマホを横にしてね</div>
+      <div class="sub">横向きにすると遊びやすいよ</div>
+      <button class="skip-btn" onclick="document.getElementById('rotate-msg').style.display='none'">このまま遊ぶ</button>
     </div>
     <div id="app"></div>
     <script src="https://cdn.jsdelivr.net/gh/winniek75/wise-xp-sdk@main/wise-xp.js"></script>

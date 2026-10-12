@@ -16,8 +16,8 @@ const config: Phaser.Types.Core.GameConfig = {
     type: Phaser.CANVAS,
     title: 'Reading Dash',
     parent: 'app',
-    width: 420,
-    height: 780,
+    width: 960,
+    height: 540,
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
